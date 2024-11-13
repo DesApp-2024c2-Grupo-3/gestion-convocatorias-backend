@@ -10,10 +10,10 @@ import { ConvocatoriasService } from './convocatorias.service';
     MongooseModule.forFeature([
       {
         name: Convocatorias.name,
-        schema: ConvocatoriasSchema
-      }
-    ])
+        schema: ConvocatoriasSchema,
+      },
+    ]),
   ],
-  providers: [ConvocatoriasService]
+  providers: [ConvocatoriasService],
 })
 export class ConvocatoriasModule {}

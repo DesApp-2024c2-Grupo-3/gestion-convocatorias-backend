@@ -5,14 +5,17 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class ConvocatoriasService {
-    constructor(@InjectModel(Convocatorias.name) private convoctariasModel: Model<Convocatorias>) {}
+  constructor(
+    @InjectModel(Convocatorias.name)
+    private convoctariasModel: Model<Convocatorias>,
+  ) {}
 
-    async get(): Promise<Convocatorias[]> {
-        return this.convoctariasModel.find().exec()
-    }
+  async get(): Promise<Convocatorias[]> {
+    return this.convoctariasModel.find().exec();
+  }
 
-    async create(convocatoria: Convocatorias) {
-        const createdConvocatoria = new this.convoctariasModel(convocatoria);
-        return createdConvocatoria.save();
-    }
+  async create(convocatoria: Convocatorias) {
+    const createdConvocatoria = new this.convoctariasModel(convocatoria);
+    return createdConvocatoria.save();
+  }
 }
