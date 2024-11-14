@@ -27,11 +27,6 @@ export class ConvocatoriasService {
 
 
   async create(convocatoria: Convocatorias) {
-    const convocatoriaExistente = await this.convoctariasModel.findOne({titulo: convocatoria.informacionGeneral.titulo})
-
-    if(!convocatoriaExistente){
-      throw new ConflictException("Ya existe una convocatoria con ese titulo")
-    }
     const createdConvocatoria = new this.convoctariasModel(convocatoria);
     
     return createdConvocatoria.save(); 
