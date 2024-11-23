@@ -26,9 +26,10 @@ export class ConvocatoriasService {
   }
 
 
-  async create(convocatoria: Convocatorias) {
+  
+
+  async create(convocatoria: Convocatorias) {    
     const createdConvocatoria = new this.convoctariasModel(convocatoria);
-    
     return createdConvocatoria.save(); 
   }
 

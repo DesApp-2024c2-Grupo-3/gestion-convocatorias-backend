@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type ConvocatoriasDocument = HydratedDocument<Convocatorias>;
 
-@Schema
+@Schema()
 export class InformacionGeneral {
   @Prop()
   titulo: string;

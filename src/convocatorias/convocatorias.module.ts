@@ -15,5 +15,6 @@ import { ConvocatoriasService } from './convocatorias.service';
     ]),
   ],
   providers: [ConvocatoriasService],
+  exports: [ConvocatoriasService]
 })
 export class ConvocatoriasModule {}
