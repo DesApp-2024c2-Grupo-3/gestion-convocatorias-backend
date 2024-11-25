@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatorias } from './convocatorias.schema';
 import { Model } from 'mongoose';
-import { updateConvocatoriaDTO } from './updateConvocatoriasDTO';
 
 @Injectable()
 export class ConvocatoriasService {
@@ -32,13 +31,20 @@ export class ConvocatoriasService {
     return createdConvocatoria.save();
   }
 
+  async updateConvocatoria(
+    _id: string,
+    convocatoria: Convocatorias,
+  ): Promise<Convocatorias> {
+    const convocatoriaActualizada = await this.convoctariasModel
+      .findByIdAndUpdate(
+        _id,
+        {
+          $set: convocatoria,
+        },
+        { new: true },
+      )
+      .exec();
 
-  
-  async updateConvocatoria(id: string, convocatoria: Convocatorias): Promise<Convocatorias> {
-    const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(id, {
-      $set: convocatoria 
-    }, { new: true }).exec();
-  
     if (!convocatoriaActualizada) {
       throw new BadRequestException(
         'La convocatoria que desea actualizar, no existe',
@@ -48,5 +54,15 @@ export class ConvocatoriasService {
     return convocatoriaActualizada;
   }
 
+  async eliminarConvocatoria(_id: string) {
+    const convocatoriaExistente = await this.convoctariasModel
+      .findById(_id)
+      .exec();
 
+    if (!convocatoriaExistente) {
+      throw new BadRequestException('NO EXISTE');
+    }
+
+    await this.convoctariasModel.findByIdAndDelete(_id).exec();
+  }
 }
