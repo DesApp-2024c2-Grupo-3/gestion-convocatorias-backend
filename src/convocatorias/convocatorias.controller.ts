@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatorias.service';
 import { Convocatorias } from './convocatorias.schema';
+import { updateConvocatoriaDTO } from './updateConvocatoriasDTO';
 
 
 @Controller('convocatoria')
@@ -23,14 +24,16 @@ export class ConvocatoriasController {
     return this.convocatoriasService.create(convocatoria);
   }
 
-  @Put(':_id')
-  async updateConvocatoria(@Param('_id') _id:string, @Body() convocatoria:Convocatorias): Promise<any>{
-    return this.convocatoriasService.updateConvocatoria(_id,convocatoria)
-  }
-  @Delete(':_id')
-  async eliminarConvocatoria(@Param('_id') _id: string){
-    return this.convocatoriasService.eliminarConvocatoria(_id);
+  @Put(':id')
+  async updateConvocatoria(@Param('id') id:string, @Body() convocatoria:Convocatorias): Promise<any>{
+    return this.convocatoriasService.updateConvocatoria(id,convocatoria)
   }
 
-
+  @Put(':id/fecha-fin')
+  async updateFechaFin(
+    @Param('id') id: string,
+    @Body('fechaFin') fechaFin: Date,
+  ): Promise<Convocatorias> {
+    return this.convocatoriasService.updateFechaFin(id, fechaFin);
+  }
 }
