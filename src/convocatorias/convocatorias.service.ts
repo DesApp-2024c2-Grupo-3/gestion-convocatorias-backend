@@ -33,8 +33,6 @@ export class ConvocatoriasService {
     const createdConvocatoria = new this.convoctariasModel(convocatoria);
     return createdConvocatoria.save(); 
   }
-
-
   
   async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO) {
     const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(id, {
@@ -48,5 +46,19 @@ export class ConvocatoriasService {
     return convocatoriaActualizada;
   }
 
-
+  async updateFechaFin(id: string, fechaFin: Date): Promise<Convocatorias> {
+    const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(
+      id,
+      { $set: { 'informacionGeneral.fechaFin': fechaFin } },
+      { new: true },
+    ).exec();
+  
+    if (!convocatoriaActualizada) {
+      throw new BadRequestException(
+        'La convocatoria que desea actualizar no existe',
+      );
+    }
+  
+    return convocatoriaActualizada;
+  }
 }
