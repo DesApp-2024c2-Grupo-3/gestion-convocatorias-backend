@@ -15,54 +15,69 @@ export class ConvocatoriasService {
     return this.convoctariasModel.find().exec();
   }
 
-  async getConvocatoria(id:string): Promise<Convocatorias> {
-    const convocatoriaExistente = await this.convoctariasModel.findById(id).exec()
+  async getConvocatoria(id: string): Promise<Convocatorias> {
+    const convocatoriaExistente = await this.convoctariasModel
+      .findById(id)
+      .exec();
 
-    if(!convocatoriaExistente){
-      
-      throw new BadRequestException("La convocatoria no existe")
+    if (!convocatoriaExistente) {
+      throw new BadRequestException('La convocatoria no existe');
     }
 
-    return convocatoriaExistente
+    return convocatoriaExistente;
   }
 
-
-  
-
-  async create(convocatoria: Convocatorias) {    
+  async create(convocatoria: Convocatorias) {
     const createdConvocatoria = new this.convoctariasModel(convocatoria);
-    return createdConvocatoria.save(); 
+    return createdConvocatoria.save();
   }
 
+  async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO) {
+    const convocatoriaActualizada = await this.convoctariasModel
+      .findByIdAndUpdate(
+        id,
+        {
+          $set: convocatoria,
+        },
+        { new: true },
+      )
+      .exec();
 
-  
-  async updateConvocatoria(id: string, convocatoria: Convocatorias): Promise<Convocatorias> {
-    const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(id, {
-      $set: convocatoria 
-    }, { new: true }).exec();
-  
     if (!convocatoriaActualizada) {
-      throw new BadRequestException("La convocatoria que desea actualizar, no existe");
+      throw new BadRequestException(
+        'La convocatoria que desea actualizar, no existe',
+      );
     }
-  
+
     return convocatoriaActualizada;
   }
 
   async updateFechaFin(id: string, fechaFin: Date): Promise<Convocatorias> {
-    const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(
-      id,
-      { $set: { 'informacionGeneral.fechaFin': fechaFin } },
-      { new: true },
-    ).exec();
-  
+    const convocatoriaActualizada = await this.convoctariasModel
+      .findByIdAndUpdate(
+        id,
+        { $set: { 'informacionGeneral.fechaFin': fechaFin } },
+        { new: true },
+      )
+      .exec();
+
     if (!convocatoriaActualizada) {
       throw new BadRequestException(
         'La convocatoria que desea actualizar no existe',
       );
     }
-  
+
     return convocatoriaActualizada;
   }
+  async eliminarConvocatoria(_id: string) {
+    const convocatoriaExistente = await this.convoctariasModel
+      .findById(_id)
+      .exec();
 
+    if (!convocatoriaExistente) {
+      throw new BadRequestException('NO EXISTE');
+    }
 
+    await this.convoctariasModel.findByIdAndDelete(_id).exec();
+  }
 }
