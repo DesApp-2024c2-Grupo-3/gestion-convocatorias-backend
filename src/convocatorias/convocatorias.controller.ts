@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, ValidationPipe } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatorias.service';
 import { Convocatorias } from './convocatorias.schema';
+import { updateConvocatoriaDTO } from './updateConvocatoriasDTO';
 
 
 @Controller('convocatoria')
@@ -24,9 +25,8 @@ export class ConvocatoriasController {
   }
 
   @Put(':id')
-  async updateConvocatoria(@Param('id') id:string, @Body() convocatoria:Convocatorias): Promise<any>{
+  async updateConvocatoria(@Param('id') id:string, @Body(new ValidationPipe()) convocatoria:updateConvocatoriaDTO) {
     return this.convocatoriasService.updateConvocatoria(id,convocatoria)
   }
-
 
 }

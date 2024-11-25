@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Injectable } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatorias } from './convocatorias.schema';
 import { Model } from 'mongoose';
+import { updateConvocatoriaDTO } from './updateConvocatoriasDTO';
 
 @Injectable()
 export class ConvocatoriasService {
@@ -35,7 +36,7 @@ export class ConvocatoriasService {
 
 
   
-  async updateConvocatoria(id: string, convocatoria: Convocatorias): Promise<Convocatorias> {
+  async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO) {
     const convocatoriaActualizada = await this.convoctariasModel.findByIdAndUpdate(id, {
       $set: convocatoria 
     }, { new: true }).exec();
