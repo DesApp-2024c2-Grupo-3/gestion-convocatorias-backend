@@ -28,5 +28,11 @@ export class ConvocatoriasController {
     return this.convocatoriasService.updateConvocatoria(id,convocatoria)
   }
 
-
+  @Put(':id/fecha-fin')
+  async updateFechaFin(
+    @Param('id') id: string,
+    @Body('fechaFin') fechaFin: Date,
+  ): Promise<Convocatorias> {
+    return this.convocatoriasService.updateFechaFin(id, fechaFin);
+  }
 }
