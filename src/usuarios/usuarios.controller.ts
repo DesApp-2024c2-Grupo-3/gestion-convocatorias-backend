@@ -9,38 +9,30 @@ import { ConvocatoriasService } from 'src/convocatorias/convocatorias.service';
 
 @Controller('usuario')
 export class UsuariosController {
+  constructor(private readonly usuarioService: UsuariosService) {}
 
-    constructor(private readonly usuarioService:UsuariosService
-    ){}
+  @Get()
+  obtenerUsuarios() {
+    return this.usuarioService.obtenerUsuarios();
+  }
 
+  @Get(':id')
+  obtenerUsuario(@Param('id') id: string) {
+    return this.usuarioService.obtenerUsuario(id);
+  }
 
-    @Get()
-    obtenerUsuarios(){
-        return this.usuarioService.obtenerUsuarios()
-    }
+  @Post('registro')
+  createUser(@Body() usuarioDto: UserDTO) {
+    return this.usuarioService.createUser(usuarioDto);
+  }
 
-    @Get(':id')
-    obtenerUsuario(@Param('id') id:string){
-        return this.usuarioService.obtenerUsuario(id)
-    }
+  @Delete(':id')
+  async eliminarUsurio(@Param('id') id: string) {
+    return this.usuarioService.eliminarUsuario(id);
+  }
 
-    @Post()
-    creatUser(@Body() usuarioDto:UserDTO){
-        return this.usuarioService.createUser(usuarioDto)
-    }
-
-    
-    @Delete(':id')
-    async eliminarUsurio(@Param('id') id:string){
-        return this.usuarioService.eliminarUsuario(id) 
-    }
-
-    
-    @Post('/login')
-    login(@Body() loginDTO:LoginDTO){
-        return this.usuarioService.login(loginDTO)
-    }
-    
-
-
+  @Post('/login')
+  login(@Body() loginDTO: LoginDTO) {
+    return this.usuarioService.login(loginDTO);
+  }
 }
