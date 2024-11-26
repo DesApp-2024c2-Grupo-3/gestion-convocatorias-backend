@@ -41,6 +41,4 @@ export class UsuariosController {
     async eliminarUsuario(@Param('id') id:string){
         return this.usuarioService.eliminarUsuario(id) 
     }
-
-
 }
