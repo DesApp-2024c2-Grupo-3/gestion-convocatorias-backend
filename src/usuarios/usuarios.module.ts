@@ -4,6 +4,7 @@ import { UsuariosController } from './usuarios.controller';
 import { UsuariosService } from './usuarios.service';
 import { Usuario, UsuarioSchema } from './usuarios.schema';
 import { ConvocatoriasModule } from 'src/convocatorias/convocatorias.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 
 @Module({
@@ -12,6 +13,6 @@ import { ConvocatoriasModule } from 'src/convocatorias/convocatorias.module';
     ConvocatoriasModule,
   ],
   controllers: [UsuariosController],  
-  providers: [UsuariosService],       
+  providers: [UsuariosService, JwtService],       
 })
 export class UsuariosModule {}

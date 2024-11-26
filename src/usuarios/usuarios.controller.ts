@@ -1,18 +1,31 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Req } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { Usuario } from './usuarios.schema';
-import { UserDTO } from './dtos/UserDTO';
+import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
-import { Convocatorias } from 'src/convocatorias/convocatorias.schema';
-import { ConvocatoriasService } from 'src/convocatorias/convocatorias.service';
-
 
 @Controller('usuario')
 export class UsuariosController {
 
-    constructor(private readonly usuarioService:UsuariosService
+    constructor(
+        private readonly usuarioService:UsuariosService
     ){}
 
+    @Post()
+    create(@Body() createUserDTO: CreateUserDTO){
+        return this.usuarioService.createUser(createUserDTO);
+    }
+
+    @Post('login')
+    login(@Body() loginDto:LoginDTO){
+        const {email, password} = loginDto
+        return this.usuarioService.loginUser(email, password)
+    }
+
+    @Post('refresh')
+    refreshToken(@Req() request: Request ){
+        const [type, token] = request.headers['authorization']?.split(' ') || []
+        return this.usuarioService.refreshToken(token);
+    }
 
     @Get()
     obtenerUsuarios(){
@@ -24,23 +37,10 @@ export class UsuariosController {
         return this.usuarioService.obtenerUsuario(id)
     }
 
-    @Post()
-    creatUser(@Body() usuarioDto:UserDTO){
-        return this.usuarioService.createUser(usuarioDto)
-    }
-
-    
     @Delete(':id')
-    async eliminarUsurio(@Param('id') id:string){
+    async eliminarUsuario(@Param('id') id:string){
         return this.usuarioService.eliminarUsuario(id) 
     }
-
-    
-    @Post('/login')
-    login(@Body() loginDTO:LoginDTO){
-        return this.usuarioService.login(loginDTO)
-    }
-    
 
 
 }

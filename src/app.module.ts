@@ -7,5 +7,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
   imports: [MongooseModule.forRoot('mongodb+srv://admin:DesApp@clusterdesapp.1esjv.mongodb.net/BD-GestionConvocatorias?retryWrites=true&w=majority&appName=ClusterDesApp'),
    ConvocatoriasModule,
    UsuariosModule],
-})
+}
+  
+)
 export class AppModule {}

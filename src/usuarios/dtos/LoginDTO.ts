@@ -7,7 +7,7 @@ export class LoginDTO {
     email: string;
   
     @IsString()
-    @MinLength(6)
+    @MinLength(3)
     @IsNotEmpty()
     @Transform(({ value }) => value.trim()) 
     password: string;
