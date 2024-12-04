@@ -1,4 +1,5 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Req } from '@nestjs/common';
+import { updateConvocatoriaDTO } from './../convocatorias/updateConvocatoriasDTO';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
@@ -41,4 +42,13 @@ export class UsuariosController {
     async eliminarUsuario(@Param('id') id:string){
         return this.usuarioService.eliminarUsuario(id) 
     }
+
+    @Put(':password')
+    async updateContrasenia(
+        @Body() body: {email: string, nuevaContrasenia: string},
+    ){
+        const{email, nuevaContrasenia} = body;
+        return this.usuarioService.updateContrasenia(email, nuevaContrasenia);
+    }
+
 }
