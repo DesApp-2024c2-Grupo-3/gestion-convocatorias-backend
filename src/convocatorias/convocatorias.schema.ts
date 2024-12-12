@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type ConvocatoriasDocument = HydratedDocument<Convocatorias>;
 
@@ -21,28 +21,27 @@ export class InformacionGeneral {
 export const informacionGeneralSchema =
   SchemaFactory.createForClass(InformacionGeneral);
 
-@Schema({ discriminatorKey: 'tipo' })
-export class FormatoTexto {
+@Schema({ discriminatorKey: 'tipo', _id: false })
+export class FormatoBase {
   @Prop()
   nombre: string;
 
   @Prop()
-  tipo: 'Texto';
+  tipo: string;
+}
 
+export const formatoBaseSchema = SchemaFactory.createForClass(FormatoBase);
+
+@Schema({ _id: false })
+export class FormatoTexto {
   @Prop()
   maxNumeroDeCaracteres: number;
 }
 
 export const formatoTextoSchema = SchemaFactory.createForClass(FormatoTexto);
 
-@Schema({ discriminatorKey: 'tipo' })
+@Schema({ _id: false })
 export class FormatoDesplegable {
-  @Prop()
-  nombre: string;
-
-  @Prop()
-  tipo: 'Desplegable';
-
   @Prop([String])
   opciones: string[];
 }
@@ -55,7 +54,16 @@ export class Convocatorias {
   @Prop({ type: informacionGeneralSchema, required: true })
   informacionGeneral: InformacionGeneral;
 
-  @Prop({ type: [formatoTextoSchema || formatoDesplegableSchema] })
-  formato: (FormatoTexto | FormatoDesplegable)[];
+  @Prop({
+    type: [formatoBaseSchema],
+    required: true,
+    default: [],
+  })
+  formato: Types.DocumentArray<FormatoBase>;
 }
+
 export const ConvocatoriasSchema = SchemaFactory.createForClass(Convocatorias);
+
+
+formatoBaseSchema.discriminator('Texto', formatoTextoSchema);
+formatoBaseSchema.discriminator('Desplegable', formatoDesplegableSchema);
