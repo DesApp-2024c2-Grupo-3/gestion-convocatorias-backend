@@ -1,21 +1,23 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Convocatorias } from './convocatorias.schema';
+import { Convocatoria } from './convocatoria.schema';
 import { Model } from 'mongoose';
-import { updateConvocatoriaDTO } from './updateConvocatoriasDTO';
+import { updateConvocatoriaDTO } from './dtos/updateConvocatoriasDTO';
+import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
+import { UpdateFechaFinDto } from './dtos/UpdateFechaFinDTO';
 
 @Injectable()
 export class ConvocatoriasService {
   constructor(
-    @InjectModel(Convocatorias.name)
-    private convoctariasModel: Model<Convocatorias>,
+    @InjectModel(Convocatoria.name)
+    private convoctariasModel: Model<Convocatoria>,
   ) {}
 
-  async get(): Promise<Convocatorias[]> {
+  async get(): Promise<Convocatoria[]> {
     return this.convoctariasModel.find().exec();
   }
 
-  async getConvocatoria(id: string): Promise<Convocatorias> {
+  async getConvocatoria(id: string): Promise<Convocatoria> {
     const convocatoriaExistente = await this.convoctariasModel
       .findById(id)
       .exec();
@@ -27,9 +29,16 @@ export class ConvocatoriasService {
     return convocatoriaExistente;
   }
 
-  async create(convocatoria: Convocatorias) {
-    const createdConvocatoria = new this.convoctariasModel(convocatoria);
-    return createdConvocatoria.save();
+  async create(CreateConvocatoriaDto: CreateConvocatoriaDto, archivo: Express.Multer.File) {
+    const nuevaConvocatoria = new this.convoctariasModel({
+        ...CreateConvocatoriaDto,
+        archivo: {
+            nombre: archivo.originalname,
+            tipo: archivo.mimetype,
+            contenido: archivo.buffer,
+        }
+    });
+    return nuevaConvocatoria.save();
   }
 
   async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO) {
@@ -52,12 +61,12 @@ export class ConvocatoriasService {
     return convocatoriaActualizada;
   }
 
-  async updateFechaFin(id: string, fechaFin: Date): Promise<Convocatorias> {
+  async updateFechaFin(id: string, fechaFin: UpdateFechaFinDto): Promise<Convocatoria> {
+    console.log(fechaFin)
     const convocatoriaActualizada = await this.convoctariasModel
       .findByIdAndUpdate(
         id,
-        { $set: { 'informacionGeneral.fechaFin': fechaFin } },
-        { new: true },
+        fechaFin
       )
       .exec();
 

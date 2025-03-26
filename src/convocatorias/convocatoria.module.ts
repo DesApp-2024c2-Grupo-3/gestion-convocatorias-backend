@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConvocatoriasController } from './convocatorias.controller';
+import { ConvocatoriasController } from './convocatoria.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Convocatorias, ConvocatoriasSchema } from './convocatorias.schema';
-import { ConvocatoriasService } from './convocatorias.service';
+import { Convocatoria, ConvocatoriaSchema } from './convocatoria.schema';
+import { ConvocatoriasService } from './convocatoria.service';
 
 @Module({
   controllers: [ConvocatoriasController],
   imports: [
     MongooseModule.forFeature([
       {
-        name: Convocatorias.name,
-        schema: ConvocatoriasSchema,
+        name: Convocatoria.name,
+        schema: ConvocatoriaSchema,
       },
     ]),
   ],
