@@ -1,4 +1,4 @@
-import { updateConvocatoriaDTO } from './../convocatorias/updateConvocatoriasDTO';
+import { updateConvocatoriaDTO } from '../convocatorias/dtos/updateConvocatoriasDTO';
 import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';

@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsuariosController } from './usuarios.controller';
 import { UsuariosService } from './usuarios.service';
 import { Usuario, UsuarioSchema } from './usuarios.schema';
-import { ConvocatoriasModule } from 'src/convocatorias/convocatorias.module';
+import { ConvocatoriasModule } from 'src/convocatorias/convocatoria.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 
 
