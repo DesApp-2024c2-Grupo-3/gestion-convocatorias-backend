@@ -13,6 +13,15 @@ export class Usuario {
 
   @Prop({ required: true }) 
   password: string;
+
+  @Prop({
+    type: {
+        nombre: String,
+        tipo: String,
+        contenido: Buffer,
+    }
+  })
+  cv: { nombre: string; tipo: string; contenido: Buffer };
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);

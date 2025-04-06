@@ -1,8 +1,10 @@
 import { updateConvocatoriaDTO } from '../convocatorias/dtos/updateConvocatoriasDTO';
-import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Put, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateConvocatoriaDto } from 'src/convocatorias/dtos/CreateConvocatoriaDTO';
 
 @Controller('usuario')
 export class UsuariosController {
@@ -43,7 +45,7 @@ export class UsuariosController {
         return this.usuarioService.eliminarUsuario(id) 
     }
 
-    @Put(':password')
+    @Put('/password/:password')
     async updateContrasenia(
         @Body() body: {email: string, nuevaContrasenia: string},
     ){
@@ -51,4 +53,12 @@ export class UsuariosController {
         return this.usuarioService.updateContrasenia(email, nuevaContrasenia);
     }
 
+    @Put('cv')
+    @UseInterceptors(FileInterceptor('archivo'))
+    async updateCv(
+        @Body("email") email:string, //body: {email:string , archivo: Express.Multer.File},
+        @UploadedFile() archivo: Express.Multer.File
+    ){
+        return this.usuarioService.updateCv(email, archivo);
+    }
 }

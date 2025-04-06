@@ -192,4 +192,36 @@ export class UsuariosService {
         throw new InternalServerErrorException('Error al actualizar la contraseña');
     };
   };
+
+  async updateCv(email: string, archivo: Express.Multer.File){
+    try{
+        console.log("email es: " + email)
+        const cv = {
+          nombre: archivo.originalname,
+          tipo: archivo.mimetype,
+          contenido: archivo.buffer,
+      }
+      console.log(cv)
+      
+      const usuario = await this.usuarioModel.findOne({email});
+      if(!usuario){
+        throw new NotFoundException('Usuario no encontrado');
+      }
+      usuario.cv = cv
+      await usuario.save();
+    }catch(error){
+        //throw new InternalServerErrorException('Error al actualizar cv');
+        console.log(error)
+    };
+  };
 };
+
+/*
+        usuario.archivo.nombre = archivo.originalname;
+        usuario.archivo.tipo = archivo.mimetype
+        usuario.archivo.contenido = archivo.buffer
+        await usuario.save();
+        return{
+            message: 'cv actualizado correctamente',
+            status: HttpStatus.OK,
+        }*/
