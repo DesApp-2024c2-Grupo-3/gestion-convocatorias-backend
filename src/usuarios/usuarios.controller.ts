@@ -3,7 +3,9 @@ import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Interna
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('Usuarios')
 @Controller('usuario')
 export class UsuariosController {
 
@@ -17,6 +19,27 @@ export class UsuariosController {
     }
 
     @Post('login')
+    @ApiOperation({ summary: 'Iniciar sesión de usuario' })
+    @ApiResponse({ 
+        status: 200, 
+        description: 'Login exitoso',
+        schema: {
+            example: {
+                access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+                refresh_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+                usuario: {
+                    id: '1234',
+                    email: 'usuario@example.com',
+                    nombre: 'Usuario',
+                    roles: ['INVESTIGADOR']
+                }
+            }
+        }
+    })
+    @ApiResponse({ 
+        status: 401, 
+        description: 'Credenciales incorrectas' 
+    })
     login(@Body() loginDto:LoginDTO){
         const {email, password} = loginDto
         return this.usuarioService.loginUser(email, password)
