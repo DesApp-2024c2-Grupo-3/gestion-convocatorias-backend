@@ -108,7 +108,7 @@ export class UsuariosService {
         expiresIn: '1d',
       }),
       this.jwtSvc.signAsync(jwtPayload, {
-        secret: this.configService.get('JWT_SECRET_REFRESH'),
+        secret: 'jwt_secret_refresh',
         expiresIn: '7d',
       }),
     ]);
@@ -122,7 +122,7 @@ export class UsuariosService {
   async refreshToken(refreshToken) {
     try {
       const usuario = this.jwtSvc.verify(refreshToken, {
-        secret: this.configService.get('JWT_SECRET_REFRESH'),
+        secret: 'jwt_secret_refresh',
       });
       const payload = {
         sub: usuario._id,
