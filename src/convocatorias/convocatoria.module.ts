@@ -3,7 +3,8 @@ import { ConvocatoriasController } from './convocatoria.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Convocatoria, ConvocatoriaSchema } from './convocatoria.schema';
 import { ConvocatoriasService } from './convocatoria.service';
-import { JwtModule } from '@nestjs/jwt'; // Añade esta importación
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [ConvocatoriasController],
@@ -14,10 +15,13 @@ import { JwtModule } from '@nestjs/jwt'; // Añade esta importación
         schema: ConvocatoriaSchema,
       },
     ]),
-    JwtModule.register({
-      secret: 'jwt_secret',
-      signOptions: { expiresIn: '60m' },
-    }),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+          secret: configService.get<string>('JWT_SECRET'),
+          signOptions: { expiresIn: '60m' },
+      }),
+  }),
   ],
   providers: [ConvocatoriasService],
   exports: [ConvocatoriasService]

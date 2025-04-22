@@ -7,6 +7,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
 import { ROLES } from '../constants/roles';
+import { ConfigService } from '@nestjs/config';
 
 
 type Tokens = {
@@ -20,6 +21,7 @@ export class UsuariosService {
     @InjectModel(Usuario.name)
     private readonly usuarioModel: Model<UsuarioDocument>,
     private jwtSvc: JwtService,
+    private configService: ConfigService
   ) {}
 
   async createUser(createUserDTO: CreateUserDTO) {
@@ -102,11 +104,11 @@ export class UsuariosService {
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtSvc.signAsync(jwtPayload, {
-        secret: 'jwt_secret',
+        secret: this.configService.get('JWT_SECRET'),
         expiresIn: '1d',
       }),
       this.jwtSvc.signAsync(jwtPayload, {
-        secret: 'jwt_secret_refresh',
+        secret: this.configService.get('JWT_SECRET_REFRESH'),
         expiresIn: '7d',
       }),
     ]);
@@ -120,7 +122,7 @@ export class UsuariosService {
   async refreshToken(refreshToken) {
     try {
       const usuario = this.jwtSvc.verify(refreshToken, {
-        secret: 'jwt_secret_refresh',
+        secret: this.configService.get('JWT_SECRET_REFRESH'),
       });
       const payload = {
         sub: usuario._id,
