@@ -3,9 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './usuarios.schema';
 import { Model } from 'mongoose';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
+import { ROLES } from '../constants/roles';
 
 
 type Tokens = {
@@ -28,6 +29,7 @@ export class UsuariosService {
       const nuevoUsuario = new this.usuarioModel({
         ...createUserDTO,
         password: hashedPassword,
+        roles: [ROLES.INVESTIGADOR],
       });
 
       const usuario = await nuevoUsuario.save();
@@ -68,9 +70,13 @@ export class UsuariosService {
           sub: usuario._id,
           email: usuario.email,
           nombre: usuario.nombre,
+          roles: usuario.roles 
         };
+
         const { access_token, refresh_token } =
           await this.generateTokens(payload);
+
+          
         return {
           access_token,
           refresh_token,
@@ -91,6 +97,7 @@ export class UsuariosService {
       sub: usuario._id,
       email: usuario.email,
       nombre: usuario.nombre,
+      roles: usuario.roles,
     };
 
     const [accessToken, refreshToken] = await Promise.all([

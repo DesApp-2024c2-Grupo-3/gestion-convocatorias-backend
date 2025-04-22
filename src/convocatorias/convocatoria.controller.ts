@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatoria.service';
 import { Convocatoria } from './convocatoria.schema';
 import { updateConvocatoriaDTO } from './dtos/updateConvocatoriasDTO';
@@ -7,23 +7,30 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { UpdateFechaFinDto } from './dtos/UpdateFechaFinDTO';
-
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { ROLES } from '../constants/roles';
+import { HasRoles } from '../auth/decorators/has-roles.decorator';
 
 @Controller('convocatoria')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ConvocatoriasController {
     constructor(private convocatoriasService: ConvocatoriasService) { }
 
     @Get()
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async get(): Promise<Convocatoria[]> {
         return this.convocatoriasService.get();
     }
 
     @Get(':id')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async getConvocatoria(@Param('id') id: string): Promise<Convocatoria> {
         return this.convocatoriasService.getConvocatoria(id);
     }
 
     @Post()
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @UseInterceptors(FileInterceptor('archivo'))
     async create(
         @Body() CreateConvocatoriaDto: CreateConvocatoriaDto,
@@ -33,6 +40,7 @@ export class ConvocatoriasController {
     }
 
     @Put(':id')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async updateConvocatoria(
         @Param('id') id: string,
         @Body(new ValidationPipe()) convocatoria: updateConvocatoriaDTO,
@@ -41,15 +49,16 @@ export class ConvocatoriasController {
     }
 
     @Patch(':id/fecha-fin')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async updateFechaFin(
         @Param('id') id: string,
         @Body() body: UpdateFechaFinDto,
     ): Promise<Convocatoria> {
-        console.log('se ejecuta el controller')
         return this.convocatoriasService.updateFechaFin(id, body);
     }
 
     @Delete(':_id')
+    @HasRoles(ROLES.SUPER_ADMIN)
     async eliminarConvocatoria(@Param('_id') _id: string) {
         return this.convocatoriasService.eliminarConvocatoria(_id);
     }
