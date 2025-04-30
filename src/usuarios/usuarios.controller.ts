@@ -68,12 +68,12 @@ export class UsuariosController {
         return this.usuarioService.eliminarUsuario(email) 
     }
 
-    @Patch(':id')
+    @Patch(':email')
     async updateContrasenia(
         @Body() updatePasswordDto: UpdatePasswordDTO,
-        @Param('id') id: string
+        @Param('email') email: string
     ){
-        return this.usuarioService.updateContrasenia(id, updatePasswordDto);
+        return this.usuarioService.updateContrasenia(email, updatePasswordDto);
     }
 
 }

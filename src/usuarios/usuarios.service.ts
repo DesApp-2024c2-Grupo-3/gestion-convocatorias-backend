@@ -183,9 +183,9 @@ export class UsuariosService {
     return rest;
   };
 
-  async updateContrasenia(id: string, nuevaContrasenia: UpdatePasswordDTO){
+  async updateContrasenia(email: string, nuevaContrasenia: UpdatePasswordDTO){
     try{
-        const usuario = await this.usuarioModel.findById(id);
+        const usuario = await this.usuarioModel.findOne({email});
 
         if(!usuario){
             throw new NotFoundException('Usuario no encontrado');
