@@ -16,6 +16,9 @@ export class Usuario {
 
   @Prop({ type: [String], default: [ROLES.INVESTIGADOR] })
   roles: string[];
+  
+  @Prop()
+  baja: Boolean;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);

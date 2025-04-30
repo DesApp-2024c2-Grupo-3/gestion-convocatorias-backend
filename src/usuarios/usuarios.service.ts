@@ -33,6 +33,7 @@ export class UsuariosService {
         ...createUserDTO,
         password: hashedPassword,
         roles: [ROLES.INVESTIGADOR],
+        baja: false
       });
 
       const usuario = await nuevoUsuario.save();
@@ -160,19 +161,19 @@ export class UsuariosService {
     return usuarioExistente;
   }
 
-  // psoiblemente no sea necesario - Ahora sí fue necesario :)
-  async eliminarUsuario(email: string) {
-    const usuarioExistente = await this.usuarioModel.findOne({ email }).exec();
+  async eliminarUsuario(id: string) {
+    const usuarioExistente = await this.usuarioModel.findById(id).exec();
 
     if (!usuarioExistente) {
       throw new BadRequestException(
-        'No existe un usuario con el email proporcionado',
+        'No existe un usuario con ese id',
       );
     };
 
-    await this.usuarioModel.deleteOne({ email }).exec();
+    usuarioExistente.baja = true
+    await usuarioExistente.save()
     return {
-      message: 'Usuario eliminado exitosamente',
+      message: 'Usuario dado de baja exitosamente',
       status: HttpStatus.OK,
     };
   };
