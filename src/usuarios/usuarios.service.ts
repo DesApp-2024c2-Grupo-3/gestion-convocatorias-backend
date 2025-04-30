@@ -161,12 +161,12 @@ export class UsuariosService {
     return usuarioExistente;
   }
 
-  async eliminarUsuario(id: string) {
-    const usuarioExistente = await this.usuarioModel.findById(id).exec();
+  async eliminarUsuario(email: string) {
+    const usuarioExistente = await this.usuarioModel.findOne({email}).exec();
 
     if (!usuarioExistente) {
       throw new BadRequestException(
-        'No existe un usuario con ese id',
+        'No existe un usuario con ese mail',
       );
     };
 

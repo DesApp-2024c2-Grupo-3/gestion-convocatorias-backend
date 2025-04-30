@@ -63,9 +63,9 @@ export class UsuariosController {
         return this.usuarioService.obtenerUsuario(id)
     }
 
-    @Delete(':id')
-    async eliminarUsuario(@Param('id') id:string){
-        return this.usuarioService.eliminarUsuario(id) 
+    @Delete(':email')
+    async eliminarUsuario(@Param('email') email:string){
+        return this.usuarioService.eliminarUsuario(email) 
     }
 
     @Patch(':id')
