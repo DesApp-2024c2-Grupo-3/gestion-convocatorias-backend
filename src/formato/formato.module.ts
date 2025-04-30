@@ -14,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         },
     ]),
   ],
-  providers: [FormatoService]
+  providers: [FormatoService],
+  exports: [FormatoService]
 })
 export class FormatoModule {}

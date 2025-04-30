@@ -1,12 +1,11 @@
 import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatoria.service';
 import { Convocatoria } from './convocatoria.schema';
-import { updateConvocatoriaDTO } from './dtos/updateConvocatoriasDTO';
+import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
-import { UpdateFechaFinDto } from './dtos/UpdateFechaFinDTO';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from '../constants/roles';
@@ -43,7 +42,7 @@ export class ConvocatoriasController {
     }
 
     @Post()
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @UseInterceptors(FileInterceptor('archivo'))
     async create(
         @Body() CreateConvocatoriaDto: CreateConvocatoriaDto,
@@ -54,20 +53,13 @@ export class ConvocatoriasController {
 
     @Put(':id')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @UseInterceptors(FileInterceptor('archivo'))
     async updateConvocatoria(
         @Param('id') id: string,
-        @Body(new ValidationPipe()) convocatoria: updateConvocatoriaDTO,
+        @Body(new ValidationPipe()) edicionDeConvocatoria: updateConvocatoriaDTO,
+        @UploadedFile() archivo?: Express.Multer.File
     ) {
-        return this.convocatoriasService.updateConvocatoria(id, convocatoria);
-    }
-
-    @Patch(':id/fecha-fin')
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
-    async updateFechaFin(
-        @Param('id') id: string,
-        @Body() body: UpdateFechaFinDto,
-    ): Promise<Convocatoria> {
-        return this.convocatoriasService.updateFechaFin(id, body);
+        return this.convocatoriasService.updateConvocatoria(id, edicionDeConvocatoria, archivo);
     }
 
     @Delete(':_id')

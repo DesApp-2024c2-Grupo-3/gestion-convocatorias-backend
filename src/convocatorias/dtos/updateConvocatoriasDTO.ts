@@ -1,50 +1,11 @@
-import { IsDate, IsObject, isObject, IsOptional, IsString } from "class-validator";
+import { PartialType } from "@nestjs/swagger";
+import { IsOptional, IsArray, IsString, IsNotEmpty } from "class-validator";
+import { CreateConvocatoriaDto } from "./CreateConvocatoriaDTO";
 
-class Info {
-    @IsString()
+export class updateConvocatoriaDTO extends PartialType(CreateConvocatoriaDto) {
     @IsOptional()
-    titulo?: string;
-
-    @IsString()
-    @IsOptional()
-    descripcion?: string;
-
-    @IsDate()
-    @IsOptional()
-    fechaInicio?: Date;
-
-    @IsDate()
-    @IsOptional()
-    fechaFin?: Date;
-}
-
-
-class FormT {
-        
-        @IsOptional()
-        nombre?: string;
-
-        @IsOptional()
-        tipo?: 'Texto';
-
-        @IsOptional()
-        maxNumeroDeCaracteres?: number;
-}
-
-class FormD {
-    @IsOptional()
-    nombre?: string;
-  
-    @IsOptional()
-    tipo?: 'Desplegable';
-  
-    @IsOptional()
-    opciones?: string[];
-  }
-
-export class updateConvocatoriaDTO {
-    @IsOptional()
-    informacionGeneral: Info
-    @IsOptional()
-    formato: (FormT|FormD)[]
+    @IsArray()
+    @IsString({ each: true })
+    @IsNotEmpty({ each: true })
+    proyectos?: string[];
 }

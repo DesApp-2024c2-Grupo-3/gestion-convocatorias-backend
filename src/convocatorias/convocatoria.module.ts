@@ -5,14 +5,21 @@ import { Convocatoria, ConvocatoriaSchema } from './convocatoria.schema';
 import { ConvocatoriasService } from './convocatoria.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { registerUpdateValidators } from './middlewares/update.middleware';
+import { FormatoModule } from 'src/formato/formato.module';
 
 @Module({
   controllers: [ConvocatoriasController],
   imports: [
-    MongooseModule.forFeature([
+    MongooseModule.forFeatureAsync([
       {
         name: Convocatoria.name,
-        schema: ConvocatoriaSchema,
+        useFactory: () => {
+            const schema = ConvocatoriaSchema;
+            registerUpdateValidators(schema);
+            return schema;
+        }
+
       },
     ]),
     JwtModule.registerAsync({
@@ -22,6 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           signOptions: { expiresIn: '60m' },
       }),
   }),
+  FormatoModule
   ],
   providers: [ConvocatoriasService],
   exports: [ConvocatoriasService]
