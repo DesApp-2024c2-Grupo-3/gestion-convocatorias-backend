@@ -17,11 +17,6 @@ export class FormatoController {
         return this.formatoService.getFormatoById(id);
     }
 
-    @Get('nombre/:nombre')
-    async getFormatoByNombre(@Param('nombre') nombre:string): Promise<Formato> {
-        return this.formatoService.getFormatoByNombre(nombre)
-    }
-
     @Post()
     async create (@Body() formato: CreateFormatoDto) {
         return this.formatoService.createFormato(formato)

@@ -24,16 +24,6 @@ export class FormatoService {
         return formatoExistente;
     }
 
-    async getFormatoByNombre(nombre: string): Promise<Formato> {
-        const formatoExistente = await this.formatoModel.findOne({nombreDelFormato: nombre}).exec();
-
-        if (!formatoExistente) {
-            throw new Error('El formato no existe')
-        }
-        
-        return formatoExistente
-    }
-
     async createFormato(formato: Formato) {
         const  createdFormato = new this.formatoModel(formato);
         return createdFormato.save();
