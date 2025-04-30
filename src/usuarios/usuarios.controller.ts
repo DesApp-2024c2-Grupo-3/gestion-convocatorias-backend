@@ -1,9 +1,9 @@
-import { updateConvocatoriaDTO } from '../convocatorias/dtos/updateConvocatoriasDTO';
-import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, InternalServerErrorException, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 
 @ApiTags('Usuarios')
 @Controller('usuario')
@@ -18,6 +18,7 @@ export class UsuariosController {
         return this.usuarioService.createUser(createUserDTO);
     }
 
+    // Pasar a nuevo modulo
     @Post('login')
     @ApiOperation({ summary: 'Iniciar sesión de usuario' })
     @ApiResponse({ 
@@ -45,6 +46,7 @@ export class UsuariosController {
         return this.usuarioService.loginUser(email, password)
     }
 
+    //Pasar a nuevo modulo
     @Post('refresh')
     refreshToken(@Req() request: Request ){
         const [type, token] = request.headers['authorization']?.split(' ') || []
@@ -61,17 +63,17 @@ export class UsuariosController {
         return this.usuarioService.obtenerUsuario(id)
     }
 
-    @Delete(':id')
-    async eliminarUsuario(@Param('id') id:string){
-        return this.usuarioService.eliminarUsuario(id) 
+    @Delete(':email')
+    async eliminarUsuario(@Param('email') email:string){
+        return this.usuarioService.eliminarUsuario(email) 
     }
 
-    @Put(':password')
+    @Patch(':email')
     async updateContrasenia(
-        @Body() body: {email: string, nuevaContrasenia: string},
+        @Body() updatePasswordDto: UpdatePasswordDTO,
+        @Param('email') email: string
     ){
-        const{email, nuevaContrasenia} = body;
-        return this.usuarioService.updateContrasenia(email, nuevaContrasenia);
+        return this.usuarioService.updateContrasenia(email, updatePasswordDto);
     }
 
 }

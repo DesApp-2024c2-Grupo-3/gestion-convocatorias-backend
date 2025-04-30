@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
 import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
+import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 
 
 type Tokens = {
@@ -32,6 +33,7 @@ export class UsuariosService {
         ...createUserDTO,
         password: hashedPassword,
         roles: [ROLES.INVESTIGADOR],
+        baja: false
       });
 
       const usuario = await nuevoUsuario.save();
@@ -159,19 +161,19 @@ export class UsuariosService {
     return usuarioExistente;
   }
 
-  // psoiblemente no sea necesario - Ahora sí fue necesario :)
   async eliminarUsuario(email: string) {
-    const usuarioExistente = await this.usuarioModel.findOne({ email }).exec();
+    const usuarioExistente = await this.usuarioModel.findOne({email}).exec();
 
     if (!usuarioExistente) {
       throw new BadRequestException(
-        'No existe un usuario con el email proporcionado',
+        'No existe un usuario con ese mail',
       );
     };
 
-    await this.usuarioModel.deleteOne({ email }).exec();
+    usuarioExistente.baja = true
+    await usuarioExistente.save()
     return {
-      message: 'Usuario eliminado exitosamente',
+      message: 'Usuario dado de baja exitosamente',
       status: HttpStatus.OK,
     };
   };
@@ -181,7 +183,7 @@ export class UsuariosService {
     return rest;
   };
 
-  async updateContrasenia(email: string, nuevaContrasenia: string){
+  async updateContrasenia(email: string, nuevaContrasenia: UpdatePasswordDTO){
     try{
         const usuario = await this.usuarioModel.findOne({email});
 
@@ -189,9 +191,9 @@ export class UsuariosService {
             throw new NotFoundException('Usuario no encontrado');
         }
 
-        const hashedPassword = await bcrypt.hash(nuevaContrasenia, 10);
+        const hashedPassword = await bcrypt.hash(nuevaContrasenia.password, 10);
 
-        usuario.password = nuevaContrasenia;
+        usuario.password = hashedPassword;
         await usuario.save();
         return{
             message: 'contraseña actualizada correctamente',

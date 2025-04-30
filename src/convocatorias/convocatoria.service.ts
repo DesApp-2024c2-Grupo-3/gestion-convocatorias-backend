@@ -1,16 +1,16 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatoria } from './convocatoria.schema';
-import { Model } from 'mongoose';
-import { updateConvocatoriaDTO } from './dtos/updateConvocatoriasDTO';
+import { Model, Error as MongooseError } from 'mongoose';
+import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
-import { UpdateFechaFinDto } from './dtos/UpdateFechaFinDTO';
+import { FormatoService } from 'src/formato/formato.service';
 
 @Injectable()
 export class ConvocatoriasService {
   constructor(
-    @InjectModel(Convocatoria.name)
-    private convoctariasModel: Model<Convocatoria>,
+    @InjectModel(Convocatoria.name) private convoctariasModel: Model<Convocatoria>,
+    private readonly formatoService: FormatoService
   ) {}
 
   async get(): Promise<Convocatoria[]> {
@@ -36,57 +36,69 @@ export class ConvocatoriasService {
             nombre: archivo.originalname,
             tipo: archivo.mimetype,
             contenido: archivo.buffer,
-        }
+        },
+        baja: false
     });
     return nuevaConvocatoria.save();
   }
 
-  async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO) {
-    const convocatoriaActualizada = await this.convoctariasModel
-      .findByIdAndUpdate(
-        id,
-        {
-          $set: convocatoria,
-        },
-        { new: true },
-      )
-      .exec();
-
-    if (!convocatoriaActualizada) {
-      throw new BadRequestException(
-        'La convocatoria que desea actualizar, no existe',
-      );
+  async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO, archivo?: Express.Multer.File) {
+    const convocatoriaActual = await this.convoctariasModel.findById(id);
+    
+    if (!convocatoriaActual) {
+        throw new BadRequestException(
+          'La convocatoria que desea actualizar no existe',
+        );
+      }
+    
+    if (convocatoria.formato) {
+        let formato = await this.formatoService.getFormatoById(convocatoria.formato)
+        if (!formato) {
+            throw new BadRequestException (
+                "El formato que desea utilizar no existe"
+            )
+        }
+    }
+    
+    const edicionDeConvocatoria: updateConvocatoriaDTO & { archivo?: {
+        nombre: string;
+        tipo: string;
+        contenido: Buffer;
+    }} = {
+        ...convocatoria
+    }
+    
+    if (archivo) {
+        edicionDeConvocatoria.archivo = {
+            nombre: archivo.originalname,
+            tipo: archivo.mimetype,
+            contenido: archivo.buffer,
+        }
     }
 
-    return convocatoriaActualizada;
-  }
-
-  async updateFechaFin(id: string, fechaFin: UpdateFechaFinDto): Promise<Convocatoria> {
-    console.log(fechaFin)
-    const convocatoriaActualizada = await this.convoctariasModel
-      .findByIdAndUpdate(
-        id,
-        fechaFin
-      )
-      .exec();
-
-    if (!convocatoriaActualizada) {
-      throw new BadRequestException(
-        'La convocatoria que desea actualizar no existe',
-      );
+    try {
+        await convocatoriaActual.updateOne(edicionDeConvocatoria).exec()
+        return { message: "Convocatoria actualizada exitosamente" }
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            throw new BadRequestException(
+                Object.values(error.errors).map((e: any) => e.message).join(', ')
+            );
+        }
+        throw new InternalServerErrorException('Error inesperado al actualizar');
     }
-
-    return convocatoriaActualizada;
   }
+
   async eliminarConvocatoria(_id: string) {
     const convocatoriaExistente = await this.convoctariasModel
-      .findById(_id)
+      .findByIdAndUpdate(_id, {baja: true}, {new: true})
+      .select("-archivo")
       .exec();
 
     if (!convocatoriaExistente) {
       throw new BadRequestException('NO EXISTE');
     }
 
-    await this.convoctariasModel.findByIdAndDelete(_id).exec();
+    return convocatoriaExistente
   }
 }

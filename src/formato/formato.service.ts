@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Formato } from './formato.schema';
@@ -18,20 +18,10 @@ export class FormatoService {
         const formatoExistente = await this.formatoModel.findById(id).exec();
 
         if (!formatoExistente) {
-            throw new Error('El formato no existe');
+            throw new BadRequestException('El formato no existe');
         }
 
         return formatoExistente;
-    }
-
-    async getFormatoByNombre(nombre: string): Promise<Formato> {
-        const formatoExistente = await this.formatoModel.findOne({nombreDelFormato: nombre}).exec();
-
-        if (!formatoExistente) {
-            throw new Error('El formato no existe')
-        }
-        
-        return formatoExistente
     }
 
     async createFormato(formato: Formato) {
