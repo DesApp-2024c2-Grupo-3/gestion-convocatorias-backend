@@ -36,7 +36,8 @@ export class ConvocatoriasService {
             nombre: archivo.originalname,
             tipo: archivo.mimetype,
             contenido: archivo.buffer,
-        }
+        },
+        baja: false
     });
     return nuevaConvocatoria.save();
   }
@@ -90,13 +91,14 @@ export class ConvocatoriasService {
 
   async eliminarConvocatoria(_id: string) {
     const convocatoriaExistente = await this.convoctariasModel
-      .findById(_id)
+      .findByIdAndUpdate(_id, {baja: true}, {new: true})
+      .select("-archivo")
       .exec();
 
     if (!convocatoriaExistente) {
       throw new BadRequestException('NO EXISTE');
     }
 
-    await this.convoctariasModel.findByIdAndDelete(_id).exec();
+    return convocatoriaExistente
   }
 }

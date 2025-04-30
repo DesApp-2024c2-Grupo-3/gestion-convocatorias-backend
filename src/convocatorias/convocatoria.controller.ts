@@ -63,7 +63,7 @@ export class ConvocatoriasController {
     }
 
     @Delete(':_id')
-    @HasRoles(ROLES.SUPER_ADMIN)
+    @HasRoles(ROLES.SUPER_ADMIN,ROLES.INVESTIGADOR)
     async eliminarConvocatoria(@Param('_id') _id: string) {
         return this.convocatoriasService.eliminarConvocatoria(_id);
     }

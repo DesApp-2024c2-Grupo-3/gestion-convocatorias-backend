@@ -29,6 +29,9 @@ export class Convocatoria {
     }
   })
   archivo: { nombre: string; tipo: string; contenido: Buffer };
+
+  @Prop()
+  baja: Boolean
 }
 
 export const ConvocatoriaSchema = SchemaFactory.createForClass(Convocatoria);
