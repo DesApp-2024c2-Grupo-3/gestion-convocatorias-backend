@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
 import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
+import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 
 
 type Tokens = {
@@ -181,17 +182,17 @@ export class UsuariosService {
     return rest;
   };
 
-  async updateContrasenia(email: string, nuevaContrasenia: string){
+  async updateContrasenia(id: string, nuevaContrasenia: UpdatePasswordDTO){
     try{
-        const usuario = await this.usuarioModel.findOne({email});
+        const usuario = await this.usuarioModel.findById(id);
 
         if(!usuario){
             throw new NotFoundException('Usuario no encontrado');
         }
 
-        const hashedPassword = await bcrypt.hash(nuevaContrasenia, 10);
+        const hashedPassword = await bcrypt.hash(nuevaContrasenia.password, 10);
 
-        usuario.password = nuevaContrasenia;
+        usuario.password = hashedPassword;
         await usuario.save();
         return{
             message: 'contraseña actualizada correctamente',
