@@ -42,7 +42,7 @@ export class ConvocatoriasController {
     }
 
     @Post()
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @UseInterceptors(FileInterceptor('archivo'))
     async create(
         @Body() CreateConvocatoriaDto: CreateConvocatoriaDto,
@@ -52,7 +52,7 @@ export class ConvocatoriasController {
     }
 
     @Put(':id')
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @UseInterceptors(FileInterceptor('archivo'))
     async updateConvocatoria(
         @Param('id') id: string,
@@ -63,7 +63,7 @@ export class ConvocatoriasController {
     }
 
     @Delete(':_id')
-    @HasRoles(ROLES.SUPER_ADMIN,ROLES.INVESTIGADOR)
+    @HasRoles(ROLES.SUPER_ADMIN)
     async eliminarConvocatoria(@Param('_id') _id: string) {
         return this.convocatoriasService.eliminarConvocatoria(_id);
     }
