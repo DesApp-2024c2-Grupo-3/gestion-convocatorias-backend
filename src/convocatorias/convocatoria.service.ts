@@ -14,12 +14,13 @@ export class ConvocatoriasService {
   ) {}
 
   async get(): Promise<Convocatoria[]> {
-    return this.convoctariasModel.find().exec();
+    return this.convoctariasModel.find().select("-archivo").exec();
   }
 
   async getConvocatoria(id: string): Promise<Convocatoria> {
     const convocatoriaExistente = await this.convoctariasModel
       .findById(id)
+      .select("-archivo")
       .exec();
 
     if (!convocatoriaExistente) {
@@ -100,5 +101,15 @@ export class ConvocatoriasService {
     }
 
     return convocatoriaExistente
+  }
+
+  async getArchivoDeConvocatoria(id: string) {
+    const convocatoria = await this.convoctariasModel.findById(id).select("archivo").exec()
+
+    if (!convocatoria) {
+        throw new BadRequestException("La convocatoria no existe")
+    }
+
+    return convocatoria.archivo
   }
 }
