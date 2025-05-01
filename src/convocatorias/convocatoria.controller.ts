@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards, Res, StreamableFile, Header, NotFoundException } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatoria.service';
 import { Convocatoria } from './convocatoria.schema';
 import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
@@ -12,6 +12,7 @@ import { ROLES } from '../constants/roles';
 import { HasRoles } from '../auth/decorators/has-roles.decorator';
 
 import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { createReadStream } from 'fs';
 
 @ApiTags('Convocatorias')
 @ApiBearerAuth('access-token')
@@ -39,6 +40,19 @@ export class ConvocatoriasController {
     @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
     async getConvocatoria(@Param('id') id: string): Promise<Convocatoria> {
         return this.convocatoriasService.getConvocatoria(id);
+    }
+
+    @Get("archivo/:id")
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @Header('Content-Type', 'application/pdf')
+    @Header('Content-Disposition', 'inline; filename="documento.pdf"')
+    async getArchivo(@Param('id') id: string): Promise<StreamableFile> {
+        const archivo = await this.convocatoriasService.getArchivoDeConvocatoria(id);
+
+        return new StreamableFile(archivo.contenido, {
+            type:archivo.tipo,
+            disposition: `inline; filename="${archivo.nombre}"`
+        });
     }
 
     @Post()
