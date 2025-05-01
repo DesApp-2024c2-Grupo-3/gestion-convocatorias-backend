@@ -4,6 +4,8 @@ import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { LoginDTO } from './dtos/LoginDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
+import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
+import { ROLES } from 'src/constants/roles';
 
 @ApiTags('Usuarios')
 @Controller('usuario')
@@ -20,6 +22,7 @@ export class UsuariosController {
 
     // Pasar a nuevo modulo
     @Post('login')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Iniciar sesión de usuario' })
     @ApiResponse({ 
         status: 200, 
@@ -47,6 +50,7 @@ export class UsuariosController {
     }
 
     //Pasar a nuevo modulo
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @Post('refresh')
     refreshToken(@Req() request: Request ){
         const [type, token] = request.headers['authorization']?.split(' ') || []
@@ -54,21 +58,25 @@ export class UsuariosController {
     }
 
     @Get()
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     obtenerUsuarios(){
         return this.usuarioService.obtenerUsuarios()
     }
 
     @Get(':id')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     obtenerUsuario(@Param('id') id:string){
         return this.usuarioService.obtenerUsuario(id)
     }
 
     @Delete(':email')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async eliminarUsuario(@Param('email') email:string){
         return this.usuarioService.eliminarUsuario(email) 
     }
 
     @Patch(':email')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     async updateContrasenia(
         @Body() updatePasswordDto: UpdatePasswordDTO,
         @Param('email') email: string
