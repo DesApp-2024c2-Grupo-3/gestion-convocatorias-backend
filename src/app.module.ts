@@ -4,6 +4,7 @@ import { ConvocatoriasModule } from './convocatorias/convocatoria.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { FormatoModule } from './formato/formato.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AutenticacionModule } from './autenticacion/autenticacion.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     ConvocatoriasModule,
     UsuariosModule,
-    FormatoModule],
+    FormatoModule,
+    AutenticacionModule]
 }
 
 )
