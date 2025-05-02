@@ -1,14 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
-import { LoginDTO } from './dtos/LoginDTO';
+import { LoginDTO } from '../autenticacion/dtos/LoginDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
 import { ROLES } from 'src/constants/roles';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('Usuarios')
 @Controller('usuario')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsuariosController {
 
     constructor(
@@ -18,43 +21,6 @@ export class UsuariosController {
     @Post()
     create(@Body() createUserDTO: CreateUserDTO){
         return this.usuarioService.createUser(createUserDTO);
-    }
-
-    // Pasar a nuevo modulo
-    @Post('login')
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
-    @ApiOperation({ summary: 'Iniciar sesión de usuario' })
-    @ApiResponse({ 
-        status: 200, 
-        description: 'Login exitoso',
-        schema: {
-            example: {
-                access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-                refresh_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-                usuario: {
-                    id: '1234',
-                    email: 'usuario@example.com',
-                    nombre: 'Usuario',
-                    roles: ['INVESTIGADOR']
-                }
-            }
-        }
-    })
-    @ApiResponse({ 
-        status: 401, 
-        description: 'Credenciales incorrectas' 
-    })
-    login(@Body() loginDto:LoginDTO){
-        const {email, password} = loginDto
-        return this.usuarioService.loginUser(email, password)
-    }
-
-    //Pasar a nuevo modulo
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
-    @Post('refresh')
-    refreshToken(@Req() request: Request ){
-        const [type, token] = request.headers['authorization']?.split(' ') || []
-        return this.usuarioService.refreshToken(token);
     }
 
     @Get()
