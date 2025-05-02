@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards, Res, StreamableFile, Header, NotFoundException } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatoria.service';
 import { Convocatoria } from './convocatoria.schema';
-import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
+import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -67,7 +67,7 @@ export class ConvocatoriasController {
     @UseInterceptors(FileInterceptor('archivo'))
     async updateConvocatoria(
         @Param('id') id: string,
-        @Body(new ValidationPipe()) edicionDeConvocatoria: updateConvocatoriaDTO,
+        @Body(new ValidationPipe()) edicionDeConvocatoria: UpdateConvocatoriaDTO,
         @UploadedFile() archivo?: Express.Multer.File
     ) {
         return this.convocatoriasService.updateConvocatoria(id, edicionDeConvocatoria, archivo);

@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, Injectable, InternalServerError
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatoria } from './convocatoria.schema';
 import { Model, Error as MongooseError } from 'mongoose';
-import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
+import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { FormatoService } from 'src/formato/formato.service';
 
@@ -43,7 +43,7 @@ export class ConvocatoriasService {
     return nuevaConvocatoria.save();
   }
 
-  async updateConvocatoria(id: string, convocatoria: updateConvocatoriaDTO, archivo?: Express.Multer.File) {
+  async updateConvocatoria(id: string, convocatoria: UpdateConvocatoriaDTO, archivo?: Express.Multer.File) {
     const convocatoriaActual = await this.convoctariasModel.findById(id);
     
     if (!convocatoriaActual) {
@@ -61,7 +61,7 @@ export class ConvocatoriasService {
         }
     }
     
-    const edicionDeConvocatoria: updateConvocatoriaDTO & { archivo?: {
+    const edicionDeConvocatoria: UpdateConvocatoriaDTO & { archivo?: {
         nombre: string;
         tipo: string;
         contenido: Buffer;

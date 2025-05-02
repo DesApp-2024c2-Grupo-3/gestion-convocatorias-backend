@@ -1,9 +1,9 @@
 import mongoose, { CallbackWithoutResultAndOptionalError, Model, Error as MongooseError, Schema, UpdateQuery } from "mongoose";
-import { updateConvocatoriaDTO } from "../dtos/UpdateConvocatoriasDTO";
+import { UpdateConvocatoriaDTO } from "../dtos/UpdateConvocatoriasDTO";
 
 export function registerUpdateValidators (schema: Schema) {
     schema.pre('updateOne', async function(next) {
-        const update = this.getUpdate() as UpdateQuery<updateConvocatoriaDTO>;
+        const update = this.getUpdate() as UpdateQuery<UpdateConvocatoriaDTO>;
         let fechaInicio = update.fechaInicio
         let fechaFin = update.fechaFin
 
