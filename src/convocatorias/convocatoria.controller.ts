@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards, Res, StreamableFile, Header, NotFoundException } from '@nestjs/common';
 import { ConvocatoriasService } from './convocatoria.service';
 import { Convocatoria } from './convocatoria.schema';
-import { updateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
+import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -9,10 +9,12 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from '../constants/roles';
 import { HasRoles } from '../auth/decorators/has-roles.decorator';
 
-import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels } from '@nestjs/swagger';
+import { CreateConvocatoriaConPdfDTO, UpdateConvocatoriaConPdfDTO } from './dtos/SwaggerDTOs';
 
 @ApiTags('Convocatorias')
 @ApiBearerAuth('access-token')
+@ApiExtraModels(CreateConvocatoriaDto, UpdateConvocatoriaDTO)
 @Controller('convocatoria')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ConvocatoriasController {
@@ -26,6 +28,7 @@ export class ConvocatoriasController {
         status: 400, 
         description: 'Datos inválidos' 
     })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
     async get(): Promise<Convocatoria[]> {
         return this.convocatoriasService.get();
     }
@@ -34,6 +37,8 @@ export class ConvocatoriasController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Obtener una convocatoria por ID' })
     @ApiResponse({ status: 200, description: 'Convocatoria encontrada', type: Convocatoria })
+    @ApiResponse({ status: 400, description: 'ID inválido' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
     @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
     async getConvocatoria(@Param('id') id: string): Promise<Convocatoria> {
         return this.convocatoriasService.getConvocatoria(id);
@@ -43,6 +48,11 @@ export class ConvocatoriasController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @Header('Content-Type', 'application/pdf')
     @Header('Content-Disposition', 'inline; filename="documento.pdf"')
+    @ApiOperation({ summary: 'Obtener el archivo de una convocatoria por ID' })
+    @ApiResponse({ status: 200, description: 'Archivo encontrado' })
+    @ApiResponse({ status: 400, description: 'ID inválido' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 404, description: 'Archivo no encontrado' })
     async getArchivo(@Param('id') id: string): Promise<StreamableFile> {
         const archivo = await this.convocatoriasService.getArchivoDeConvocatoria(id);
 
@@ -55,6 +65,16 @@ export class ConvocatoriasController {
     @Post()
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @UseInterceptors(FileInterceptor('archivo'))
+    @ApiOperation({ 
+        summary: 'Crear una nueva convocatoria',
+        description:
+        'Este endpoint requiere multipart/form-data con campos de texto + archivo. En Swagger UI, es posible que al probarlo falle porque Nest separa @Body y @UploadedFile. Use Postman o tu cliente HTTP para pruebas reales.'
+    })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        description: 'Datos de la convocatoria y archivo adjunto',
+        type: CreateConvocatoriaConPdfDTO
+    })
     async create(
         @Body() CreateConvocatoriaDto: CreateConvocatoriaDto,
         @UploadedFile() archivo: Express.Multer.File
@@ -65,17 +85,37 @@ export class ConvocatoriasController {
     @Put(':id')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @UseInterceptors(FileInterceptor('archivo'))
+    @ApiOperation({ summary: 'Actualizar una convocatoria por ID',
+        description:
+        'Este endpoint requiere multipart/form-data con campos de texto + archivo. En Swagger UI, es posible que al probarlo falle porque Nest separa @Body y @UploadedFile. Use Postman o tu cliente HTTP para pruebas reales.'
+     })
+    @ApiResponse({ status: 200, description: 'Convocatoria actualizada'})
+    @ApiResponse({ status: 400, description: 'ID inválido' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 403, description: 'No tienes permiso para actualizar esta convocatoria' })
+    @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        description: 'Datos de la convocatoria y archivo adjunto',
+        type: UpdateConvocatoriaConPdfDTO
+    })
     async updateConvocatoria(
         @Param('id') id: string,
-        @Body(new ValidationPipe()) edicionDeConvocatoria: updateConvocatoriaDTO,
+        @Body(new ValidationPipe()) edicionDeConvocatoria: UpdateConvocatoriaDTO,
         @UploadedFile() archivo?: Express.Multer.File
     ) {
         return this.convocatoriasService.updateConvocatoria(id, edicionDeConvocatoria, archivo);
     }
 
-    @Delete(':_id')
+    @Delete(':id')
     @HasRoles(ROLES.SUPER_ADMIN)
-    async eliminarConvocatoria(@Param('_id') _id: string) {
-        return this.convocatoriasService.eliminarConvocatoria(_id);
+    @ApiOperation({ summary: 'Eliminar una convocatoria por ID' })
+    @ApiResponse({ status: 200, description: 'Convocatoria eliminada' })
+    @ApiResponse({ status: 400, description: 'ID inválido' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 403, description: 'No tienes permiso para eliminar esta convocatoria' })
+    @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
+    async eliminarConvocatoria(@Param('id') id: string) {
+        return this.convocatoriasService.eliminarConvocatoria(id);
     }
 }
