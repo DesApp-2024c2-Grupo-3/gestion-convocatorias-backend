@@ -2,6 +2,8 @@ import { BadRequestException, ConflictException, Injectable, InternalServerError
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatoria } from './convocatoria.schema';
 import { Model, Error as MongooseError } from 'mongoose';
+import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { FormatoService } from 'src/formato/formato.service';
@@ -18,6 +20,11 @@ export class ConvocatoriasService {
   }
 
   async getConvocatoria(id: string): Promise<Convocatoria> {
+    
+    if (Types.ObjectId.isValid(id) === false) {
+      throw new BadRequestException('El ID de la convocatoria no es válido');
+    }
+
     const convocatoriaExistente = await this.convoctariasModel
       .findById(id)
       .select("-archivo")
@@ -44,6 +51,11 @@ export class ConvocatoriasService {
   }
 
   async updateConvocatoria(id: string, convocatoria: UpdateConvocatoriaDTO, archivo?: Express.Multer.File) {
+
+    if (Types.ObjectId.isValid(id) === false) {
+        throw new BadRequestException('El ID de la convocatoria no es válido');
+    }
+
     const convocatoriaActual = await this.convoctariasModel.findById(id);
     
     if (!convocatoriaActual) {
@@ -91,6 +103,11 @@ export class ConvocatoriasService {
   }
 
   async eliminarConvocatoria(_id: string) {
+
+    if (Types.ObjectId.isValid(_id) === false) {
+      throw new BadRequestException('El ID de la convocatoria no es válido');
+    }
+
     const convocatoriaExistente = await this.convoctariasModel
       .findByIdAndUpdate(_id, {baja: true}, {new: true})
       .select("-archivo")
@@ -104,6 +121,11 @@ export class ConvocatoriasService {
   }
 
   async getArchivoDeConvocatoria(id: string) {
+
+    if (Types.ObjectId.isValid(id) === false) {
+      throw new BadRequestException('El ID de la convocatoria no es válido');
+    }
+
     const convocatoria = await this.convoctariasModel.findById(id).select("archivo").exec()
 
     if (!convocatoria) {
