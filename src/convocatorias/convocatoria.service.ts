@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatoria } from './convocatoria.schema';
 import { Model, Error as MongooseError } from 'mongoose';
@@ -31,7 +31,7 @@ export class ConvocatoriasService {
       .exec();
 
     if (!convocatoriaExistente) {
-      throw new BadRequestException('La convocatoria no existe');
+      throw new NotFoundException('La convocatoria no existe');
     }
 
     return convocatoriaExistente;
@@ -59,7 +59,7 @@ export class ConvocatoriasService {
     const convocatoriaActual = await this.convoctariasModel.findById(id);
     
     if (!convocatoriaActual) {
-        throw new BadRequestException(
+        throw new NotFoundException(
           'La convocatoria que desea actualizar no existe',
         );
       }
@@ -114,7 +114,7 @@ export class ConvocatoriasService {
       .exec();
 
     if (!convocatoriaExistente) {
-      throw new BadRequestException('NO EXISTE');
+      throw new NotFoundException('NO EXISTE');
     }
 
     return convocatoriaExistente
@@ -129,7 +129,7 @@ export class ConvocatoriasService {
     const convocatoria = await this.convoctariasModel.findById(id).select("archivo").exec()
 
     if (!convocatoria) {
-        throw new BadRequestException("La convocatoria no existe")
+        throw new NotFoundException("La convocatoria no existe")
     }
 
     return convocatoria.archivo

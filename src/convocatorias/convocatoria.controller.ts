@@ -9,7 +9,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from '../constants/roles';
 import { HasRoles } from '../auth/decorators/has-roles.decorator';
 
-import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels, ApiParam, ApiBadRequestResponse } from '@nestjs/swagger';
 import { CreateConvocatoriaConPdfDTO, UpdateConvocatoriaConPdfDTO } from './dtos/SwaggerDTOs';
 
 @ApiTags('Convocatorias')
@@ -36,6 +36,7 @@ export class ConvocatoriasController {
     @Get(':id')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Obtener una convocatoria por ID' })
+    @ApiParam({ name: 'id', description: 'ID de la convocatoria' })
     @ApiResponse({ status: 200, description: 'Convocatoria encontrada', type: Convocatoria })
     @ApiResponse({ status: 400, description: 'ID inválido' })
     @ApiResponse({ status: 401, description: 'No autorizado' })
@@ -49,6 +50,7 @@ export class ConvocatoriasController {
     @Header('Content-Type', 'application/pdf')
     @Header('Content-Disposition', 'inline; filename="documento.pdf"')
     @ApiOperation({ summary: 'Obtener el archivo de una convocatoria por ID' })
+    @ApiParam({ name: 'id', description: 'ID de la convocatoria' })
     @ApiResponse({ status: 200, description: 'Archivo encontrado' })
     @ApiResponse({ status: 400, description: 'ID inválido' })
     @ApiResponse({ status: 401, description: 'No autorizado' })
@@ -75,6 +77,10 @@ export class ConvocatoriasController {
         description: 'Datos de la convocatoria y archivo adjunto',
         type: CreateConvocatoriaConPdfDTO
     })
+    @ApiResponse({ status: 201, description: 'Convocatoria creada', type: Convocatoria })
+    @ApiResponse({ status: 400, description: 'Datos inválidos' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 403, description: 'No tienes permiso para crear una convocatoria' })
     async create(
         @Body() CreateConvocatoriaDto: CreateConvocatoriaDto,
         @UploadedFile() archivo: Express.Multer.File
@@ -89,8 +95,11 @@ export class ConvocatoriasController {
         description:
         'Este endpoint requiere multipart/form-data con campos de texto + archivo. En Swagger UI, es posible que al probarlo falle porque Nest separa @Body y @UploadedFile. Use Postman o tu cliente HTTP para pruebas reales.'
      })
+    @ApiParam({ name: 'id', description: 'ID de la convocatoria' })
     @ApiResponse({ status: 200, description: 'Convocatoria actualizada'})
-    @ApiResponse({ status: 400, description: 'ID inválido' })
+    @ApiBadRequestResponse({ description: 'ID inválido' })
+    @ApiBadRequestResponse({ description: 'Formato inválido' })
+    @ApiBadRequestResponse({ description: 'Error de validaciones' })
     @ApiResponse({ status: 401, description: 'No autorizado' })
     @ApiResponse({ status: 403, description: 'No tienes permiso para actualizar esta convocatoria' })
     @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
