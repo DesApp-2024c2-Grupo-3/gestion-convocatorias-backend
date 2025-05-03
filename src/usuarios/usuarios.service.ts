@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './usuarios.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -148,11 +148,16 @@ export class UsuariosService {
   }
 
   async obtenerUsuarios(): Promise<Usuario[]> {
-    return await this.usuarioModel.find().exec();
+    return await this.usuarioModel.find().select('-password').exec();
   }
 
   async obtenerUsuario(id: string): Promise<Usuario> {
-    const usuarioExistente = await this.usuarioModel.findById(id).exec();
+
+    if (Types.ObjectId.isValid(id) === false) {
+      throw new BadRequestException('El id no es válido');
+    }
+
+    const usuarioExistente = await this.usuarioModel.findById(id).select('-password').exec();
 
     if (!usuarioExistente) {
       throw new BadRequestException('No existe el usuario con id buscado');
