@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Formato } from './formato.schema';
 
 @Injectable()
@@ -15,10 +15,15 @@ export class FormatoService {
     }
 
     async getFormatoById(id: string): Promise<Formato> {
+
+        if (Types.ObjectId.isValid(id) === false) {
+            throw new BadRequestException('ID inválido');
+        }
+        
         const formatoExistente = await this.formatoModel.findById(id).exec();
 
         if (!formatoExistente) {
-            throw new BadRequestException('El formato no existe');
+            throw new NotFoundException('El formato no existe');
         }
 
         return formatoExistente;
