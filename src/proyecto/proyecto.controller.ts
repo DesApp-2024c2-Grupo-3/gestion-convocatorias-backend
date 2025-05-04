@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -22,6 +22,18 @@ export class ProyectoController {
         @Body() proyecto: CreateProyectoDTO,
     ) {
         return this.proyectoService.createProyecto(idConvocatoria, proyecto);
+    }
+
+    @Get()
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    async getProyectos() {
+        return this.proyectoService.getAllProyectos();
+    }
+
+    @Get(':id')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    async getProyecto(@Param('id') id: string) {
+        return this.proyectoService.getProyectoById(id);
     }
 
 }

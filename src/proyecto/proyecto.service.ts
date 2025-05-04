@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model } from 'mongoose';
+import { Connection, Model, Types } from 'mongoose';
 import { Proyecto } from './proyecto.schema';
 import { ConvocatoriasService } from 'src/convocatorias/convocatoria.service';
 import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
@@ -39,5 +39,24 @@ export class ProyectoService {
         } finally {
             session.endSession();
         }
+    }
+
+    async getAllProyectos() {
+        return this.proyectoModel.find().exec();
+    }
+
+    async getProyectoById(id: string) {
+
+        if (!Types.ObjectId.isValid(id)) {
+            throw new BadRequestException('ID de proyecto inválido');
+        }
+
+        const proyecto = this.proyectoModel.findById(id).exec();
+
+        if (!proyecto) {
+            throw new NotFoundException('Proyecto no encontrado');
+        }
+
+        return proyecto;
     }
 }
