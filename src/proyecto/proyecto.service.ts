@@ -15,13 +15,21 @@ export class ProyectoService {
         private readonly convocatoriaService: ConvocatoriasService
     ) {}
 
-    async createProyecto(nuevoProyecto: CreateProyectoDTO) {
+    async createProyecto(idConvocatoria: string, nuevoProyecto: CreateProyectoDTO) {
         const session = await this.connection.startSession();
         session.startTransaction();
 
         try {
             const proyecto = await this.proyectoModel.create([nuevoProyecto], { session });
             const proyectoCreado = proyecto[0];
+
+            await this.convocatoriaService.updateConvocatoria(idConvocatoria, 
+                {
+                    proyectos:[proyectoCreado._id.toString()]
+                },
+                undefined,
+                session
+            );
 
             await session.commitTransaction();
             return proyectoCreado;

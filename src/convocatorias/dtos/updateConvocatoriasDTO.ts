@@ -4,7 +4,7 @@ import { CreateConvocatoriaDto } from "./CreateConvocatoriaDTO";
 
 @ApiSchema({ description: 'DTO para actualizar una convocatoria' })
 export class UpdateConvocatoriaDTO extends PartialType(CreateConvocatoriaDto) {
-/*     @IsOptional()
+    @IsOptional()
     @IsArray()
     @IsString({ each: true })
     @IsNotEmpty({ each: true })
@@ -14,5 +14,5 @@ export class UpdateConvocatoriaDTO extends PartialType(CreateConvocatoriaDto) {
         type: [String],
         required: false,
     })
-    proyectos?: string[]; */
+    proyectos?: string[];
 }

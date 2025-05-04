@@ -74,6 +74,16 @@ export class Convocatoria {
   })
   archivo: { nombre: string; tipo: string; contenido: Buffer };
 
+  @Prop()
+  @ApiProperty({
+    description: 'Lista de proyectos inscriptos a la convocatoria', 
+    example: ['67e5c338e4a7ddc1b25733ff', '67e5c338e4a7ddc1b25733fg'],
+    type: [String],
+    required: false,
+    default: []
+  })
+  proyectos: string[];
+
   @Prop({default: false, type: Boolean})
   @ApiProperty({
     description: "Estado de la convocatoria",

@@ -6,6 +6,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Proyecto, ProyectoSchema } from './proyecto.schema';
+import { ConvocatoriasService } from 'src/convocatorias/convocatoria.service';
+import { ConvocatoriasModule } from 'src/convocatorias/convocatoria.module';
 
 @Module({
   controllers: [ProyectoController],
@@ -23,6 +25,7 @@ import { Proyecto, ProyectoSchema } from './proyecto.schema';
             signOptions: { expiresIn: '60m' }
         })
     }),
+    ConvocatoriasModule
   ],
   providers: [ProyectoService]
 })
