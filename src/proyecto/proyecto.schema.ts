@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { HydratedDocument } from "mongoose";
-import { type } from "os";
 
 export type ProyectoDocument = HydratedDocument<Proyecto>;
 

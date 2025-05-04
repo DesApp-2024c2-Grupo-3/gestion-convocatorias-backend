@@ -1,13 +1,35 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
 import { Proyecto } from './proyecto.schema';
+import { ConvocatoriasService } from 'src/convocatorias/convocatoria.service';
+import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
 
 @Injectable()
 export class ProyectoService {
     constructor(
         @InjectModel(Proyecto.name)
-        private proyectoModel: Model<Proyecto>
+        private proyectoModel: Model<Proyecto>,
+        @InjectConnection()
+        private readonly connection: Connection,
+        private readonly convocatoriaService: ConvocatoriasService
     ) {}
-    
+
+    async createProyecto(nuevoProyecto: CreateProyectoDTO) {
+        const session = await this.connection.startSession();
+        session.startTransaction();
+
+        try {
+            const proyecto = await this.proyectoModel.create([nuevoProyecto], { session });
+            const proyectoCreado = proyecto[0];
+
+            await session.commitTransaction();
+            return proyectoCreado;
+        } catch (error) {
+            await session.abortTransaction();
+            throw error;
+        } finally {
+            session.endSession();
+        }
+    }
 }
