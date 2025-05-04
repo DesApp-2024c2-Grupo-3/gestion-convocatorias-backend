@@ -1,0 +1,29 @@
+import { Module } from '@nestjs/common';
+import { ProyectoController } from './proyecto.controller';
+import { ProyectoService } from './proyecto.service';
+import { Mongoose } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Proyecto, ProyectoSchema } from './proyecto.schema';
+
+@Module({
+  controllers: [ProyectoController],
+  imports: [
+    MongooseModule.forFeature([
+        {
+            name: Proyecto.name,
+            schema: ProyectoSchema,
+        },
+    ]),
+    JwtModule.registerAsync({
+        inject: [ConfigService],
+        useFactory: (ConfigService: ConfigService) => ({
+            secret: ConfigService.get<string>("JWT_SECRET"),
+            signOptions: { expiresIn: '60m' }
+        })
+    }),
+  ],
+  providers: [ProyectoService]
+})
+export class ProyectoModule {}
