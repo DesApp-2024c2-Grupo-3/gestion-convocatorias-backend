@@ -30,6 +30,9 @@ export function registerUpdateValidators (schema: Schema) {
                 case 'archivo':
                     await validarArchivo(fechaInicio, fechaActual, next);
                     break;
+                case 'proyectos':
+                    await validarProyectos(update[key], fechaFin, next);
+                    break;
             }
         }));
         
@@ -73,3 +76,18 @@ async function validarArchivo(fechaInicio: string, fechaActual: string, next: Ca
         return next(error);
     }
 }
+
+async function validarProyectos(proyectos: any, fechaFin: string, next: CallbackWithoutResultAndOptionalError) {
+    if (new Date().toISOString() > fechaFin) {
+      const error = new MongooseError.ValidationError();
+      error.addError(
+        "proyectos",
+        new MongooseError.ValidatorError({
+          message: "No puedes inscribir proyectos después de la fecha de fin",
+          path: "proyectos",
+          value: proyectos
+        })
+      );
+      return next(error);
+    }
+  }

@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Convocatoria } from './convocatoria.schema';
-import { Model, Error as MongooseError } from 'mongoose';
+import { ClientSession, Model, Error as MongooseError } from 'mongoose';
 import { ObjectId } from 'mongoose';
 import { Types } from 'mongoose';
 import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
@@ -45,18 +45,19 @@ export class ConvocatoriasService {
             tipo: archivo.mimetype,
             contenido: archivo.buffer,
         },
+        proyectos: [],
         baja: false
     });
     return nuevaConvocatoria.save();
   }
 
-  async updateConvocatoria(id: string, convocatoria: UpdateConvocatoriaDTO, archivo?: Express.Multer.File) {
+  async updateConvocatoria(id: string, convocatoria: UpdateConvocatoriaDTO, archivo?: Express.Multer.File, session?: ClientSession) {
 
     if (Types.ObjectId.isValid(id) === false) {
         throw new BadRequestException('El ID de la convocatoria no es válido');
     }
 
-    const convocatoriaActual = await this.convoctariasModel.findById(id);
+    const convocatoriaActual = await this.convoctariasModel.findById(id).session(session).exec();
     
     if (!convocatoriaActual) {
         throw new NotFoundException(
@@ -78,7 +79,7 @@ export class ConvocatoriasService {
         tipo: string;
         contenido: Buffer;
     }} = {
-        ...convocatoria
+        ...convocatoria,
     }
     
     if (archivo) {
@@ -89,8 +90,12 @@ export class ConvocatoriasService {
         }
     }
 
+    if (Array.isArray(convocatoria.proyectos)) {
+        edicionDeConvocatoria.proyectos = [...convocatoriaActual.proyectos, ...convocatoria.proyectos]
+    }
+
     try {
-        await convocatoriaActual.updateOne(edicionDeConvocatoria).exec()
+        await convocatoriaActual.updateOne(edicionDeConvocatoria, session ? { session } : {}).exec()
         return { message: "Convocatoria actualizada exitosamente" }
     } catch (error) {
         if (error.name === 'ValidationError') {

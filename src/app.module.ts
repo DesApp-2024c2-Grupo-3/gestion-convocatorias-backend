@@ -5,6 +5,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { FormatoModule } from './formato/formato.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
+import { ProyectoModule } from './proyecto/proyecto.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
     ConvocatoriasModule,
     UsuariosModule,
     FormatoModule,
-    AutenticacionModule]
+    AutenticacionModule,
+    ProyectoModule]
 }
 
 )
