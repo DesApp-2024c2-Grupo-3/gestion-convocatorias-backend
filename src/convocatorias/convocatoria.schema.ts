@@ -45,7 +45,7 @@ export class Convocatoria {
   fechaFin: Date;
 
   //Si da error intentar solo @Prop(FormatoSchema)
-  @Prop({ type: FormatoSchema, required: true })
+  @Prop(FormatoSchema)
   @ApiProperty({
     description: 'Identificador del formato de la convocatoria', 
     example: '67e5c338e4a7ddc1b25733ff',

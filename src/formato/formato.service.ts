@@ -30,7 +30,6 @@ export class FormatoService {
     }
 
     async createFormato(formato: Formato) {
-        const  createdFormato = new this.formatoModel(formato);
-        return createdFormato.save();
+        return (await new this.formatoModel(formato).save())._id.toString();
     }
 }
