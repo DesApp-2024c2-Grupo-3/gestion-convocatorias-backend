@@ -29,7 +29,7 @@ export class UsuariosController {
     }
 
     @Get()
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
+    @HasRoles(ROLES.SUPER_ADMIN)
     @ApiOperation({ summary: 'Obtener todos los usuarios' })
     @ApiResponse({ status: 200, description: 'Lista de usuarios', type: [Usuario] })
     @ApiResponse({ status: 400, description: 'Error al obtener los usuarios' })
@@ -40,7 +40,7 @@ export class UsuariosController {
     }
 
     @Get(':id')
-    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
+    @HasRoles(ROLES.SUPER_ADMIN)
     @ApiOperation({ summary: 'Obtener un usuario por ID' })
     @ApiParam({ name: 'id', description: 'ID del usuario a obtener' })
     @ApiResponse({ status: 200, description: 'Usuario encontrado', type: Usuario })
