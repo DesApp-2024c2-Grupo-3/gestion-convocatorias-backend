@@ -26,6 +26,7 @@ export class AutenticacionController {
       },
     },
   })
+  
   @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
   login(@Body() loginDto: LoginDTO) {
     const { email, password } = loginDto;

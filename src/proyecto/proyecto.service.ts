@@ -51,7 +51,7 @@ export class ProyectoService {
             throw new BadRequestException('ID de proyecto inválido');
         }
 
-        const proyecto = this.proyectoModel.findById(id).exec();
+        const proyecto = await this.proyectoModel.findById(id).exec();
 
         if (!proyecto) {
             throw new NotFoundException('Proyecto no encontrado');
