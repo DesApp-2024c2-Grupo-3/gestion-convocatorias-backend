@@ -1,7 +1,7 @@
 
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 
 class GastoDTO {
     @ApiProperty({ example: 'Computadora' })
@@ -54,20 +54,9 @@ export class CreateProyectoDTO {
     })
     invitados: string[];
     
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: 'Título del proyecto' })
-    titulo: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: 'Categoría del proyecto' })
-    categoria: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: 'Objetivos del proyecto' })
-    objetivos: string;
+    @IsOptional()
+    @IsObject()
+    camposExtra?: Record<string, string>;
     
 /*
     @IsOptional()

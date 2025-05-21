@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { HydratedDocument } from 'mongoose';
+import { IsObject, IsOptional } from 'class-validator';
+import { HydratedDocument, Mongoose } from 'mongoose';
 
 export type ProyectoDocument = HydratedDocument<Proyecto>;
 
@@ -56,17 +57,12 @@ export class Gasto {
     })
     invitados: string[];
 
-    @Prop({ required: true })
-    @ApiProperty({ description: 'Título del proyecto', example: 'Sistema de gestión' })
-    titulo: string;
-
-    @Prop({ required: true })
-    @ApiProperty({ description: 'Categoría del proyecto', example: 'Ciencia y Tecnología' })
-    categoria: string;
-
-    @Prop({ required: true })
-    @ApiProperty({ description: 'Objetivos del proyecto', example: 'Desarrollar una herramienta de análisis de datos.' })
-    objetivos: string;
+    @Prop({ type: Map, of:String , default: {} })
+    camposExtra: {
+        of: String,
+        required: false,
+        default: {},
+    }
 
     @Prop({ type: PresupuestoSchema, required: true, default: () => ({ gastosCapital: [], gastosCorrientes: [] }) })
     @ApiProperty({
