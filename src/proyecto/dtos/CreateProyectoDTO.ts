@@ -1,5 +1,37 @@
+
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+
+class GastoDTO {
+    @ApiProperty({ example: 'Computadora' })
+    @IsString()
+    @IsNotEmpty()
+    rubro: string;
+
+    @ApiProperty({ example: 'Compra de laptop para investigación' })
+    @IsString()
+    descripcion: string;
+
+    @ApiProperty({ example: 200000 })
+    @Type(() => Number)
+    @IsNumber()
+    coste: number;
+}
+
+class PresupuestoDTO {
+    @ApiProperty({ type: [GastoDTO], example: [{ rubro: 'Computadora', descripcion: 'Compra de laptop', coste: 200000 }] })
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => GastoDTO)
+    gastosCapital: GastoDTO[];
+
+    @ApiProperty({ type: [GastoDTO], example: [{ rubro: 'Servicio de internet', descripcion: 'Pago mensual', coste: 5000 }] })
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => GastoDTO)
+    gastosCorrientes: GastoDTO[];
+}
 
 export class CreateProyectoDTO {
     @IsString()
@@ -21,7 +53,13 @@ export class CreateProyectoDTO {
         required: true,
     })
     invitados: string[];
-
+    
+    @IsOptional()
+    @IsObject()
+    camposExtra?: Record<string, string>;
+    
+/*
+    @IsOptional()
     @IsArray()
     @IsNotEmpty()
     @ApiProperty({
@@ -36,14 +74,22 @@ export class CreateProyectoDTO {
                 dato: 'Descripción del proyecto de prueba'
             }
         ],
-        type: [Object],
+        type: [Object], 
         required: true,
     })
     planDeTrabajo: [{
         nombreDelCampo: string;
         dato: string;
     }];
-
+*/ 
     // A Definir la estructura para guardar el presupuesto
-    presupuesto: any;
+    @IsNotEmpty()
+    @ValidateNested()
+    @Type(() => PresupuestoDTO)
+    @ApiProperty({
+        type: PresupuestoDTO,
+        description: 'Presupuesto detallado del proyecto',
+    })
+    presupuesto: PresupuestoDTO;
+    
 }
