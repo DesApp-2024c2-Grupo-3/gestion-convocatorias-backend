@@ -3,6 +3,7 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
+import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
 import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
 import { ROLES } from 'src/constants/roles';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -75,6 +76,21 @@ export class UsuariosController {
         @Param('email') email: string
     ){
         return this.usuarioService.updateContrasenia(email, updatePasswordDto);
+    }
+
+    @Patch('roles/:email')
+    @HasRoles(ROLES.SUPER_ADMIN)
+    @ApiOperation({ summary: 'Actualizar roles de un usuario por email' })
+    @ApiParam({ name: 'email', description: 'Email del usuario a actualizar' })
+    @ApiResponse({ status: 200, description: 'Rol de usuario actualizado' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiBody({ type: UpdateRolesDTO})
+    async updateRoles(
+        @Body() updateRolesDto: UpdateRolesDTO,
+        @Param('email') email: string
+    ){
+        return this.usuarioService.updateRoles(email, updateRolesDto);
     }
 
 }

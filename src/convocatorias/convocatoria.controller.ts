@@ -117,7 +117,7 @@ export class ConvocatoriasController {
     }
 
     @Delete(':id')
-    @HasRoles(ROLES.SUPER_ADMIN)
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Eliminar una convocatoria por ID' })
     @ApiResponse({ status: 200, description: 'Convocatoria eliminada' })
     @ApiResponse({ status: 400, description: 'ID inválido' })
