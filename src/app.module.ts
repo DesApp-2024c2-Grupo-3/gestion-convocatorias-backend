@@ -1,10 +1,30 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConvocatoriasModule } from './convocatorias/convocatorias.module';
+import { ConvocatoriasModule } from './convocatorias/convocatoria.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { FormatoModule } from './formato/formato.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AutenticacionModule } from './autenticacion/autenticacion.module';
+import { ProyectoModule } from './proyecto/proyecto.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://admin:DesApp@clusterdesapp.1esjv.mongodb.net/BD-GestionConvocatorias?retryWrites=true&w=majority&appName=ClusterDesApp'), ConvocatoriasModule],
-  controllers: [],
-  providers: [],
-})
-export class AppModule {}
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+      }),
+    }),
+    ConvocatoriasModule,
+    UsuariosModule,
+    FormatoModule,
+    AutenticacionModule,
+    ProyectoModule]
+}
+
+)
+export class AppModule { }
