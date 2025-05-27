@@ -91,9 +91,13 @@ export class ConvocatoriasService {
     }
 
     if (Array.isArray(convocatoria.proyectos)) {
-        edicionDeConvocatoria.proyectos = [...convocatoriaActual.proyectos, ...convocatoria.proyectos]
-    }
-
+    edicionDeConvocatoria.proyectos = Array.from(
+      new Set([
+        ...convocatoriaActual.proyectos.map((p: any) => p.toString()),
+        ...convocatoria.proyectos,
+      ])
+    );
+}
     try {
         await convocatoriaActual.updateOne(edicionDeConvocatoria, session ? { session } : {}).exec()
         return { message: "Convocatoria actualizada exitosamente" }
@@ -139,4 +143,22 @@ export class ConvocatoriasService {
 
     return convocatoria.archivo
   }
+
+  async getProyectosDeConvocatoria(idConvocatoria: string) {
+    if (!Types.ObjectId.isValid(idConvocatoria)) {
+        throw new BadRequestException('ID de convocatoria inválido');
+    }
+
+    const convocatoria = await this.convoctariasModel
+        .findById(idConvocatoria)
+        .populate('proyectos') 
+        .exec();
+
+    if (!convocatoria) {
+        throw new NotFoundException('Convocatoria no encontrada');
+    }
+
+    return convocatoria.proyectos;
+  }
+
 }

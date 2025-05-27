@@ -23,10 +23,9 @@ export class ProyectoService {
             const proyecto = await this.proyectoModel.create([nuevoProyecto], { session });
             const proyectoCreado = proyecto[0];
 
-            await this.convocatoriaService.updateConvocatoria(idConvocatoria, 
-                {
-                    proyectos:[proyectoCreado._id.toString()]
-                },
+            await this.convocatoriaService.updateConvocatoria(
+                idConvocatoria,
+                { proyectos: [proyectoCreado._id.toString()] },
                 undefined,
                 session
             );
@@ -59,4 +58,21 @@ export class ProyectoService {
 
         return proyecto;
     }
+
+    async getProyectosByConvocatoria(idConvocatoria: string) {
+    if (!Types.ObjectId.isValid(idConvocatoria)) {
+        throw new BadRequestException('ID de convocatoria inválido');
+    }
+
+    const convocatoria = await this.convocatoriaService.getConvocatoria(idConvocatoria);
+
+    if (!convocatoria) {
+        throw new NotFoundException('Convocatoria no encontrada');
+    }
+
+    return this.proyectoModel.find({
+        _id: { $in: convocatoria.proyectos }
+    }).exec();
+}
+
 }
