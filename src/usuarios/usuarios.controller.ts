@@ -65,7 +65,7 @@ export class UsuariosController {
 
     @Patch(':email')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
-    @ApiOperation({ summary: 'Actualizar contrasenia de un usuario por email' })
+    @ApiOperation({ summary: 'Actualizar contraseña de un usuario por email' })
     @ApiParam({ name: 'email', description: 'Email del usuario a actualizar' })
     @ApiResponse({ status: 200, description: 'Usuario actualizado' })
     @ApiResponse({ status: 401, description: 'No autorizado' })
