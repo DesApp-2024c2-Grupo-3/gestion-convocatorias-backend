@@ -9,6 +9,7 @@ import { access } from 'fs';
 import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
+import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
 
 
 type Tokens = {
@@ -208,4 +209,23 @@ export class UsuariosService {
         throw new InternalServerErrorException('Error al actualizar la contraseña');
     };
   };
+
+  async updateRoles(email:string, nuevosRoles: UpdateRolesDTO){
+    try{
+      const usuario = await this.usuarioModel.findOne({email});
+
+      if (!usuario){
+        throw new NotFoundException("Usuario no encotnrado")
+      }
+
+      usuario.roles = nuevosRoles.roles
+      await usuario.save()
+      return{
+        message: "Roles actualizados correctamente",
+        status: HttpStatus.OK
+      }
+    }catch(error){
+      throw new InternalServerErrorException("Error al actualizar roles")
+    }
+  }
 };
