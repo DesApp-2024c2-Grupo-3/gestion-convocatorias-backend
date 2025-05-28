@@ -143,7 +143,7 @@ export class ConvocatoriasService {
 
     return convocatoria.archivo
   }
-
+/* 
   async getProyectosDeConvocatoria(idConvocatoria: string) {
     if (!Types.ObjectId.isValid(idConvocatoria)) {
         throw new BadRequestException('ID de convocatoria inválido');
@@ -160,5 +160,5 @@ export class ConvocatoriasService {
 
     return convocatoria.proyectos;
   }
-
+*/
 }
