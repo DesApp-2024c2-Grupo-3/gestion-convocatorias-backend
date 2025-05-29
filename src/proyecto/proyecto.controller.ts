@@ -32,7 +32,7 @@
             //console.log('Proyecto recibido:', JSON.stringify(proyecto, null, 2));
             return this.proyectoService.createProyecto(idConvocatoria, proyecto);
         }
-
+        
         @Get()
         @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
         @ApiOperation({ summary: 'Obtener todos los proyectos' })
@@ -54,6 +54,18 @@
         @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
         async getProyecto(@Param('id') id: string) {
             return this.proyectoService.getProyectoById(id);
+        }   
+
+        @Get('/convocatoria/:idConvocatoria')
+        @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+        @ApiOperation({ summary: 'Obtener todos los proyectos de una convocatoria' })
+        @ApiParam({ name: 'idConvocatoria', required: true, description: 'ID de la convocatoria' })
+        @ApiResponse({ status: 200, description: 'Lista de proyectos', type: [Proyecto] })
+        @ApiResponse({ status: 400, description: 'ID de convocatoria inválido' })
+        @ApiResponse({ status: 401, description: 'No autorizado' })
+        @ApiResponse({ status: 404, description: 'Convocatoria no encontrada o sin proyectos' })
+        async getProyectosByConvocatoria(@Param('idConvocatoria') idConvocatoria: string) {
+            return this.proyectoService.getProyectosByConvocatoria(idConvocatoria);
         }
 
     }

@@ -2,6 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { HydratedDocument, Types } from 'mongoose';
 import { Formato, FormatoSchema } from 'src/formato/formato.schema';
+import { Proyecto } from 'src/proyecto/proyecto.schema';
 
 export type ConvocatoriasDocument = HydratedDocument<Convocatoria>;
 
@@ -74,7 +75,7 @@ export class Convocatoria {
   })
   archivo: { nombre: string; tipo: string; contenido: Buffer };
 
-  @Prop()
+  @Prop([{ type: Types.ObjectId, ref: 'Proyecto' }],)
   @ApiProperty({
     description: 'Lista de proyectos inscriptos a la convocatoria', 
     example: ['67e5c338e4a7ddc1b25733ff', '67e5c338e4a7ddc1b25733fg'],
@@ -82,7 +83,7 @@ export class Convocatoria {
     required: false,
     default: []
   })
-  proyectos: string[];
+  proyectos: Proyecto[];
 
   @Prop({default: false, type: Boolean})
   @ApiProperty({

@@ -127,4 +127,15 @@ export class ConvocatoriasController {
     async eliminarConvocatoria(@Param('id') id: string) {
         return this.convocatoriasService.eliminarConvocatoria(id);
     }
+/*
+    @Get(':idConvocatoria/proyectos')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
+    @ApiOperation({ summary: 'Obtener proyectos asociados a una convocatoria' })
+    @ApiParam({ name: 'idConvocatoria', description: 'ID de la convocatoria' })
+    @ApiResponse({ status: 200, description: 'Proyectos encontrados' })
+    async getProyectosDeConvocatoria(@Param('idConvocatoria') idConvocatoria: string) {
+        return this.convocatoriasService.getProyectosDeConvocatoria(idConvocatoria);
+    }
+
+    */
 }
