@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
@@ -9,6 +9,7 @@ import { ROLES } from 'src/constants/roles';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Usuario } from './usuarios.schema';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Usuarios')
 @ApiBearerAuth('access-token')
@@ -93,4 +94,17 @@ export class UsuariosController {
         return this.usuarioService.updateRoles(email, updateRolesDto);
     }
 
+    @Put('cv')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @ApiOperation({ summary: 'Actualizar CV de usuario' })
+    @ApiResponse({ status: 200, description: 'CV de usuario actualizado' })
+    @ApiResponse({ status: 401, description: 'No autorizado' })
+    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @UseInterceptors(FileInterceptor('archivo'))
+    async updateCv(
+        @Body("email") email:string, //body: {email:string , archivo: Express.Multer.File},
+        @UploadedFile() archivo: Express.Multer.File
+    ){
+        return this.usuarioService.updateCv(email, archivo);
+    }
 }
