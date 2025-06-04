@@ -2,14 +2,12 @@ import { BadRequestException, HttpException, HttpStatus, Injectable, InternalSer
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './usuarios.schema';
 import { Model, Types } from 'mongoose';
-import { CreateUserDTO } from './dtos/CreateUserDTO';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
 import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
-import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
 
 
 type Tokens = {
@@ -25,36 +23,6 @@ export class UsuariosService {
     private jwtSvc: JwtService,
     private configService: ConfigService
   ) {}
-
-  async createUser(createUserDTO: CreateUserDTO) {
-    try {
-      const hashedPassword = await bcrypt.hash(createUserDTO.password, 10);
-
-      const nuevoUsuario = new this.usuarioModel({
-        ...createUserDTO,
-        password: hashedPassword,
-        roles: [ROLES.INVESTIGADOR],
-        baja: false
-      });
-
-      const usuario = await nuevoUsuario.save();
-      const { access_token, refresh_token } =
-        await this.generateTokens(usuario);
-
-      return {
-        access_token,
-        refresh_token,
-        usuario: this.sacarContrasenia(usuario),
-        status: HttpStatus.CREATED,
-        message: 'Usuario creado exitosamente',
-      };
-    } catch (error) {
-      throw new HttpException(
-        'Credenciales incorrectas',
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-  }
 
   async loginUser(email: string, password: string) {
     try {
@@ -209,46 +177,4 @@ export class UsuariosService {
         throw new InternalServerErrorException('Error al actualizar la contraseña');
     };
   };
-
-  async updateRoles(email:string, nuevosRoles: UpdateRolesDTO){
-    try{
-      const usuario = await this.usuarioModel.findOne({email});
-
-      if (!usuario){
-        throw new NotFoundException("Usuario no encotnrado")
-      }
-
-      usuario.roles = nuevosRoles.roles
-      await usuario.save()
-      return{
-        message: "Roles actualizados correctamente",
-        status: HttpStatus.OK
-      }
-    }catch(error){
-      throw new InternalServerErrorException("Error al actualizar roles")
-    }
-  }
-
-  async updateCv(email: string, archivo: Express.Multer.File){
-    try{
-        console.log("email es: " + email)
-        const cv = {
-          nombre: archivo.originalname,
-          tipo: archivo.mimetype,
-          contenido: archivo.buffer,
-      }
-      console.log(cv)
-      
-      const usuario = await this.usuarioModel.findOne({email});
-      if(!usuario){
-        throw new NotFoundException('Usuario no encontrado');
-      }
-      usuario.cv = cv
-      await usuario.save();
-    }catch(error){
-        //throw new InternalServerErrorException('Error al actualizar cv');
-        console.log(error)
-    };
-  };
-
 };

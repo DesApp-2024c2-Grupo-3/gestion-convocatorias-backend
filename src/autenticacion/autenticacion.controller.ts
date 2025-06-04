@@ -1,12 +1,23 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
 import { AutenticacionService } from './autenticacion.service';
 import { LoginDTO } from './dtos/LoginDTO';
+import { RegisterDTO } from './dtos/RegisterDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('Autenticación')
 @Controller('auth')
 export class AutenticacionController {
   constructor(private readonly autenticacionService: AutenticacionService) {}
+
+  @Post('register')
+  @ApiOperation({ summary: 'Registrar un nuevo usuario' })
+  @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente' })
+  @ApiResponse({ status: 400, description: 'Error al registrar usuario' })
+  register(@Body() registerDTO: RegisterDTO) {
+    const { nombre, email, password } = registerDTO;
+    return this.autenticacionService.register(nombre, email, password);
+}
+
 
   @Post('login')
   @ApiOperation({ summary: 'Iniciar sesión de usuario' })
