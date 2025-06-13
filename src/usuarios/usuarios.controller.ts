@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
@@ -10,6 +10,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Usuario } from './usuarios.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
 
 @ApiTags('Usuarios')
 @ApiBearerAuth('access-token')
@@ -106,5 +107,31 @@ export class UsuariosController {
         @UploadedFile() archivo: Express.Multer.File
     ){
         return this.usuarioService.updateCv(email, archivo);
+    }
+
+    @Get('cv/download/:id')
+    @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
+    @ApiOperation({ summary: 'Descargar CV de usuario' })
+    @ApiResponse({ status: 200, description: 'CV descargado' })
+    @ApiResponse({ status: 404, description: 'Usuario o CV no encontrado' })
+    async downloadCv(
+        @Param('id') id: string,
+        @Res() res: Response
+    ) {
+        const usuario = await this.usuarioService.obtenerUsuario(id);
+        if (!usuario) {
+            throw new NotFoundException('Usuario no encontrado');
+        }
+
+        if (!usuario.cv || !usuario.cv.contenido) {
+            throw new NotFoundException('El usuario no tiene un CV cargado');
+        }
+
+        res.set({
+            'Content-Type': usuario.cv.tipo,
+            'Content-Disposition': `attachment; filename="${usuario.cv.nombre}"`,
+        });
+
+        return res.send(usuario.cv.contenido);
     }
 }
