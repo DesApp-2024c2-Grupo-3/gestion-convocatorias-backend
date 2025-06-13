@@ -2,7 +2,6 @@ import { BadRequestException, HttpException, HttpStatus, Injectable, InternalSer
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './usuarios.schema';
 import { Model, Types } from 'mongoose';
-import { CreateUserDTO } from './dtos/CreateUserDTO';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
@@ -10,7 +9,6 @@ import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
-
 
 type Tokens = {
   access_token: string,
@@ -223,7 +221,7 @@ export class UsuariosService {
       const usuario = await this.usuarioModel.findOne({ email });
 
       if (!usuario) {
-        throw new NotFoundException("Usuario no encotnrado")
+        throw new NotFoundException("Usuario no encontrado")
       }
 
       usuario.roles = nuevosRoles.roles

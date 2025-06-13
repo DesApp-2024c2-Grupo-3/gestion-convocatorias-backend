@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { CreateUserDTO } from './dtos/CreateUserDTO';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
-import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
 import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
+import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
 import { ROLES } from 'src/constants/roles';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -21,15 +20,6 @@ export class UsuariosController {
     constructor(
         private readonly usuarioService:UsuariosService
     ){}
-
-    @Post()
-    @ApiOperation({ summary: 'Crear un nuevo usuario' })
-    @ApiResponse({ status: 201, description: 'Usuario creado exitosamente' })
-    @ApiResponse({ status: 400, description: 'Error al crear el usuario' })
-    @ApiBody({ type: CreateUserDTO })
-    create(@Body() createUserDTO: CreateUserDTO){
-        return this.usuarioService.createUser(createUserDTO);
-    }
 
     @Get()
     @HasRoles(ROLES.SUPER_ADMIN)
@@ -67,7 +57,7 @@ export class UsuariosController {
 
     @Patch(':email')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
-    @ApiOperation({ summary: 'Actualizar contraseña de un usuario por email' })
+    @ApiOperation({ summary: 'Actualizar contrasenia de un usuario por email' })
     @ApiParam({ name: 'email', description: 'Email del usuario a actualizar' })
     @ApiResponse({ status: 200, description: 'Usuario actualizado' })
     @ApiResponse({ status: 401, description: 'No autorizado' })
