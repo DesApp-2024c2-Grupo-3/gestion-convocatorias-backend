@@ -9,6 +9,7 @@ import { ROLES } from '../constants/roles';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
+import { RegisterDTO } from 'src/autenticacion/dtos/RegisterDTO';
 
 type Tokens = {
   access_token: string,
@@ -24,7 +25,7 @@ export class UsuariosService {
     private configService: ConfigService
   ) { }
 
-  async createUser(createUserDTO: CreateUserDTO) {
+  async createUser(createUserDTO: RegisterDTO) {
     try {
       const hashedPassword = await bcrypt.hash(createUserDTO.password, 10);
 

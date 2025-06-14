@@ -6,6 +6,10 @@ import { FormatoModule } from './formato/formato.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { ProyectoModule } from './proyecto/proyecto.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ErrorLoggerInterceptor } from './common/interceptors/error-logger.interceptor';
+import { ErrorHandlerInterceptor } from './common/interceptors/error-handler.interceptor';
+import { LoggerService } from './common/services/logger.service';
 
 @Module({
   imports: [
@@ -23,7 +27,19 @@ import { ProyectoModule } from './proyecto/proyecto.module';
     UsuariosModule,
     FormatoModule,
     AutenticacionModule,
-    ProyectoModule]
+    ProyectoModule
+  ],
+  providers: [
+    LoggerService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ErrorLoggerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ErrorHandlerInterceptor,
+    }
+  ]
 }
 
 )
