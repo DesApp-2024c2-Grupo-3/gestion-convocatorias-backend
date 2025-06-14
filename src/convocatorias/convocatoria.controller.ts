@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { ROLES } from '../constants/roles';
+import { ROLES } from '../common/constants/roles';
 import { HasRoles } from '../auth/decorators/has-roles.decorator';
 
 import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels, ApiParam, ApiBadRequestResponse } from '@nestjs/swagger';

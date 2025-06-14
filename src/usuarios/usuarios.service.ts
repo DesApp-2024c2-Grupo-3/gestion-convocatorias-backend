@@ -5,7 +5,7 @@ import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
-import { ROLES } from '../constants/roles';
+import { ROLES } from '../common/constants/roles';  
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';

@@ -4,7 +4,7 @@
     import { RolesGuard } from 'src/auth/guards/roles.guard';
     import { ProyectoService } from './proyecto.service';
     import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
-    import { ROLES } from 'src/constants/roles';
+    import { ROLES } from 'src/common/constants/roles';
     import { Proyecto } from './proyecto.schema';
     import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
 

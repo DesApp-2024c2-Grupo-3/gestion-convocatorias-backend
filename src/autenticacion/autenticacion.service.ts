@@ -4,7 +4,7 @@ import { Usuario, UsuarioDocument } from '../usuarios/usuarios.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { ROLES } from 'src/constants/roles';
+import { ROLES } from 'src/common/constants/roles';
 import { TokenService } from 'src/auth/services/token.service';
 
 @Injectable()

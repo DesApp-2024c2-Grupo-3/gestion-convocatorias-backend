@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ROLES } from '../constants/roles.js';
+import { ROLES } from '../common/constants/roles';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 export type UsuarioDocument = HydratedDocument<Usuario>;
 
