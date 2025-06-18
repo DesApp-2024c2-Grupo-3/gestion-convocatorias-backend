@@ -8,6 +8,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from '../common/constants/roles';
 import { HasRoles } from '../auth/decorators/has-roles.decorator';
+import { createReadStream } from 'fs';
 
 import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels, ApiParam, ApiBadRequestResponse } from '@nestjs/swagger';
 import { CreateConvocatoriaConPdfDTO, UpdateConvocatoriaConPdfDTO } from './dtos/SwaggerDTOs';
