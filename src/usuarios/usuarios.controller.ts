@@ -10,6 +10,7 @@ import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Usuario } from './usuarios.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
 
 @ApiTags('Usuarios')
 @ApiBearerAuth('access-token')
@@ -24,10 +25,9 @@ export class UsuariosController {
     @Get()
     @HasRoles(ROLES.SUPER_ADMIN)
     @ApiOperation({ summary: 'Obtener todos los usuarios' })
-    @ApiResponse({ status: 200, description: 'Lista de usuarios', type: [Usuario] })
-    @ApiResponse({ status: 400, description: 'Error al obtener los usuarios' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 403, description: 'No tiene permisos para acceder a los usuarios' })
+    @ApiSuccessResponse([Usuario], "Usuarios encontrados")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     obtenerUsuarios(){
         return this.usuarioService.obtenerUsuarios()
     }
@@ -36,10 +36,9 @@ export class UsuariosController {
     @HasRoles(ROLES.SUPER_ADMIN)
     @ApiOperation({ summary: 'Obtener un usuario por ID' })
     @ApiParam({ name: 'id', description: 'ID del usuario a obtener' })
-    @ApiResponse({ status: 200, description: 'Usuario encontrado', type: Usuario })
-    @ApiResponse({ status: 400, description: 'ID inválido' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 403, description: 'No tiene permisos para acceder a los usuarios' })
+    @ApiSuccessResponse(Usuario, "Usuario encontrado")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     obtenerUsuario(@Param('id') id:string){
         return this.usuarioService.obtenerUsuario(id)
     }
@@ -48,9 +47,9 @@ export class UsuariosController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Da de baja un usuario por email' })
     @ApiParam({ name: 'email', description: 'Email del usuario a dar de baja' })
-    @ApiResponse({ status: 200, description: 'Usuario dado de baja' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiSuccessResponse(Usuario, "Proyectos encontrados")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     async eliminarUsuario(@Param('email') email:string){
         return this.usuarioService.eliminarUsuario(email) 
     }
@@ -59,9 +58,9 @@ export class UsuariosController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Actualizar contrasenia de un usuario por email' })
     @ApiParam({ name: 'email', description: 'Email del usuario a actualizar' })
-    @ApiResponse({ status: 200, description: 'Usuario actualizado' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiSuccessResponse(Usuario, "Contraseña actualizada correctamente")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     @ApiBody({ type: UpdatePasswordDTO})
     async updateContrasenia(
         @Body() updatePasswordDto: UpdatePasswordDTO,
@@ -74,9 +73,9 @@ export class UsuariosController {
     @HasRoles(ROLES.SUPER_ADMIN)
     @ApiOperation({ summary: 'Actualizar roles de un usuario por email' })
     @ApiParam({ name: 'email', description: 'Email del usuario a actualizar' })
-    @ApiResponse({ status: 200, description: 'Rol de usuario actualizado' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiSuccessResponse(Usuario, "Roles actualizados correctamente")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     @ApiBody({ type: UpdateRolesDTO})
     async updateRoles(
         @Body() updateRolesDto: UpdateRolesDTO,
@@ -88,9 +87,9 @@ export class UsuariosController {
     @Put('cv')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Actualizar CV de usuario' })
-    @ApiResponse({ status: 200, description: 'CV de usuario actualizado' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiSuccessResponse(Usuario, "CV actualizado correctamente")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     @UseInterceptors(FileInterceptor('archivo'))
     async updateCv(
         @Body("email") email:string, //body: {email:string , archivo: Express.Multer.File},
@@ -102,8 +101,9 @@ export class UsuariosController {
     @Get('cv/download/:id')
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Descargar CV de usuario' })
-    @ApiResponse({ status: 200, description: 'CV descargado' })
-    @ApiResponse({ status: 404, description: 'Usuario o CV no encontrado' })
+    @ApiSuccessResponse([Usuario], "CV descargado correctamente")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     async downloadCv(
         @Param('id') id: string,
         @Res() res: Response

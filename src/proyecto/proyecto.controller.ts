@@ -7,6 +7,7 @@
     import { ROLES } from '@/common/constants/roles';
     import { Proyecto } from './proyecto.schema';
     import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
+    import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
 
     @ApiTags('Proyecto')
     @ApiBearerAuth('access-token')
@@ -20,11 +21,9 @@
         @ApiOperation({ summary: 'Crear un nuevo proyecto' })
         @ApiParam({ name: 'idConvocatoria', required: true, description: 'ID de la convocatoria asociada al proyecto' })
         @ApiBody({ type: CreateProyectoDTO })
-        @ApiResponse({ status: 201, description: 'Proyecto creado exitosamente', type: Proyecto })
-        @ApiBadRequestResponse({ description: 'ID de convocatoria inválido o datos del proyecto inválidos' })
-        @ApiBadRequestResponse({ description: 'Error de validacion' })
-        @ApiResponse({ status: 401, description: 'No autorizado' })
-        @ApiResponse({ status: 404, description: 'Convocatoria no encontrada' })
+        @ApiCreatedResponse(Proyecto, "Postulación creada correctamente")
+        @ApiCommonResponses()
+        @ApiNotFoundResponse()
         async createProyecto(
             @Param('idConvocatoria') idConvocatoria: string,
             @Body(new ValidationPipe({ transform: true })) proyecto: CreateProyectoDTO,
@@ -36,9 +35,9 @@
         @Get()
         @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
         @ApiOperation({ summary: 'Obtener todos los proyectos' })
-        @ApiResponse({ status: 200, description: 'Lista de proyectos', type: [Proyecto] })
-        @ApiResponse({ status: 401, description: 'No autorizado' })
-        @ApiResponse({ status: 404, description: 'Proyectos no encontrados' })
+        @ApiSuccessResponse([Proyecto], "Proyectos encontrados")
+        @ApiCommonResponses()
+        @ApiNotFoundResponse()
         async getProyectos() {
             console.log(' GET /proyecto recibido');
             return this.proyectoService.getAllProyectos();
@@ -48,10 +47,9 @@
         @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
         @ApiOperation({ summary: 'Obtener un proyecto por ID' })
         @ApiParam({ name: 'id', description: 'ID del proyecto' })
-        @ApiResponse({ status: 200, description: 'Proyecto encontrado', type: Proyecto })
-        @ApiResponse({ status: 400, description: 'ID inválido' })
-        @ApiResponse({ status: 401, description: 'No autorizado' })
-        @ApiResponse({ status: 404, description: 'Proyecto no encontrado' })
+        @ApiSuccessResponse([Proyecto], "Proyecto encontrado")
+        @ApiCommonResponses()
+        @ApiNotFoundResponse()
         async getProyecto(@Param('id') id: string) {
             return this.proyectoService.getProyectoById(id);
         }   
@@ -60,10 +58,9 @@
         @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
         @ApiOperation({ summary: 'Obtener todos los proyectos de una convocatoria' })
         @ApiParam({ name: 'idConvocatoria', required: true, description: 'ID de la convocatoria' })
-        @ApiResponse({ status: 200, description: 'Lista de proyectos', type: [Proyecto] })
-        @ApiResponse({ status: 400, description: 'ID de convocatoria inválido' })
-        @ApiResponse({ status: 401, description: 'No autorizado' })
-        @ApiResponse({ status: 404, description: 'Convocatoria no encontrada o sin proyectos' })
+        @ApiSuccessResponse([Proyecto], "Proyectos encontrados")
+        @ApiCommonResponses()
+        @ApiNotFoundResponse()
         async getProyectosByConvocatoria(@Param('idConvocatoria') idConvocatoria: string) {
             return this.proyectoService.getProyectosByConvocatoria(idConvocatoria);
         }

@@ -3,6 +3,7 @@ import { AutenticacionService } from './autenticacion.service';
 import { LoginDTO } from './dtos/LoginDTO';
 import { RegisterDTO } from './dtos/RegisterDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
 
 @ApiTags('Autenticación')
 @Controller('auth')
@@ -11,8 +12,8 @@ export class AutenticacionController {
 
   @Post('register')
   @ApiOperation({ summary: 'Registrar un nuevo usuario' })
-  @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente' })
-  @ApiResponse({ status: 400, description: 'Error al registrar usuario' })
+  @ApiCreatedResponse(RegisterDTO, "Formatos encontrados")
+  @ApiCommonResponses()
   register(@Body() registerDTO: RegisterDTO) {
     const { nombre, email, password } = registerDTO;
     return this.autenticacionService.register(nombre, email, password);
@@ -38,7 +39,8 @@ export class AutenticacionController {
     },
   })
   
-  @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
+  @ApiCommonResponses()
+  @ApiNotFoundResponse()
   login(@Body() loginDto: LoginDTO) {
     const { email, password } = loginDto;
     return this.autenticacionService.login(email, password);
