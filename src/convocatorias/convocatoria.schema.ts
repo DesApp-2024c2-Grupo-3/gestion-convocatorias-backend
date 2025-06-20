@@ -1,8 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { HydratedDocument, Types } from 'mongoose';
-import { Formato, FormatoSchema } from 'src/formato/formato.schema';
-import { Proyecto } from 'src/proyecto/proyecto.schema';
+import { Formato, FormatoSchema } from '@/formato/formato.schema';
+import { Proyecto } from '@/proyecto/proyecto.schema';
 
 export type ConvocatoriasDocument = HydratedDocument<Convocatoria>;
 

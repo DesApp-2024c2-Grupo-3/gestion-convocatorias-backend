@@ -1,4 +1,3 @@
-// src/autenticacion/dtos/RegisterDTO.ts
 import { Transform } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";

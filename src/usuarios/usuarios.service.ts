@@ -9,7 +9,7 @@ import { ROLES } from '../common/constants/roles';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
 import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
-import { RegisterDTO } from 'src/autenticacion/dtos/RegisterDTO';
+import { RegisterDTO } from '@/autenticacion/dtos/RegisterDTO';
 
 type Tokens = {
   access_token: string,

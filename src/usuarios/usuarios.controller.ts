@@ -2,11 +2,11 @@ import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, P
 import { UsuariosService } from './usuarios.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
-import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
+import { HasRoles } from '@/auth/decorators/has-roles.decorator';
 import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
-import { ROLES } from 'src/common/constants/roles';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ROLES } from '@/common/constants/roles';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Usuario } from './usuarios.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';

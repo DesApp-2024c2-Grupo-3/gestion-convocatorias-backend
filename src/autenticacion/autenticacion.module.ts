@@ -5,7 +5,7 @@ import { AutenticacionService } from './autenticacion.service';
 import { Usuario, UsuarioSchema } from '../usuarios/usuarios.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { TokenModule } from 'src/auth/token.module';
+import { TokenModule } from '@/auth/token.module';
 
 @Module({
   imports: [

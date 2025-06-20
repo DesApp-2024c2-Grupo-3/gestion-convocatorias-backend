@@ -1,10 +1,10 @@
     import { Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
     import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-    import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-    import { RolesGuard } from 'src/auth/guards/roles.guard';
+    import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+    import { RolesGuard } from '@/auth/guards/roles.guard';
     import { ProyectoService } from './proyecto.service';
-    import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
-    import { ROLES } from 'src/common/constants/roles';
+    import { HasRoles } from '@/auth/decorators/has-roles.decorator';
+    import { ROLES } from '@/common/constants/roles';
     import { Proyecto } from './proyecto.schema';
     import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
 

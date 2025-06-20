@@ -6,7 +6,7 @@ import { ObjectId } from 'mongoose';
 import { Types } from 'mongoose';
 import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
 import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
-import { FormatoService } from 'src/formato/formato.service';
+import { FormatoService } from '@/formato/formato.service';
 import { ErrorMessages } from '../common/constants/error-message';
 import { HttpStatus } from '@nestjs/common';
 

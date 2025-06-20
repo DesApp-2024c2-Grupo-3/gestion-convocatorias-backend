@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model, Types } from 'mongoose';
 import { Proyecto } from './proyecto.schema';
-import { ConvocatoriasService } from 'src/convocatorias/convocatoria.service';
+import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
 import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
 
 @Injectable()

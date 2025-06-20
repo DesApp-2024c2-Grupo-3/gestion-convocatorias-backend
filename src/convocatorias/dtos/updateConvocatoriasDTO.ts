@@ -1,7 +1,7 @@
 import { ApiProperty, ApiSchema, PartialType } from "@nestjs/swagger";
 import { IsOptional, IsArray, IsString, IsNotEmpty } from "class-validator";
 import { CreateConvocatoriaDto } from "./CreateConvocatoriaDTO";
-import { Proyecto } from "src/proyecto/proyecto.schema";
+import { Proyecto } from "@/proyecto/proyecto.schema";
 
 @ApiSchema({ description: 'DTO para actualizar una convocatoria' })
 export class UpdateConvocatoriaDTO extends PartialType(CreateConvocatoriaDto) {

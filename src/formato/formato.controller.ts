@@ -2,10 +2,10 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { FormatoService } from './formato.service';
 import { Formato } from './formato.schema';
 import { CreateFormatoDto } from './dtos/CreateFormatoDTO';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
-import { ROLES } from 'src/common/constants/roles';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
+import { HasRoles } from '@/auth/decorators/has-roles.decorator';
+import { ROLES } from '@/common/constants/roles';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Formato')
