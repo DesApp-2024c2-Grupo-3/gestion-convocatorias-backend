@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Formato } from './formato.schema';
+import { Formato } from '@/formato/formato.schema';
 
 @Injectable()
 export class FormatoService {

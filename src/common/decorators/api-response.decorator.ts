@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
-import { ErrorMessages } from '../constants/error-message';
+import { ErrorMessages } from '@/common/constants/error-message';
 
 
 export const ApiSuccessResponse = (type: any, description: string) => {

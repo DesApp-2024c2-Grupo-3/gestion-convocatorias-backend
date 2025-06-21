@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model, Types } from 'mongoose';
-import { Proyecto } from './proyecto.schema';
+import { Proyecto } from '@/proyecto/proyecto.schema';
 import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
-import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
+import { CreateProyectoDTO } from '@/proyecto/dtos/CreateProyectoDTO';
 
 @Injectable()
 export class ProyectoService {

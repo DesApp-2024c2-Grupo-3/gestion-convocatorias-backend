@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConvocatoriasController } from './convocatoria.controller';
+import { ConvocatoriasController } from '@/convocatorias/convocatoria.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Convocatoria, ConvocatoriaSchema } from './convocatoria.schema';
-import { ConvocatoriasService } from './convocatoria.service';
+import { Convocatoria, ConvocatoriaSchema } from '@/convocatorias/convocatoria.schema';
+import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { registerUpdateValidators } from './middlewares/update.middleware';
+import { registerUpdateValidators } from '@/convocatorias/middlewares/update.middleware';
 import { FormatoModule } from '@/formato/formato.module';
 
 @Module({

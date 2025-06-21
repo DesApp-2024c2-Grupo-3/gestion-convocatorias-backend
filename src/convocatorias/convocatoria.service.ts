@@ -1,13 +1,13 @@
 import { BadRequestException, ConflictException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Convocatoria } from './convocatoria.schema';
+import { Convocatoria } from '@/convocatorias/convocatoria.schema';
 import { ClientSession, Model, Error as MongooseError } from 'mongoose';
 import { ObjectId } from 'mongoose';
 import { Types } from 'mongoose';
-import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
-import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
+import { UpdateConvocatoriaDTO } from '@/convocatorias/dtos/UpdateConvocatoriasDTO';
+import { CreateConvocatoriaDto } from '@/convocatorias/dtos/CreateConvocatoriaDTO';
 import { FormatoService } from '@/formato/formato.service';
-import { ErrorMessages } from '../common/constants/error-message';
+import { ErrorMessages } from '@/common/constants/error-message';
 import { HttpStatus } from '@nestjs/common';
 
 @Injectable()

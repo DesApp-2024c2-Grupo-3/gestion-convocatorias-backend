@@ -1,6 +1,6 @@
 import { ApiProperty, ApiSchema, PartialType } from "@nestjs/swagger";
 import { IsOptional, IsArray, IsString, IsNotEmpty } from "class-validator";
-import { CreateConvocatoriaDto } from "./CreateConvocatoriaDTO";
+import { CreateConvocatoriaDto } from "@/convocatorias/dtos/CreateConvocatoriaDTO";
 import { Proyecto } from "@/proyecto/proyecto.schema";
 
 @ApiSchema({ description: 'DTO para actualizar una convocatoria' })

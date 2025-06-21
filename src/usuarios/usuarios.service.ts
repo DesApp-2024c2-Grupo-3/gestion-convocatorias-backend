@@ -1,14 +1,13 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Usuario, UsuarioDocument } from './usuarios.schema';
+import { Usuario, UsuarioDocument } from '@/usuarios/usuarios.schema';
 import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { access } from 'fs';
-import { ROLES } from '../common/constants/roles';  
+import { ROLES } from '@/common/constants/roles';  
 import { ConfigService } from '@nestjs/config';
-import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
-import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
+import { UpdatePasswordDTO } from '@/usuarios/dtos/UpdatePasswordDTO';
+import { UpdateRolesDTO } from '@/usuarios/dtos/UpdateRolesDTO';
 import { RegisterDTO } from '@/autenticacion/dtos/RegisterDTO';
 
 type Tokens = {

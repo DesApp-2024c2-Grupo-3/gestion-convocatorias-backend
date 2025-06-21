@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { UsuarioDocument } from '../../usuarios/usuarios.schema';
+import { UsuarioDocument } from '@/usuarios/usuarios.schema';
 
 export type Tokens = {
     access_token: string,
