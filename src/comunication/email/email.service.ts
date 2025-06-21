@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import * as Mailjet from 'node-mailjet';
 import { SendEmailDTO } from '@/comunication/email/dtos/send-email.DTO';
 import { TemplateService } from '@/comunication/email/template.service';
+import { LoggerService } from '@/common/services/logger.service';
 
 @Injectable()
 export class EmailService {
@@ -11,6 +12,7 @@ export class EmailService {
   constructor(
     private readonly configService: ConfigService,
     private readonly templateService: TemplateService,
+    private readonly logger: LoggerService,
   ) {
     const apiKey = this.configService.get<string>('MAILJET_API_KEY');
     const apiSecret = this.configService.get<string>('MAILJET_SECRET_KEY');
@@ -48,7 +50,11 @@ export class EmailService {
         message: 'Correo enviado correctamente',
       };
     } catch (error) {
-      throw new InternalServerErrorException('Error al enviar el correo', error.message);
+      this.logger.error('Error al enviar el correo', error.message,);
+      return {
+        status: false,
+        message: 'Error al enviar el correo',
+      };
     }
   }
 }
