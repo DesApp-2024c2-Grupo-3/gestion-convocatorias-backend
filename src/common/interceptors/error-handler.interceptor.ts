@@ -2,7 +2,7 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler, HttpExcepti
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MongooseError } from 'mongoose';
-import { ErrorMessages } from '../constants/error-message';
+import { ErrorMessages } from '@/common/constants/error-message';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements NestInterceptor {

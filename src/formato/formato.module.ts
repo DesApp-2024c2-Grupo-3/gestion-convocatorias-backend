@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { FormatoController } from './formato.controller';
-import { FormatoService } from './formato.service';
-import { Formato, FormatoSchema } from './formato.schema';
+import { FormatoController } from '@/formato/formato.controller';
+import { FormatoService } from '@/formato/formato.service';
+import { Formato, FormatoSchema } from '@/formato/formato.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';

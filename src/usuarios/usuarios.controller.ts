@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { UsuariosService } from './usuarios.service';
+import { UsuariosService } from '@/usuarios/usuarios.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
-import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
+import { UpdatePasswordDTO } from '@/usuarios/dtos/UpdatePasswordDTO';
 import { HasRoles } from '@/auth/decorators/has-roles.decorator';
-import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
+import { UpdateRolesDTO } from '@/usuarios/dtos/UpdateRolesDTO';
 import { ROLES } from '@/common/constants/roles';
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
-import { Usuario } from './usuarios.schema';
+import { Usuario } from '@/usuarios/usuarios.schema';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
 @ApiTags('Usuarios')
 @ApiBearerAuth('access-token')

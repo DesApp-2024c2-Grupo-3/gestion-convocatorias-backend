@@ -1,5 +1,5 @@
 import mongoose, { CallbackWithoutResultAndOptionalError, Model, Error as MongooseError, Schema, UpdateQuery } from "mongoose";
-import { UpdateConvocatoriaDTO } from "../dtos/UpdateConvocatoriasDTO";
+import { UpdateConvocatoriaDTO } from "@/convocatorias/dtos/UpdateConvocatoriasDTO";
 
 export function registerUpdateValidators (schema: Schema) {
     schema.pre('updateOne', async function(next) {

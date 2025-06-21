@@ -1,5 +1,5 @@
 import { ApiProperty, ApiSchema, PartialType, PickType } from "@nestjs/swagger";
-import { CreateConvocatoriaDto } from "./CreateConvocatoriaDTO";
+import { CreateConvocatoriaDto } from "@/convocatorias/dtos/CreateConvocatoriaDTO";
 
 @ApiSchema({ description: 'DTO utilizado exclusivamente para la documentación en Swagger. ' +
     'Permite representar correctamente un formulario multipart/form-data que incluye ' +

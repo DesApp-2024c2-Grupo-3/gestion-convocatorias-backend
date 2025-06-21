@@ -1,18 +1,18 @@
 import { Controller, Post, Body, Get, Param, Put, ValidationPipe, Delete, UseInterceptors, UploadedFile, Patch, UseGuards, Res, StreamableFile, Header, NotFoundException } from '@nestjs/common';
-import { ConvocatoriasService } from './convocatoria.service';
-import { Convocatoria } from './convocatoria.schema';
-import { UpdateConvocatoriaDTO } from './dtos/UpdateConvocatoriasDTO';
+import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
+import { Convocatoria } from '@/convocatorias/convocatoria.schema';
+import { UpdateConvocatoriaDTO } from '@/convocatorias/dtos/UpdateConvocatoriasDTO';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateConvocatoriaDto } from './dtos/CreateConvocatoriaDTO';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { ROLES } from '../common/constants/roles';
-import { HasRoles } from '../auth/decorators/has-roles.decorator';
+import { CreateConvocatoriaDto } from '@/convocatorias/dtos/CreateConvocatoriaDTO';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
+import { ROLES } from '@/common/constants/roles';
+import { HasRoles } from '@/auth/decorators/has-roles.decorator';
 import { createReadStream } from 'fs';
 
 import { ApiOperation, ApiTags, ApiBody, ApiResponse, ApiBearerAuth, ApiConsumes, ApiExtraModels, ApiParam, ApiBadRequestResponse } from '@nestjs/swagger';
-import { CreateConvocatoriaConPdfDTO, UpdateConvocatoriaConPdfDTO } from './dtos/SwaggerDTOs';
-import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
+import { CreateConvocatoriaConPdfDTO, UpdateConvocatoriaConPdfDTO } from '@/convocatorias/dtos/SwaggerDTOs';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
 
 @ApiTags('Convocatorias')

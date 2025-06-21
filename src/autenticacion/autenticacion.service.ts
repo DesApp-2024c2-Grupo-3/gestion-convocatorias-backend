@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Usuario, UsuarioDocument } from '../usuarios/usuarios.schema';
+import { Usuario, UsuarioDocument } from '@/usuarios/usuarios.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';

@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { FormatoService } from './formato.service';
-import { Formato } from './formato.schema';
-import { CreateFormatoDto } from './dtos/CreateFormatoDTO';
+import { FormatoService } from '@/formato/formato.service';
+import { Formato } from '@/formato/formato.schema';
+import { CreateFormatoDto } from '@/formato/dtos/CreateFormatoDTO';
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/guards/roles.guard';
 import { HasRoles } from '@/auth/decorators/has-roles.decorator';
 import { ROLES } from '@/common/constants/roles';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
 @ApiTags('Formato')
 @ApiBearerAuth('access-token')

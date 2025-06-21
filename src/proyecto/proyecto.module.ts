@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ProyectoController } from './proyecto.controller';
-import { ProyectoService } from './proyecto.service';
+import { ProyectoController } from '@/proyecto/proyecto.controller';
+import { ProyectoService } from '@/proyecto/proyecto.service';
 import { Mongoose } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Proyecto, ProyectoSchema } from './proyecto.schema';
+import { Proyecto, ProyectoSchema } from '@/proyecto/proyecto.schema';
 import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
 import { ConvocatoriasModule } from '@/convocatorias/convocatoria.module';
 

@@ -2,12 +2,12 @@
     import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
     import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
     import { RolesGuard } from '@/auth/guards/roles.guard';
-    import { ProyectoService } from './proyecto.service';
+    import { ProyectoService } from '@/proyecto/proyecto.service';
     import { HasRoles } from '@/auth/decorators/has-roles.decorator';
     import { ROLES } from '@/common/constants/roles';
-    import { Proyecto } from './proyecto.schema';
-    import { CreateProyectoDTO } from './dtos/CreateProyectoDTO';
-    import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
+    import { Proyecto } from '@/proyecto/proyecto.schema';
+    import { CreateProyectoDTO } from '@/proyecto/dtos/CreateProyectoDTO';
+    import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
     @ApiTags('Proyecto')
     @ApiBearerAuth('access-token')

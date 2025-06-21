@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { AutenticacionService } from './autenticacion.service';
-import { LoginDTO } from './dtos/LoginDTO';
-import { RegisterDTO } from './dtos/RegisterDTO';
+import { AutenticacionService } from '@/autenticacion/autenticacion.service';
+import { LoginDTO } from '@/autenticacion/dtos/LoginDTO';
+import { RegisterDTO } from '@/autenticacion/dtos/RegisterDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
 @ApiTags('Autenticación')
 @Controller('auth')
