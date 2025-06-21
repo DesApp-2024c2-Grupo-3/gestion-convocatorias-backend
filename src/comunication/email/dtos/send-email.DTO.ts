@@ -30,8 +30,9 @@ export class SendEmailDTO {
     example: 'Juan Pérez',
     required: true
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
+  @IsOptional()
   @IsString({ message: ValidationMessages.STRING.INVALID })
-  @IsNotEmpty({ message: ValidationMessages.REQUIRED })
   toName: string;
 
   @ApiPropertyOptional({ 
@@ -40,7 +41,8 @@ export class SendEmailDTO {
     required: false
   })
   @ValidateIf(o => !o.type)
-  @IsNotEmpty({ message: ValidationMessages.REQUIRED })
+  @Transform(({ value }) => (value === '' ? undefined : value))
+  @IsOptional()
   @IsString({ message: ValidationMessages.STRING.INVALID })
   subject?: string;
 
@@ -58,6 +60,7 @@ export class SendEmailDTO {
     example: { userEmail: 'destinatario.prueba@ejemplo.com', name: 'Juan Pérez' },
     required: false
   })
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsOptional()
   @IsObject({ message: ValidationMessages.OBJECT.INVALID })
   variables?: Record<string, any>;

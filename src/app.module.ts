@@ -11,7 +11,7 @@ import { ErrorLoggerInterceptor } from '@/common/interceptors/error-logger.inter
 import { ErrorHandlerInterceptor } from '@/common/interceptors/error-handler.interceptor';
 import { LoggerService } from '@/common/services/logger.service';
 import { ComunicacionModule } from '@/comunication/comunication.module';
-
+import { CommonModule } from '@/common/common.module';
 
 @Module({
   imports: [
@@ -30,7 +30,8 @@ import { ComunicacionModule } from '@/comunication/comunication.module';
     FormatoModule,
     AutenticacionModule,
     ProyectoModule,
-    ComunicacionModule 
+    ComunicacionModule,
+    CommonModule
   ],
   providers: [
     LoggerService,
