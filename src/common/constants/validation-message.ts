@@ -41,4 +41,8 @@ export const ValidationMessages = {
         INVALID_RANGE: 'La fecha de inicio debe ser anterior a la fecha de fin',
         REQUIRED: 'La fecha es obligatoria'
     },
+
+    OBJECT: {
+        INVALID: 'El objeto no es válido',
+    },
 };

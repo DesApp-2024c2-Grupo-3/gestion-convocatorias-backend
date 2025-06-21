@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConvocatoriasModule } from './convocatorias/convocatoria.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { FormatoModule } from './formato/formato.module';
+import { ConvocatoriasModule } from '@/convocatorias/convocatoria.module';
+import { UsuariosModule } from '@/usuarios/usuarios.module';
+import { FormatoModule } from '@/formato/formato.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AutenticacionModule } from './autenticacion/autenticacion.module';
-import { ProyectoModule } from './proyecto/proyecto.module';
+import { AutenticacionModule } from '@/autenticacion/autenticacion.module';
+import { ProyectoModule } from '@/proyecto/proyecto.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ErrorLoggerInterceptor } from './common/interceptors/error-logger.interceptor';
-import { ErrorHandlerInterceptor } from './common/interceptors/error-handler.interceptor';
-import { LoggerService } from './common/services/logger.service';
+import { ErrorLoggerInterceptor } from '@/common/interceptors/error-logger.interceptor';
+import { ErrorHandlerInterceptor } from '@/common/interceptors/error-handler.interceptor';
+import { LoggerService } from '@/common/services/logger.service';
+import { ComunicacionModule } from '@/comunication/comunication.module';
+
 
 @Module({
   imports: [
@@ -27,7 +29,8 @@ import { LoggerService } from './common/services/logger.service';
     UsuariosModule,
     FormatoModule,
     AutenticacionModule,
-    ProyectoModule
+    ProyectoModule,
+    ComunicacionModule 
   ],
   providers: [
     LoggerService,

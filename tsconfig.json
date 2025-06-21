@@ -15,6 +15,7 @@
       "@/autenticacion/*": ["src/autenticacion/*"],
       "@/auth/*": ["src/auth/*"],
       "@/common/*": ["src/common/*"],
+      "@/comunicacion/*": ["src/comunicacion/*"],
       "@/convocatorias/*": ["src/convocatorias/*"],
       "@/formato/*": ["src/formato/*"],
       "@/proyecto/*": ["src/proyecto/*"],
