@@ -4,14 +4,44 @@ import { Usuario, UsuarioDocument } from '../usuarios/usuarios.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { ROLES } from '@/common/constants/roles';
+import { TokenService } from '@/auth/services/token.service';
 
 @Injectable()
 export class AutenticacionService {
   constructor(
     @InjectModel(Usuario.name)
     private readonly usuarioModel: Model<UsuarioDocument>,
+    private readonly tokenService: TokenService,
     private readonly jwtService: JwtService,
   ) {}
+
+
+  async register(nombre: string, email: string, password: string) {
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const nuevoUsuario = new this.usuarioModel({
+        nombre,
+        email,
+        password: hashedPassword,
+        roles: [ROLES.INVESTIGADOR],
+        baja: false
+      });
+
+      const usuario = await nuevoUsuario.save();
+      const { access_token, refresh_token } = await this.tokenService.generateTokens(usuario);
+
+      return {
+        access_token,
+        refresh_token,
+        usuario: this.sacarContrasenia(usuario),
+        message: 'Usuario registrado exitosamente',
+      };
+    } catch (error) {
+      throw new BadRequestException('Error al registrar usuario');
+    }
+  }
 
   async login(email: string, password: string) {
     const usuario = await this.usuarioModel.findOne({ email });

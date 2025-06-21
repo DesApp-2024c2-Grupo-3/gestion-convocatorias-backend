@@ -2,11 +2,12 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { FormatoService } from './formato.service';
 import { Formato } from './formato.schema';
 import { CreateFormatoDto } from './dtos/CreateFormatoDTO';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
-import { ROLES } from 'src/constants/roles';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/guards/roles.guard';
+import { HasRoles } from '@/auth/decorators/has-roles.decorator';
+import { ROLES } from '@/common/constants/roles';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '../common/decorators/api-response.decorator';
 
 @ApiTags('Formato')
 @ApiBearerAuth('access-token')
@@ -18,10 +19,9 @@ export class FormatoController {
     @Get()
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @ApiOperation({ summary: 'Obtener todos los formatos' })
-    @ApiResponse({ status: 200, description: 'Lista de formatos', type: [Formato] })
-    @ApiResponse({ status: 400, description: 'Error al obtener los formatos' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 403, description: 'No tiene permisos para acceder a los formatos' })
+    @ApiSuccessResponse([Formato], "Formatos encontrados")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     async get(): Promise<Formato[]> {
         return this.formatoService.getAllFormatos();
     }
@@ -30,11 +30,9 @@ export class FormatoController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INVESTIGADOR)
     @ApiOperation({ summary: 'Obtener un formato por ID' })
     @ApiParam({ name: 'id', description: 'ID del formato a obtener' })
-    @ApiResponse({ status: 200, description: 'Formato encontrado', type: Formato })
-    @ApiResponse({ status: 400, description: 'ID inválido' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 403, description: 'No tiene permisos para acceder a los formatos' })
-    @ApiResponse({ status: 404, description: 'Formato no encontrado' })
+    @ApiSuccessResponse(Formato, "Formato encontrado")
+    @ApiCommonResponses()
+    @ApiNotFoundResponse()
     async getFormatoById(@Param('id') id: string): Promise<Formato> {
         return this.formatoService.getFormatoById(id);
     }
@@ -43,10 +41,8 @@ export class FormatoController {
     @HasRoles(ROLES.SUPER_ADMIN, ROLES.ADMIN)
     @ApiOperation({ summary: 'Crear un nuevo formato' })
     @ApiBody({ type: CreateFormatoDto })
-    @ApiResponse({ status: 201, description: 'Formato creado exitosamente' })
-    @ApiResponse({ status: 400, description: 'Error al crear el formato' })
-    @ApiResponse({ status: 401, description: 'No autorizado' })
-    @ApiResponse({ status: 403, description: 'No tiene permisos para crear formatos' })
+    @ApiCreatedResponse(Formato, "Formato creado correctamente")
+    @ApiCommonResponses()
     async create (@Body() formato: CreateFormatoDto) {
         return this.formatoService.createFormato(formato)
     }

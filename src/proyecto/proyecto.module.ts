@@ -6,8 +6,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Proyecto, ProyectoSchema } from './proyecto.schema';
-import { ConvocatoriasService } from 'src/convocatorias/convocatoria.service';
-import { ConvocatoriasModule } from 'src/convocatorias/convocatoria.module';
+import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
+import { ConvocatoriasModule } from '@/convocatorias/convocatoria.module';
 
 @Module({
   controllers: [ProyectoController],

@@ -6,7 +6,7 @@ import { ConvocatoriasService } from './convocatoria.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { registerUpdateValidators } from './middlewares/update.middleware';
-import { FormatoModule } from 'src/formato/formato.module';
+import { FormatoModule } from '@/formato/formato.module';
 
 @Module({
   controllers: [ConvocatoriasController],

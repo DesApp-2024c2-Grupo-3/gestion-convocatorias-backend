@@ -2,18 +2,18 @@ import { BadRequestException, HttpException, HttpStatus, Injectable, InternalSer
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario, UsuarioDocument } from './usuarios.schema';
 import { Model, Types } from 'mongoose';
-import { CreateUserDTO } from './dtos/CreateUserDTO';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
-import { ROLES } from '../constants/roles';
+import { ROLES } from '../common/constants/roles';  
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDTO } from './dtos/UpdatePasswordDTO';
-
+import { UpdateRolesDTO } from './dtos/UpdateRolesDTO';
+import { RegisterDTO } from '@/autenticacion/dtos/RegisterDTO';
 
 type Tokens = {
-    access_token: string,
-    refresh_token: string
+  access_token: string,
+  refresh_token: string
 }
 
 @Injectable()
@@ -23,9 +23,9 @@ export class UsuariosService {
     private readonly usuarioModel: Model<UsuarioDocument>,
     private jwtSvc: JwtService,
     private configService: ConfigService
-  ) {}
+  ) { }
 
-  async createUser(createUserDTO: CreateUserDTO) {
+  async createUser(createUserDTO: RegisterDTO) {
     try {
       const hashedPassword = await bcrypt.hash(createUserDTO.password, 10);
 
@@ -74,13 +74,13 @@ export class UsuariosService {
           sub: usuario._id,
           email: usuario.email,
           nombre: usuario.nombre,
-          roles: usuario.roles 
+          roles: usuario.roles
         };
 
         const { access_token, refresh_token } =
           await this.generateTokens(payload);
 
-          
+
         return {
           access_token,
           refresh_token,
@@ -101,6 +101,8 @@ export class UsuariosService {
       sub: usuario._id,
       email: usuario.email,
       nombre: usuario.nombre,
+      cvId: usuario._id,
+      cvNombre: usuario.cv.nombre,
       roles: usuario.roles,
     };
 
@@ -126,10 +128,16 @@ export class UsuariosService {
       const usuario = this.jwtSvc.verify(refreshToken, {
         secret: 'jwt_secret_refresh',
       });
+
+      const usuarioActualizado = await this.usuarioModel.findById(usuario._id);
+
       const payload = {
-        sub: usuario._id,
-        email: usuario.email,
-        nombre: usuario.nombre,
+        sub: usuarioActualizado._id,
+        email: usuarioActualizado.email,
+        nombre: usuarioActualizado.nombre,
+        cvId: usuarioActualizado._id,
+        cvNombre: usuarioActualizado.cv.nombre,
+        roles: usuarioActualizado.roles
       };
       const { access_token, refresh_token } =
         await this.generateTokens(payload);
@@ -167,7 +175,7 @@ export class UsuariosService {
   }
 
   async eliminarUsuario(email: string) {
-    const usuarioExistente = await this.usuarioModel.findOne({email}).exec();
+    const usuarioExistente = await this.usuarioModel.findOne({ email }).exec();
 
     if (!usuarioExistente) {
       throw new BadRequestException(
@@ -188,24 +196,73 @@ export class UsuariosService {
     return rest;
   };
 
-  async updateContrasenia(email: string, nuevaContrasenia: UpdatePasswordDTO){
-    try{
-        const usuario = await this.usuarioModel.findOne({email});
+  async updateContrasenia(email: string, nuevaContrasenia: UpdatePasswordDTO) {
+    try {
+      const usuario = await this.usuarioModel.findOne({ email });
 
-        if(!usuario){
-            throw new NotFoundException('Usuario no encontrado');
-        }
+      if (!usuario) {
+        throw new NotFoundException('Usuario no encontrado');
+      }
 
-        const hashedPassword = await bcrypt.hash(nuevaContrasenia.password, 10);
+      const hashedPassword = await bcrypt.hash(nuevaContrasenia.password, 10);
 
-        usuario.password = hashedPassword;
-        await usuario.save();
-        return{
-            message: 'contraseña actualizada correctamente',
-            status: HttpStatus.OK,
-        }
-    }catch(error){
-        throw new InternalServerErrorException('Error al actualizar la contraseña');
+      usuario.password = hashedPassword;
+      await usuario.save();
+      return {
+        message: 'contraseña actualizada correctamente',
+        status: HttpStatus.OK,
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Error al actualizar la contraseña');
     };
   };
+
+  async updateRoles(email: string, nuevosRoles: UpdateRolesDTO) {
+    try {
+      const usuario = await this.usuarioModel.findOne({ email });
+
+      if (!usuario) {
+        throw new NotFoundException("Usuario no encontrado")
+      }
+
+      usuario.roles = nuevosRoles.roles
+      await usuario.save()
+      return {
+        message: "Roles actualizados correctamente",
+        status: HttpStatus.OK
+      }
+    } catch (error) {
+      throw new InternalServerErrorException("Error al actualizar roles")
+    }
+  }
+
+  async updateCv(email: string, archivo: Express.Multer.File) {
+    const usuario = await this.usuarioModel.findOne({ email });
+      if (!usuario) {
+        throw new NotFoundException('Usuario no encontrado');
+      }
+
+    try {
+      const cv = {
+        nombre: archivo.originalname,
+        tipo: archivo.mimetype,
+        contenido: archivo.buffer,
+      }
+
+      usuario.cv = cv
+      await usuario.save();
+    } catch (error) {
+      throw new InternalServerErrorException('Error al actualizar cv');
+    };
+
+    const usuarioActualizado = await this.usuarioModel.findById(usuario._id);
+
+  const { access_token, refresh_token } = await this.generateTokens(usuarioActualizado);
+  return {
+    message: "CV actualizado",
+    access_token,
+    refresh_token,
+    user_id: usuarioActualizado._id
+  }
+};
 };

@@ -10,6 +10,17 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/autenticacion/*": ["src/autenticacion/*"],
+      "@/auth/*": ["src/auth/*"],
+      "@/common/*": ["src/common/*"],
+      "@/comunicacion/*": ["src/comunicacion/*"],
+      "@/convocatorias/*": ["src/convocatorias/*"],
+      "@/formato/*": ["src/formato/*"],
+      "@/proyecto/*": ["src/proyecto/*"],
+      "@/usuarios/*": ["src/usuarios/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
