@@ -4,7 +4,7 @@ import { Convocatoria } from '@/convocatorias/convocatoria.schema';
 import { ClientSession, Model, Error as MongooseError } from 'mongoose';
 import { ObjectId } from 'mongoose';
 import { Types } from 'mongoose';
-import { UpdateConvocatoriaDTO } from '@/convocatorias/dtos/temp_UpdateConvocatoriasDTO';
+import { UpdateConvocatoriaDTO } from '@/convocatorias/dtos/UpdateConvocatoriasDTO';
 import { CreateConvocatoriaDto } from '@/convocatorias/dtos/CreateConvocatoriaDTO';
 import { FormatoService } from '@/formato/formato.service';
 import { ErrorMessages } from '@/common/constants/error-message';
