@@ -3,8 +3,20 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { AppModule } from '@/app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
+  const configService = new ConfigService();
+
+  const API_HOST = configService.get<string>('API_HOST');
+  const API_PORT = configService.get<number>('API_PORT');
+  const API_URL = `${API_HOST}:${API_PORT}`;
+
+  const FRONTEND_HOST = configService.get<string>('FRONTEND_HOST');
+  const FRONTEND_PORT = configService.get<number>('FRONTEND_PORT');
+  const FRONTEND_URL = `${FRONTEND_HOST}:${FRONTEND_PORT}`;
+
+
   const app = await NestFactory.create(AppModule);
 
   const swaggerConfig = new DocumentBuilder()
@@ -28,15 +40,12 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, swaggerDocument);
 
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:5173',
+    origin: FRONTEND_URL,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
   };
 
-  app.enableCors({
-  origin: 'http://localhost:5173', 
-  credentials: true,               
-});
+  app.enableCors(corsOptions);
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist:true, 
@@ -45,9 +54,9 @@ async function bootstrap() {
   }))
 
 
-  await app.listen(3000);
+  await app.listen(API_PORT);
 
-  console.log(`🚀 Servidor corriendo en: http://localhost:5173`);
-  console.log(`📝 Documentación Swagger disponible en: http://localhost:3000/api`);
+  console.log(`🚀 Servidor corriendo en: ${API_URL}`);
+  console.log(`📝 Documentación Swagger disponible en: ${API_URL}/api`);
 }
 bootstrap();
