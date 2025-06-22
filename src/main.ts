@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const API_HOST = configService.get<string>('API_HOST');
   const API_PORT = configService.get<number>('API_PORT');
-  const API_URL = NODE_ENV !== 'dev' ? `http://${API_HOST}:${API_PORT}` : `https://${API_HOST}`;
+  const API_URL = NODE_ENV === 'dev' ? `http://${API_HOST}:${API_PORT}` : `https://${API_HOST}`;
 
   const FRONTEND_HOST = configService.get<string>('FRONTEND_HOST');
   const FRONTEND_PORT = configService.get<number>('FRONTEND_PORT');
