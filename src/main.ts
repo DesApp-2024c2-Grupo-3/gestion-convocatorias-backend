@@ -8,13 +8,15 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const configService = new ConfigService();
 
+  const NODE_ENV = configService.get<string>('NODE_ENV');
+
   const API_HOST = configService.get<string>('API_HOST');
   const API_PORT = configService.get<number>('API_PORT');
-  const API_URL = `${API_HOST}:${API_PORT}`;
+  const API_URL = NODE_ENV !== 'dev' ? `http://${API_HOST}:${API_PORT}` : `https://${API_HOST}`;
 
   const FRONTEND_HOST = configService.get<string>('FRONTEND_HOST');
   const FRONTEND_PORT = configService.get<number>('FRONTEND_PORT');
-  const FRONTEND_URL = `${FRONTEND_HOST}:${FRONTEND_PORT}`;
+  const FRONTEND_URL = NODE_ENV === 'dev' ? `http://${FRONTEND_HOST}:${FRONTEND_PORT}` : `https://${FRONTEND_HOST}`;
 
 
   const app = await NestFactory.create(AppModule);
