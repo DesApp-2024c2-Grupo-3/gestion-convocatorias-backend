@@ -19,16 +19,24 @@ export class TemplateService {
     const subject = templateInfo.subject;
     const layoutPath = path.join(__dirname, 'templates', '_layout.html');
     const templatePath = path.join(__dirname, 'templates', templateInfo.fileName);
-
+; 
     try {
       const layoutTpl = await fs.readFile(layoutPath, 'utf8');
       const contentTpl = await fs.readFile(templatePath, 'utf8');
 
       let finalHtml = layoutTpl.replace('{content}', contentTpl);
 
-      for (const key in variables) {
+      const host = this.configService.get<string>('FRONTEND_HOST')
+      const url = this.configService.get<string>('NODE_ENV') === 'dev' ? `${host}:${this.configService.get<string>('FRONTEND_PORT')}` : host
+
+      const enhancedVariables = {
+        ...variables,
+        url: variables.url || url
+      };
+
+      for (const key in enhancedVariables) {
         const regex = new RegExp(`{${key}}`, 'g');
-        finalHtml = finalHtml.replace(regex, variables[key]);
+        finalHtml = finalHtml.replace(regex, enhancedVariables[key]);
       }
       
       return {sender, subject, htmlContent: finalHtml };
