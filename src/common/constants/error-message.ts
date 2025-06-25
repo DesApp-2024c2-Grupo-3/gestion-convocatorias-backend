@@ -30,5 +30,21 @@ export const ErrorMessages = {
     INVALID_FORMATO: {
         message: 'El formato que desea utilizar no existe',
         error: 'INVALID_FORMATO'
+    },
+    USER_NOT_FOUND: {
+        message: 'No existe un usuario con ese email',
+        error: 'USER_NOT_FOUND'
+    },    
+    EMAIL_SEND_ERROR: {
+        message: 'Error al enviar el email. La contraseña no fue actualizada',
+        error: 'EMAIL_SEND_ERROR'
+    },    
+    PASSWORD_RECOVERY_ERROR: {
+        message: 'Error al procesar la recuperación de contraseña',
+        error: 'PASSWORD_RECOVERY_ERROR'
+    },
+    EMAIL_ALREADY_REGISTERED: {
+        message: 'El email ya está registrado',
+        error: 'EMAIL_ALREADY_REGISTERED'
     }
 } as const;

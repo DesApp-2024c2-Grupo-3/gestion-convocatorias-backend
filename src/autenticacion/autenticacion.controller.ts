@@ -2,6 +2,7 @@ import { Body, Controller, Post, Req } from '@nestjs/common';
 import { AutenticacionService } from '@/autenticacion/autenticacion.service';
 import { LoginDTO } from '@/autenticacion/dtos/LoginDTO';
 import { RegisterDTO } from '@/autenticacion/dtos/RegisterDTO';
+import { RecoverPasswordDTO } from '@/autenticacion/dtos/RecoverPasswordDTO';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiSuccessResponse, ApiCreatedResponse,ApiCommonResponses, ApiNotFoundResponse } from '@/common/decorators/api-response.decorator';
 
@@ -51,5 +52,12 @@ export class AutenticacionController {
   refreshToken(@Req() request: Request) {
     const [type, token] = request.headers['authorization']?.split(' ') || [];
     return this.autenticacionService.refreshToken(token);
+  }
+
+  @Post('recuperar-contrasena')
+  @ApiOperation({ summary: 'Recuperar contraseña' })
+  @ApiCommonResponses()
+  recoverPassword(@Body() recoverPasswordDto: RecoverPasswordDTO) {
+    return this.autenticacionService.recoverPassword(recoverPasswordDto);
   }
 }

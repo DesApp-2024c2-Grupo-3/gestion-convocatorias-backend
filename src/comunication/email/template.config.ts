@@ -12,6 +12,11 @@ export interface TemplateInfo {
       fileName: 'invitacion_grupo_convocatoria.html',
       subject: 'Has sido invitado a un grupo de convocatoria',
     },
+    recuperar_contrasena: {
+      sender: '',
+      fileName: 'recuperar_contrasena.html',
+      subject: 'Recuperación de Contraseña - PIUNAHUR',
+    },
     registro_exitoso: { 
       sender: '',
       fileName: 'registro_exitoso.html',
