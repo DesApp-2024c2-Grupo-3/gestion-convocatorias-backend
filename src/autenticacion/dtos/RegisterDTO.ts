@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { ValidationMessages } from "src/common/constants/validation-message";
 
-const minLengthPassword = 3;
+const minLengthPassword = 8;
 export class RegisterDTO {
     @ApiProperty({ 
         description: 'Nombre completo del usuario', 
@@ -29,10 +29,10 @@ export class RegisterDTO {
         description: 'Contraseña del usuario',
         example: 'tuContraseña123',
         required: true,
-        minLength: 3
+        minLength: minLengthPassword
     })
     @IsString()
-    @MinLength(minLengthPassword, { message: ValidationMessages.PASSWORD.MIN_LENGTH })
+    @MinLength(minLengthPassword, { message: ValidationMessages.PASSWORD.MIN_LENGTH(minLengthPassword) })
     @IsNotEmpty({ message: ValidationMessages.REQUIRED })
     @Transform(({ value }) => value.trim()) 
     password: string;

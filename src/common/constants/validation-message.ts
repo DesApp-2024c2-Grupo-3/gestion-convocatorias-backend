@@ -18,7 +18,7 @@ export const ValidationMessages = {
     PASSWORD: {
         INVALID: 'La contraseña no es válida',
         REQUIRED: 'La contraseña es obligatoria',
-        MIN_LENGTH: 'La contraseña debe tener al menos 8 caracteres',
+        MIN_LENGTH: (min: number) => `La contraseña debe tener al menos ${min} caracteres`,
         PATTERN: 'La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial',
         MATCH: 'Las contraseñas no coinciden',
     },
