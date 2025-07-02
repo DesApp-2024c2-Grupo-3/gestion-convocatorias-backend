@@ -21,7 +21,9 @@ export class LoginDTO {
         minLength: minLengthPassword
     })
     @IsString({ message: ValidationMessages.STRING.INVALID })
-    @MinLength(minLengthPassword, { message: ValidationMessages.PASSWORD.MIN_LENGTH })
+    @MinLength(minLengthPassword, { 
+        message: (args) => ValidationMessages.PASSWORD.MIN_LENGTH(args.constraints[0]) 
+    })
     @IsNotEmpty({ message: ValidationMessages.REQUIRED })
     @Transform(({ value }) => value.trim()) 
     password: string;
