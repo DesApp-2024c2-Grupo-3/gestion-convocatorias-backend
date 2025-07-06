@@ -19,7 +19,8 @@
       "@/convocatorias/*": ["src/convocatorias/*"],
       "@/formato/*": ["src/formato/*"],
       "@/proyecto/*": ["src/proyecto/*"],
-      "@/usuarios/*": ["src/usuarios/*"]
+      "@/usuarios/*": ["src/usuarios/*"],
+      "@/seed/*": ["src/seed/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
