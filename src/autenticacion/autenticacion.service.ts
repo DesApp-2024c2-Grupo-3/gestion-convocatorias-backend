@@ -12,7 +12,7 @@ import { SendEmailDTO } from '@/comunication/email/dtos/send-email.DTO';
 import { EmailService } from '@/comunication/email/email.service';
 import { UsuariosService } from '@/usuarios/usuarios.service';
 import { RecoverPasswordDTO } from '@/autenticacion/dtos/RecoverPasswordDTO';
-import { ValidationMailjetService } from '@/common/services/validationMailJet.service';
+import { ValidationMailjetService } from '@/common/services/validationMailj_et.service';
 import { LoggerService } from '@/common/services/logger.service';
 
 @Injectable()
