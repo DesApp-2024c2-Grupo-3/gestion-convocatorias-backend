@@ -9,10 +9,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Servidor', descripcion: 'Servidor para alojar la plataforma', coste: 150000 }
+        { rubro: 'Servidor', descripcion: 'Servidor para alojar la plataforma', coste: 150000 },
+        { rubro: 'Software', descripcion: 'Software para la gestión de bibliotecas', coste: 100000 },
+        { rubro: 'Hardware', descripcion: 'Hardware para la gestión de bibliotecas', coste: 50000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Dominio', descripcion: 'Pago anual del dominio web', coste: 5000 }
+        { rubro: 'Dominio', descripcion: 'Pago anual del dominio web', coste: 5000 },
+        { rubro: 'Mantenimiento', descripcion: 'Mantenimiento anual del servidor', coste: 10000 },
+        { rubro: 'Soporte', descripcion: 'Soporte técnico para la plataforma', coste: 20000 }
       ]
     }
   },
@@ -26,10 +30,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Componentes electrónicos', descripcion: 'Compra de sensores y microcontroladores', coste: 80000 }
+        { rubro: 'Componentes electrónicos', descripcion: 'Compra de sensores y microcontroladores', coste: 80000 },
+        { rubro: 'Impresión 3D', descripcion: 'Fabricación de carcasas para sensores', coste: 25000 },
+        { rubro: 'Herramientas de laboratorio', descripcion: 'Equipos para pruebas y montaje', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Pruebas de laboratorio', descripcion: 'Costos de pruebas y calibración', coste: 12000 }
+        { rubro: 'Pruebas de laboratorio', descripcion: 'Costos de pruebas y calibración', coste: 12000 },
+        { rubro: 'Materiales de soldadura', descripcion: 'Estaño, flux y consumibles', coste: 3000 },
+        { rubro: 'Energía eléctrica', descripcion: 'Consumo durante las pruebas', coste: 2000 }
       ]
     }
   },
@@ -43,10 +51,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Antenas WiFi', descripcion: 'Compra e instalación de antenas', coste: 60000 }
+        { rubro: 'Antenas WiFi', descripcion: 'Compra e instalación de antenas', coste: 60000 },
+        { rubro: 'Switches de red', descripcion: 'Equipos para distribución de red', coste: 35000 },
+        { rubro: 'Cableado estructurado', descripcion: 'Cables y canaletas para red', coste: 20000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Mantenimiento', descripcion: 'Soporte técnico mensual', coste: 7000 }
+        { rubro: 'Mantenimiento', descripcion: 'Soporte técnico mensual', coste: 7000 },
+        { rubro: 'Licencias de software', descripcion: 'Herramientas de monitoreo de red', coste: 4000 },
+        { rubro: 'Capacitación', descripcion: 'Entrenamiento para el personal de IT', coste: 5000 }
       ]
     }
   },
@@ -60,10 +72,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Sensores de energía', descripcion: 'Compra de sensores y medidores', coste: 90000 }
+        { rubro: 'Sensores de energía', descripcion: 'Compra de sensores y medidores', coste: 90000 },
+        { rubro: 'Controladores', descripcion: 'Dispositivos para automatización', coste: 40000 },
+        { rubro: 'Servidor de datos', descripcion: 'Equipo para almacenamiento de información', coste: 60000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Software de análisis', descripcion: 'Licencia anual', coste: 15000 }
+        { rubro: 'Software de análisis', descripcion: 'Licencia anual', coste: 15000 },
+        { rubro: 'Mantenimiento de sensores', descripcion: 'Revisión y calibración periódica', coste: 7000 },
+        { rubro: 'Internet', descripcion: 'Conectividad para transmisión de datos', coste: 3000 }
       ]
     }
   },
@@ -77,10 +93,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Desarrollo web', descripcion: 'Creación de la plataforma', coste: 120000 }
+        { rubro: 'Desarrollo web', descripcion: 'Creación de la plataforma', coste: 120000 },
+        { rubro: 'Equipos de videoconferencia', descripcion: 'Cámaras y micrófonos para sesiones', coste: 30000 },
+        { rubro: 'Licencias de software', descripcion: 'Herramientas para telepsicología', coste: 20000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Honorarios profesionales', descripcion: 'Pago a psicólogos', coste: 20000 }
+        { rubro: 'Honorarios profesionales', descripcion: 'Pago a psicólogos', coste: 20000 },
+        { rubro: 'Publicidad digital', descripcion: 'Promoción en redes sociales', coste: 8000 },
+        { rubro: 'Soporte técnico', descripcion: 'Atención a usuarios', coste: 6000 }
       ]
     }
   },
@@ -94,10 +114,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Desarrollo de software', descripcion: 'Creación de la plataforma', coste: 130000 }
+        { rubro: 'Desarrollo de software', descripcion: 'Creación de la plataforma', coste: 130000 },
+        { rubro: 'Servidores cloud', descripcion: 'Infraestructura para la plataforma', coste: 50000 },
+        { rubro: 'Tablets', descripcion: 'Dispositivos para pruebas piloto', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Soporte técnico', descripcion: 'Mantenimiento mensual', coste: 8000 }
+        { rubro: 'Soporte técnico', descripcion: 'Mantenimiento mensual', coste: 8000 },
+        { rubro: 'Actualizaciones de contenido', descripcion: 'Mejoras y nuevos ejercicios', coste: 6000 },
+        { rubro: 'Capacitación docente', descripcion: 'Entrenamiento para profesores', coste: 7000 }
       ]
     }
   },
@@ -111,10 +135,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Equipos de red', descripcion: 'Routers y repetidores', coste: 95000 }
+        { rubro: 'Equipos de red', descripcion: 'Routers y repetidores', coste: 95000 },
+        { rubro: 'Torres de comunicación', descripcion: 'Estructuras para antenas', coste: 60000 },
+        { rubro: 'Paneles solares', descripcion: 'Energía para equipos en zonas remotas', coste: 35000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Capacitación', descripcion: 'Entrenamiento a usuarios', coste: 6000 }
+        { rubro: 'Capacitación', descripcion: 'Entrenamiento a usuarios', coste: 6000 },
+        { rubro: 'Mantenimiento de red', descripcion: 'Reparaciones y ajustes', coste: 9000 },
+        { rubro: 'Internet satelital', descripcion: 'Conectividad en zonas alejadas', coste: 12000 }
       ]
     }
   },
@@ -128,10 +156,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Cámaras', descripcion: 'Cámaras de reconocimiento facial', coste: 110000 }
+        { rubro: 'Cámaras', descripcion: 'Cámaras de reconocimiento facial', coste: 110000 },
+        { rubro: 'Servidores de procesamiento', descripcion: 'Equipos para análisis de imágenes', coste: 70000 },
+        { rubro: 'Terminales de acceso', descripcion: 'Dispositivos para puertas', coste: 50000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Licencias de software', descripcion: 'Software de reconocimiento', coste: 14000 }
+        { rubro: 'Licencias de software', descripcion: 'Software de reconocimiento', coste: 14000 },
+        { rubro: 'Mantenimiento de equipos', descripcion: 'Revisión y limpieza', coste: 8000 },
+        { rubro: 'Capacitación de personal', descripcion: 'Entrenamiento en uso del sistema', coste: 6000 }
       ]
     }
   },
@@ -145,10 +177,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Sensores', descripcion: 'Monitoreo de consumo', coste: 70000 }
+        { rubro: 'Sensores', descripcion: 'Monitoreo de consumo', coste: 70000 },
+        { rubro: 'Sistemas de refrigeración', descripcion: 'Equipos para enfriamiento eficiente', coste: 90000 },
+        { rubro: 'Software de gestión', descripcion: 'Herramientas para análisis energético', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Consultoría', descripcion: 'Asesoría en eficiencia energética', coste: 10000 }
+        { rubro: 'Consultoría', descripcion: 'Asesoría en eficiencia energética', coste: 10000 },
+        { rubro: 'Mantenimiento de sensores', descripcion: 'Revisión periódica', coste: 5000 },
+        { rubro: 'Energía eléctrica', descripcion: 'Consumo mensual', coste: 20000 }
       ]
     }
   },
@@ -162,10 +198,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Sensores IoT', descripcion: 'Compra de sensores', coste: 85000 }
+        { rubro: 'Sensores IoT', descripcion: 'Compra de sensores', coste: 85000 },
+        { rubro: 'Estaciones meteorológicas', descripcion: 'Monitoreo ambiental', coste: 60000 },
+        { rubro: 'Drones', descripcion: 'Vigilancia aérea de cultivos', coste: 90000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Mantenimiento', descripcion: 'Revisión y calibración', coste: 9000 }
+        { rubro: 'Mantenimiento', descripcion: 'Revisión y calibración', coste: 9000 },
+        { rubro: 'Conectividad', descripcion: 'Tarjetas SIM y datos', coste: 4000 },
+        { rubro: 'Capacitación agrícola', descripcion: 'Entrenamiento a productores', coste: 7000 }
       ]
     }
   },
@@ -179,10 +219,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Etiquetas RFID', descripcion: 'Compra de etiquetas y lectores', coste: 120000 }
+        { rubro: 'Etiquetas RFID', descripcion: 'Compra de etiquetas y lectores', coste: 120000 },
+        { rubro: 'Servidores', descripcion: 'Almacenamiento de datos de inventario', coste: 50000 },
+        { rubro: 'Software de inventario', descripcion: 'Desarrollo de la aplicación', coste: 60000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Soporte', descripcion: 'Mantenimiento del sistema', coste: 11000 }
+        { rubro: 'Soporte', descripcion: 'Mantenimiento del sistema', coste: 11000 },
+        { rubro: 'Actualización de software', descripcion: 'Mejoras y parches', coste: 7000 },
+        { rubro: 'Capacitación de usuarios', descripcion: 'Entrenamiento en uso del sistema', coste: 5000 }
       ]
     }
   },
@@ -196,10 +240,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Desarrollo web', descripcion: 'Creación de la plataforma', coste: 140000 }
+        { rubro: 'Desarrollo web', descripcion: 'Creación de la plataforma', coste: 140000 },
+        { rubro: 'Equipos médicos', descripcion: 'Dispositivos para telemedicina', coste: 80000 },
+        { rubro: 'Servidores cloud', descripcion: 'Infraestructura para videollamadas', coste: 60000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Capacitación médica', descripcion: 'Entrenamiento a profesionales', coste: 12000 }
+        { rubro: 'Capacitación médica', descripcion: 'Entrenamiento a profesionales', coste: 12000 },
+        { rubro: 'Soporte técnico', descripcion: 'Atención a usuarios', coste: 9000 },
+        { rubro: 'Licencias de software', descripcion: 'Herramientas de videollamada', coste: 7000 }
       ]
     }
   },
@@ -213,10 +261,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Sensores ambientales', descripcion: 'Compra de sensores', coste: 105000 }
+        { rubro: 'Sensores ambientales', descripcion: 'Compra de sensores', coste: 105000 },
+        { rubro: 'Estaciones de monitoreo', descripcion: 'Instalación en campo', coste: 50000 },
+        { rubro: 'Software de análisis', descripcion: 'Procesamiento de datos', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Análisis de datos', descripcion: 'Procesamiento de información', coste: 9500 }
+        { rubro: 'Análisis de datos', descripcion: 'Procesamiento de información', coste: 9500 },
+        { rubro: 'Mantenimiento de estaciones', descripcion: 'Revisión periódica', coste: 8000 },
+        { rubro: 'Capacitación ambiental', descripcion: 'Entrenamiento a operadores', coste: 6000 }
       ]
     }
   },
@@ -230,10 +282,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Cámaras y alarmas', descripcion: 'Equipos de seguridad', coste: 125000 }
+        { rubro: 'Cámaras y alarmas', descripcion: 'Equipos de seguridad', coste: 125000 },
+        { rubro: 'Paneles de control', descripcion: 'Dispositivos para gestión centralizada', coste: 40000 },
+        { rubro: 'Sensores de movimiento', descripcion: 'Detección de intrusos', coste: 35000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Soporte técnico', descripcion: 'Mantenimiento anual', coste: 13000 }
+        { rubro: 'Soporte técnico', descripcion: 'Mantenimiento anual', coste: 13000 },
+        { rubro: 'Actualización de firmware', descripcion: 'Mejoras de seguridad', coste: 6000 },
+        { rubro: 'Monitoreo remoto', descripcion: 'Servicio de vigilancia', coste: 9000 }
       ]
     }
   },
@@ -247,10 +303,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Desarrollo de plataforma', descripcion: 'Creación del sitio web', coste: 115000 }
+        { rubro: 'Desarrollo de plataforma', descripcion: 'Creación del sitio web', coste: 115000 },
+        { rubro: 'Tablets', descripcion: 'Dispositivos para usuarios', coste: 60000 },
+        { rubro: 'Software educativo', descripcion: 'Aplicaciones para aprendizaje', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Soporte y asistencia', descripcion: 'Ayuda a usuarios', coste: 10000 }
+        { rubro: 'Soporte y asistencia', descripcion: 'Ayuda a usuarios', coste: 10000 },
+        { rubro: 'Actualización de contenidos', descripcion: 'Nuevos cursos y materiales', coste: 7000 },
+        { rubro: 'Capacitación de tutores', descripcion: 'Entrenamiento a instructores', coste: 8000 }
       ]
     }
   },
@@ -264,10 +324,14 @@ export const proyectosData = [
     },
     presupuesto: {
       gastosCapital: [
-        { rubro: 'Cámaras de tráfico', descripcion: 'Compra e instalación', coste: 135000 }
+        { rubro: 'Cámaras de tráfico', descripcion: 'Compra e instalación', coste: 135000 },
+        { rubro: 'Servidores de análisis', descripcion: 'Procesamiento de video', coste: 70000 },
+        { rubro: 'Sensores de flujo', descripcion: 'Medición de vehículos', coste: 40000 }
       ],
       gastosCorrientes: [
-        { rubro: 'Procesamiento de datos', descripcion: 'Análisis mensual', coste: 11000 }
+        { rubro: 'Procesamiento de datos', descripcion: 'Análisis mensual', coste: 11000 },
+        { rubro: 'Mantenimiento de cámaras', descripcion: 'Limpieza y ajustes', coste: 8000 },
+        { rubro: 'Licencias de software', descripcion: 'Herramientas de análisis', coste: 6000 }
       ]
     }
   }
