@@ -26,10 +26,6 @@ export class ProyectoSeeder {
     await this.proyectoModel.deleteMany({});
     console.log('🗑️ Todos los proyectos anteriores eliminados.');
 
-    const usuario = await this.usuarioModel.findOne({ email: usuariosData[2].email });
-    if (!usuario) {
-      console.log(`❌ Usuario con email ${usuariosData[2].email} no encontrado`);
-    }
 
     const todasLasConvocatorias = await this.convocatoriaModel.find({}).select("-archivo");
     if (todasLasConvocatorias.length === 0) {
@@ -41,7 +37,7 @@ export class ProyectoSeeder {
 
       const nuevoProyecto = new this.proyectoModel({
         ...proyectoData,
-        autor: usuario._id,
+        autor: usuariosData[2].email,
       });
       const proyectoCreado = await nuevoProyecto.save();
       const idProyecto = proyectoCreado._id.toString();
@@ -53,7 +49,7 @@ export class ProyectoSeeder {
         { proyectos: [idProyecto] },
       );
       
-      console.log(`✅ Proyecto creado por ${usuario.email}`);
+      console.log(`✅ Proyecto creado por ${usuariosData[2].email}`);
     }
   }
 }
