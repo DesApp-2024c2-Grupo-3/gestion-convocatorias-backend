@@ -2,7 +2,7 @@ export const proyectosData = [
   {
     invitados: ['juan.perez@email.com', 'ana.lopez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Gestión de Bibliotecas Universitarias",
+      "Titulo del proyecto": "Sistema de Gestión de Bibliotecas Universitarias",
       "Descripcion": "Desarrollo de una plataforma web para la gestión integral de bibliotecas universitarias, permitiendo el préstamo, devolución y reserva de libros en línea.",
       "Resumen": "El proyecto busca digitalizar y optimizar los procesos de las bibliotecas universitarias mediante una solución web.",
       "Área de Investigación": "Software"
@@ -19,7 +19,7 @@ export const proyectosData = [
   {
     invitados: ['maria.garcia@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Desarrollo de un Sensor de Temperatura de Bajo Consumo",
+      "Titulo del proyecto": "Desarrollo de un Sensor de Temperatura de Bajo Consumo",
       "Descripcion": "Creación de un sensor de temperatura eficiente energéticamente para aplicaciones en IoT y domótica.",
       "Resumen": "El sensor permitirá monitorear la temperatura en tiempo real con bajo consumo energético.",
       "Área de Investigación": "Hardware"
@@ -36,7 +36,7 @@ export const proyectosData = [
   {
     invitados: ['carlos.sanchez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Optimización de Redes Inalámbricas en Campus Universitarios",
+      "Titulo del proyecto": "Optimización de Redes Inalámbricas en Campus Universitarios",
       "Descripcion": "Investigación y mejora de la cobertura y velocidad de redes inalámbricas en entornos universitarios.",
       "Resumen": "El objetivo es garantizar conectividad eficiente y estable para estudiantes y profesores.",
       "Área de Investigación": "Redes"
@@ -53,7 +53,7 @@ export const proyectosData = [
   {
     invitados: ['laura.martinez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Monitoreo de Energía en Edificios Inteligentes",
+      "Titulo del proyecto": "Sistema de Monitoreo de Energía en Edificios Inteligentes",
       "Descripcion": "Desarrollo de un sistema para monitorear y optimizar el consumo energético en edificios inteligentes.",
       "Resumen": "El sistema permitirá reducir el consumo y los costos energéticos mediante análisis en tiempo real.",
       "Área de Investigación": "Sistemas"
@@ -70,7 +70,7 @@ export const proyectosData = [
   {
     invitados: ['sofia.gomez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Plataforma de Apoyo Psicológico para Estudiantes",
+      "Titulo del proyecto": "Plataforma de Apoyo Psicológico para Estudiantes",
       "Descripcion": "Creación de una plataforma digital para brindar apoyo psicológico y recursos de bienestar a estudiantes universitarios.",
       "Resumen": "El proyecto busca mejorar la salud mental de los estudiantes mediante recursos digitales y asesoría profesional.",
       "Área de Investigación": "Otros"
@@ -87,7 +87,7 @@ export const proyectosData = [
   {
     invitados: ['lucas.martin@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Plataforma de Aprendizaje Adaptativo para Matemáticas",
+      "Titulo del proyecto": "Plataforma de Aprendizaje Adaptativo para Matemáticas",
       "Descripcion": "Desarrollo de una plataforma que adapta el contenido de matemáticas según el progreso del estudiante.",
       "Resumen": "El sistema personaliza ejercicios y recursos para mejorar el aprendizaje.",
       "Área de Investigación": "Software"
@@ -104,7 +104,7 @@ export const proyectosData = [
   {
     invitados: ['valentina.rios@email.com', 'martin.sosa@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Implementación de Redes Mesh en Zonas Rurales",
+      "Titulo del proyecto": "Implementación de Redes Mesh en Zonas Rurales",
       "Descripcion": "Proyecto para llevar conectividad a zonas rurales mediante redes mesh.",
       "Resumen": "Se busca mejorar el acceso a internet en comunidades aisladas.",
       "Área de Investigación": "Redes"
@@ -121,7 +121,7 @@ export const proyectosData = [
   {
     invitados: ['marcos.diaz@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Control de Acceso Biométrico",
+      "Titulo del proyecto": "Sistema de Control de Acceso Biométrico",
       "Descripcion": "Desarrollo de un sistema de acceso a edificios usando reconocimiento facial.",
       "Resumen": "El sistema mejora la seguridad y la gestión de accesos.",
       "Área de Investigación": "Hardware"
@@ -138,7 +138,7 @@ export const proyectosData = [
   {
     invitados: ['florencia.mendez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Optimización de Consumo Energético en Data Centers",
+      "Titulo del proyecto": "Optimización de Consumo Energético en Data Centers",
       "Descripcion": "Investigación para reducir el consumo energético en centros de datos.",
       "Resumen": "Se implementarán algoritmos de gestión inteligente de energía.",
       "Área de Investigación": "Sistemas"
@@ -155,7 +155,7 @@ export const proyectosData = [
   {
     invitados: ['nicolas.fernandez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Desarrollo de Dispositivo IoT para Agricultura",
+      "Titulo del proyecto": "Desarrollo de Dispositivo IoT para Agricultura",
       "Descripcion": "Creación de sensores IoT para monitorear cultivos y optimizar el riego.",
       "Resumen": "El dispositivo permitirá ahorrar agua y mejorar la producción.",
       "Área de Investigación": "Hardware"
@@ -172,7 +172,7 @@ export const proyectosData = [
   {
     invitados: ['camila.silva@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Gestión de Inventarios con RFID",
+      "Titulo del proyecto": "Sistema de Gestión de Inventarios con RFID",
       "Descripcion": "Implementación de un sistema de inventario automatizado usando tecnología RFID.",
       "Resumen": "El sistema agiliza el control y reduce errores en inventarios.",
       "Área de Investigación": "Sistemas"
@@ -189,7 +189,7 @@ export const proyectosData = [
   {
     invitados: ['sofia.martinez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Plataforma de Telemedicina para Zonas Remotas",
+      "Titulo del proyecto": "Plataforma de Telemedicina para Zonas Remotas",
       "Descripcion": "Desarrollo de una plataforma para consultas médicas a distancia.",
       "Resumen": "Facilita el acceso a la salud en comunidades alejadas.",
       "Área de Investigación": "Software"
@@ -206,7 +206,7 @@ export const proyectosData = [
   {
     invitados: ['agustin.garcia@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Red de Sensores para Monitoreo Ambiental",
+      "Titulo del proyecto": "Red de Sensores para Monitoreo Ambiental",
       "Descripcion": "Implementación de una red de sensores para medir calidad del aire y agua.",
       "Resumen": "Permite tomar decisiones para mejorar el ambiente.",
       "Área de Investigación": "Redes"
@@ -223,7 +223,7 @@ export const proyectosData = [
   {
     invitados: ['martina.perez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Seguridad para Hogares Inteligentes",
+      "Titulo del proyecto": "Sistema de Seguridad para Hogares Inteligentes",
       "Descripcion": "Desarrollo de un sistema de seguridad integral para casas inteligentes.",
       "Resumen": "Incluye alarmas, cámaras y control remoto desde el móvil.",
       "Área de Investigación": "Sistemas"
@@ -240,7 +240,7 @@ export const proyectosData = [
   {
     invitados: ['federico.lopez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Desarrollo de Plataforma de E-learning para Adultos Mayores",
+      "Titulo del proyecto": "Desarrollo de Plataforma de E-learning para Adultos Mayores",
       "Descripcion": "Plataforma educativa adaptada a las necesidades de adultos mayores.",
       "Resumen": "Facilita el acceso a la educación digital para personas mayores.",
       "Área de Investigación": "Otros"
@@ -257,7 +257,7 @@ export const proyectosData = [
   {
     invitados: ['luciana.gomez@email.com'],
     camposExtra: {
-      "Titulo del Proyecto": "Sistema de Monitoreo de Tráfico Vehicular",
+      "Titulo del proyecto": "Sistema de Monitoreo de Tráfico Vehicular",
       "Descripcion": "Desarrollo de un sistema para monitorear y analizar el tráfico en tiempo real.",
       "Resumen": "Ayuda a optimizar la movilidad urbana y reducir congestiones.",
       "Área de Investigación": "Sistemas"
