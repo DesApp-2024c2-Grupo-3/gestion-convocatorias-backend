@@ -58,7 +58,21 @@ export class ProyectoService {
             throw new NotFoundException('Proyecto no encontrado');
         }
 
-        return proyecto;
+        const usuario = await this.usuarioService.obtenerUsuario(proyecto.autor);
+
+        let camposExtra = proyecto.camposExtra;
+        if (camposExtra instanceof Map) {
+            camposExtra = Object.fromEntries(camposExtra);
+        }
+
+        const autor = {
+            ...proyecto.toObject(),
+            autor_email: usuario ? usuario.email : null,
+            camposExtra,
+        };
+
+        return autor;
+
     }
 
     async getProyectosByConvocatoria(idConvocatoria: string) {
