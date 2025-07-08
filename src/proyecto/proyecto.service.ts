@@ -4,6 +4,7 @@ import { Connection, Model, Types } from 'mongoose';
 import { Proyecto } from '@/proyecto/proyecto.schema';
 import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
 import { CreateProyectoDTO } from '@/proyecto/dtos/CreateProyectoDTO';
+import { UsuariosService } from '@/usuarios/usuarios.service';
 
 @Injectable()
 export class ProyectoService {
@@ -12,8 +13,9 @@ export class ProyectoService {
         private proyectoModel: Model<Proyecto>,
         @InjectConnection()
         private readonly connection: Connection,
-        private readonly convocatoriaService: ConvocatoriasService
-    ) {}
+        private readonly convocatoriaService: ConvocatoriasService,
+        private readonly usuarioService: UsuariosService
+    ) { }
 
     async createProyecto(idConvocatoria: string, nuevoProyecto: CreateProyectoDTO) {
         const session = await this.connection.startSession();
@@ -60,19 +62,39 @@ export class ProyectoService {
     }
 
     async getProyectosByConvocatoria(idConvocatoria: string) {
-    if (!Types.ObjectId.isValid(idConvocatoria)) {
-        throw new BadRequestException('ID de convocatoria inválido');
+        if (!Types.ObjectId.isValid(idConvocatoria)) {
+            throw new BadRequestException('ID de convocatoria inválido');
+        }
+
+        const convocatoria = await this.convocatoriaService.getConvocatoria(idConvocatoria);
+
+        if (!convocatoria) {
+            throw new NotFoundException('Convocatoria no encontrada');
+        }
+
+
+        const proyectos = await this.proyectoModel.find({
+            _id: { $in: convocatoria.proyectos }
+        }).exec();
+
+        const proyectosConAutor = await Promise.all(proyectos.map(async (proyecto) => {
+
+            const usuario = await this.usuarioService.obtenerUsuario(proyecto.autor);
+
+            let camposExtra = proyecto.camposExtra;
+            if (camposExtra instanceof Map) {
+                camposExtra = Object.fromEntries(camposExtra);
+            }
+
+            return {
+                ...proyecto.toObject(),
+                camposExtra,
+                autor_id: proyecto.autor,
+                autor: usuario ? usuario.email : null,
+            };
+        }));
+ 
+        return proyectosConAutor;
     }
-
-    const convocatoria = await this.convocatoriaService.getConvocatoria(idConvocatoria);
-
-    if (!convocatoria) {
-        throw new NotFoundException('Convocatoria no encontrada');
-    }
-
-    return this.proyectoModel.find({
-        _id: { $in: convocatoria.proyectos }
-    }).exec();
-}
 
 }
