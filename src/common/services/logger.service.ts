@@ -21,6 +21,7 @@ export class LoggerService extends Logger {
             new DailyRotateFile({
                 filename: 'logs/combined-%DATE%.log',
                 datePattern: 'YYYY-MM',
+                level: 'info',
                 maxSize: '20m',
                 maxFiles: '14d'
             })

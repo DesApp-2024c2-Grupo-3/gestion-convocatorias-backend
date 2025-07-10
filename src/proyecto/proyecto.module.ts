@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ProyectoController } from '@/proyecto/proyecto.controller';
 import { ProyectoService } from '@/proyecto/proyecto.service';
-import { Mongoose } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Proyecto, ProyectoSchema } from '@/proyecto/proyecto.schema';
-import { ConvocatoriasService } from '@/convocatorias/convocatoria.service';
 import { ConvocatoriasModule } from '@/convocatorias/convocatoria.module';
+import { UsuariosModule } from '@/usuarios/usuarios.module';
 
 @Module({
   controllers: [ProyectoController],
@@ -25,7 +24,8 @@ import { ConvocatoriasModule } from '@/convocatorias/convocatoria.module';
             signOptions: { expiresIn: '60m' }
         })
     }),
-    ConvocatoriasModule
+    ConvocatoriasModule,
+    UsuariosModule
   ],
   providers: [ProyectoService]
 })

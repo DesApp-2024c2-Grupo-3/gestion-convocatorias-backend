@@ -1,99 +1,358 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🎯 API de Gestión de Convocatorias
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Una API REST para la gestión integral de convocatorias de investigación, desarrollada para la Universidad Nacional de Hurlingham.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Descripción
 
-## Description
+Esta API proporciona un backend completo para el sistema de gestión de convocatorias, permitiendo a investigadores, administradores y super administradores gestionar convocatorias de investigación. Incluye funcionalidades para autenticación, gestión de usuarios, convocatorias, proyectos, formatos y comunicación por email.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🌐 Frontend
 
-## Project setup
+Este proyecto requiere un frontend para funcionar correctamente. El frontend proporciona la interfaz de usuario para interactuar con esta API.
 
+**📁 Repositorio del Frontend:** [gestion-convocatorias-frontend](https://github.com/DesApp-2024c2-Grupo-3/gestion-convocatorias-frontend)
+
+
+## ✨ Características Principales
+
+### 🔐 Autenticación y Autorización
+- Sistema de login/registro con JWT
+- Control de acceso basado en roles (investigador, admin, super_admin)
+- Gestión de sesiones seguras
+- Recuperación de contraseñas por email
+- Middleware de autenticación personalizado
+
+### 📢 Gestión de Convocatorias
+- CRUD completo de convocatorias
+- Subida y gestión de archivos PDF
+- Validación de fechas de cierre
+- Filtrado y búsqueda de convocatorias
+- Control de acceso por roles
+
+### 👥 Gestión de Usuarios
+- Panel de administración de usuarios (super_admin)
+- Gestión de roles y permisos
+- Perfiles de usuario personalizables
+- Subida de CV y documentos
+
+### 📝 Postulaciones y Proyectos
+- Sistema de postulación a convocatorias
+- Gestión de proyectos de investigación
+- Validación de formularios
+- Asociación de proyectos con convocatorias
+
+### 📊 Formatos y Documentos
+- Gestión de formatos de proyectos
+- Plantillas personalizables
+- Validación de documentos
+
+### 📧 Comunicación
+- Envío de emails individuales y masivos
+- Plantillas de email personalizables
+- Integración con Mailjet
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend
+- **NestJS** - Framework de Node.js para aplicaciones escalables
+- **TypeScript** - Tipado estático
+- **MongoDB** - Base de datos NoSQL
+- **Mongoose** - ODM para MongoDB
+- **JWT** - Autenticación con tokens
+- **Passport** - Estrategias de autenticación
+- **Class Validator** - Validación de datos
+- **Swagger** - Documentación de API
+- **Winston** - Logging avanzado
+
+### Herramientas de Desarrollo
+- **ESLint** - Linting de código
+- **Prettier** - Formateo de código
+- **Jest** - Testing framework
+- **Nodemon** - Reinicio automático en desarrollo
+
+## 🚀 Instalación y Configuración
+
+### Prerrequisitos
+- Node.js (versión 18 o superior)
+- MongoDB Atlas (cuenta gratuita)
+- npm o yarn
+
+### 1. Clonar el repositorio
 ```bash
-$ npm install
+git clone https://github.com/DesApp-2024c2-Grupo-3/gestion-convocatorias-backend.git
+cd gestion-convocatorias-backend
 ```
 
-## Compile and run the project
-
+### 2. Instalar dependencias
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 3. Configurar variables de entorno
+Crear un archivo `.env` en la raíz del proyecto:
+```env
+# MongoDB Atlas Connection
+MONGODB_URI=mongodb+srv://tu_usuario:<password>@tu_cluster.mongodb.net/gestion_convocatorias?retryWrites=true&w=majority
 
-```bash
-# unit tests
-$ npm run test
+# Super Admin User for Seeding
+SUPER_ADMIN_EMAIL=admin@example.com
+SUPER_ADMIN_PASSWORD=unaClaveMuySegura123
 
-# e2e tests
-$ npm run test:e2e
+# JSON Web Token Secret
+JWT_SECRET=este-es-un-secreto-muy-secreto
 
-# test coverage
-$ npm run test:cov
+# Server Configuration
+API_HOST=localhost
+API_PORT=3000
+NODE_ENV=development
+
+# Frontend Configuration (for CORS)
+FRONTEND_HOST=http://localhost
+FRONTEND_PORT=5173
 ```
 
-## Deployment
+### 4. Configurar MongoDB Atlas
+1. Crear cuenta en [MongoDB Atlas](https://www.mongodb.com/es/atlas)
+2. Crear un cluster gratuito
+3. Crear usuario de base de datos
+4. Obtener la URI de conexión
+5. Reemplazar en el archivo `.env`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 5. Ejecutar por primera vez (con seeding)
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm run start:dev:setup
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Este comando:
+- Ejecuta el seeder para crear datos iniciales
+- Inicia el servidor en modo desarrollo
+- Crea el usuario super admin automáticamente
 
-## Resources
+### 6. Ejecutar en desarrollo (sin seeding)
+```bash
+npm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 7. Verificar la instalación
+- **API:** http://localhost:3000
+- **Documentación Swagger:** http://localhost:3000/api
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📁 Estructura del Proyecto
 
-## Support
+```
+src/
+├── autenticacion/          # Autenticación y autorización
+│   ├── dtos/              # Data Transfer Objects
+│   ├── autenticacion.controller.ts
+│   ├── autenticacion.service.ts
+│   └── autenticacion.module.ts
+├── auth/                   # Middleware de autenticación
+│   ├── decorators/         # Decoradores personalizados
+│   ├── guards/             # Guards de autorización
+│   └── services/           # Servicios de token
+├── common/                 # Utilidades comunes
+│   ├── constants/          # Constantes del sistema
+│   ├── decorators/         # Decoradores de respuesta
+│   ├── interceptors/       # Interceptores globales
+│   └── services/           # Servicios comunes
+├── convocatorias/          # Gestión de convocatorias
+│   ├── dtos/              # DTOs de convocatorias
+│   ├── middlewares/       # Middlewares específicos
+│   ├── convocatoria.controller.ts
+│   ├── convocatoria.service.ts
+│   └── convocatoria.schema.ts
+├── usuarios/               # Gestión de usuarios
+│   ├── dtos/              # DTOs de usuarios
+│   ├── usuarios.controller.ts
+│   ├── usuarios.service.ts
+│   └── usuarios.schema.ts
+├── proyecto/               # Gestión de proyectos
+│   ├── dtos/              # DTOs de proyectos
+│   ├── proyecto.controller.ts
+│   ├── proyecto.service.ts
+│   └── proyecto.schema.ts
+├── formato/                # Gestión de formatos
+│   ├── dtos/              # DTOs de formatos
+│   ├── formato.controller.ts
+│   ├── formato.service.ts
+│   └── formato.schema.ts
+├── comunicacion/           # Sistema de comunicación
+│   ├── email/             # Servicios de email
+│   │   ├── dtos/          # DTOs de email
+│   │   ├── templates/     # Plantillas HTML
+│   │   └── email.service.ts
+│   └── comunicacion.controller.ts
+├── seed/                   # Datos iniciales
+│   ├── data/              # Datos de ejemplo
+│   ├── seeders/           # Seeders específicos
+│   ├── files/             # Archivos de ejemplo
+│   └── index.ts
+└── main.ts                 # Punto de entrada
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🔧 Scripts Disponibles
 
-## Stay in touch
+```bash
+# Desarrollo
+npm run start:dev              # Inicia el servidor de desarrollo
+npm run start:dev:setup        # Inicia con seeding inicial
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Producción
+npm run build                  # Construye para producción
+npm run start:prod             # Inicia en modo producción
 
-## License
+# Testing
+npm run test                   # Ejecuta tests unitarios
+npm run test:watch             # Ejecuta tests en modo watch
+npm run test:e2e               # Ejecuta tests end-to-end
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Utilidades
+npm run seed                   # Ejecuta solo el seeder
+npm run lint                   # Ejecuta ESLint
+npm run format                 # Formatea código con Prettier
+```
+
+## 📚 Endpoints de la API
+
+### 🔐 Autenticación
+- `POST /auth/register` - Registrar nuevo usuario
+- `POST /auth/login` - Iniciar sesión
+- `POST /auth/recover-password` - Recuperar contraseña
+
+### 👥 Usuarios
+- `GET /usuario` - Obtener todos los usuarios (Super Admin)
+- `GET /usuario/:id` - Obtener usuario por ID (Super Admin)
+- `PATCH /usuario/:id/roles` - Actualizar roles (Super Admin)
+- `PATCH /usuario/:id/password` - Actualizar contraseña
+- `POST /usuario/:id/cv` - Subir CV
+
+### 📢 Convocatorias
+- `GET /convocatoria` - Obtener todas las convocatorias
+- `GET /convocatoria/:id` - Obtener convocatoria por ID
+- `POST /convocatoria` - Crear nueva convocatoria (Admin/Super Admin)
+- `PUT /convocatoria/:id` - Actualizar convocatoria (Admin/Super Admin)
+- `DELETE /convocatoria/:id` - Eliminar convocatoria (Admin/Super Admin)
+- `GET /convocatoria/:id/archivo` - Descargar archivo de convocatoria
+
+### 📝 Proyectos
+- `GET /proyecto` - Obtener todos los proyectos
+- `GET /proyecto/:id` - Obtener proyecto por ID
+- `POST /proyecto/:idConvocatoria` - Crear proyecto para convocatoria
+- `GET /proyecto/convocatoria/:idConvocatoria` - Obtener proyectos por convocatoria
+
+### 📊 Formatos
+- `GET /formato` - Obtener todos los formatos (Admin/Super Admin)
+- `GET /formato/:id` - Obtener formato por ID
+- `POST /formato` - Crear nuevo formato (Admin/Super Admin)
+
+### 📧 Comunicación
+- `POST /comunicacion/enviar-correo` - Enviar email individual
+- `POST /comunicacion/enviar-correo-masivo` - Enviar emails masivos
+
+## 👥 Roles de Usuario
+
+### 🔬 Investigador
+- Ver convocatorias disponibles
+- Postularse a convocatorias
+- Gestionar perfil personal
+- Subir CV y documentos
+
+### 👨‍💼 Admin
+- Gestionar convocatorias (CRUD)
+- Ver postulaciones por convocatoria
+- Gestionar formatos
+- Ver presupuestos de proyectos
+
+### 👑 Super Admin
+- Todas las funcionalidades de Admin
+- Gestionar usuarios y roles
+- Acceso completo al sistema
+
+## 🔐 Autenticación
+
+El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
+
+- Los tokens se generan al hacer login
+- Se incluyen automáticamente en las cabeceras de las peticiones API
+- Los guards protegen las rutas según el rol del usuario
+- Middleware de autenticación valida tokens en cada petición
+
+## 🗄️ Base de Datos
+
+### MongoDB Atlas
+- Base de datos en la nube
+- Escalabilidad automática
+- Backup automático
+- Monitoreo en tiempo real
+
+### Colecciones principales:
+- **usuarios** - Información de usuarios y roles
+- **convocatorias** - Datos de convocatorias y archivos
+- **proyectos** - Postulaciones y proyectos de investigación
+- **formatos** - Plantillas y formatos de documentos
+
+
+## 📖 Documentación
+
+### Swagger UI
+La documentación interactiva está disponible en:
+```
+http://localhost:3000/api
+```
+
+Incluye:
+- Todos los endpoints disponibles
+- Esquemas de datos
+- Ejemplos de peticiones y respuestas
+- Autenticación con JWT
+
+## 🚀 Despliegue
+
+### Variables de Entorno de Producción
+```env
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=secreto-muy-seguro-produccion
+API_HOST=0.0.0.0
+API_PORT=3000
+FRONTEND_HOST=https://tu-dominio.com
+FRONTEND_PORT=443
+```
+
+### Comandos de Producción
+```bash
+npm run build
+npm run start:prod
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📋 Notas Importantes
+
+### Usuarios y Roles
+1. Al ejecutar el seeder por primera vez, se crea automáticamente un usuario super admin
+2. Los usuarios nuevos se registran con rol de Investigador por defecto
+3. Solo el Super Admin puede cambiar roles de usuarios
+4. Los Admins pueden gestionar convocatorias y formatos
+
+### Archivos y Storage
+- Los archivos se almacenan localmente en el servidor
+- Se recomienda usar un servicio de almacenamiento en la nube para producción
+- Los archivos se validan por tipo y tamaño
+
+### Seguridad
+- Contraseñas hasheadas con bcrypt
+- JWT con tiempo de expiración
+- Validación de datos en todos los endpoints
+- CORS configurado para el frontend
+
+## 👨‍💻 Desarrollado por
+
+**Universidad Nacional de Hurlingham**  
+Sistema de Gestión de Convocatorias de Investigación

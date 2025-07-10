@@ -8,11 +8,11 @@ import { ROLES } from '@/common/constants/roles';
 import { TokenService } from '@/auth/services/token.service';
 import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { ErrorMessages } from '@/common/constants/error-message';
-import { SendEmailDTO } from '@/comunication/email/dtos/send-email.dto';
+import { SendEmailDTO } from '@/comunication/email/dtos/send-email.DTO';
 import { EmailService } from '@/comunication/email/email.service';
 import { UsuariosService } from '@/usuarios/usuarios.service';
 import { RecoverPasswordDTO } from '@/autenticacion/dtos/RecoverPasswordDTO';
-import { ValidationMailjetService } from '@/common/services/validationMailJet.service';
+import { ValidationMailjetService } from '@/common/services/validationMailjet.service';
 import { LoggerService } from '@/common/services/logger.service';
 
 @Injectable()
